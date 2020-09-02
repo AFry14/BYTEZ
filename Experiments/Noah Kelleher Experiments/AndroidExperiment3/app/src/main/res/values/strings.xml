@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">SimpleTicTacToe</string>
+    <string name="xTurn">It is X\'s turn.</string>
+    <string name="oTurn">It is O\'s turn.</string>
+    <string name="xSpot">X</string>
+    <string name="oSpot">O</string>
+    <string name="titleGame">Tic Tac Toe</string>
+    <string name="buttonWord">Push Me</string>
+    <string name="restart">Restart</string>
+    <string name="xWins">X Wins!</string>
+    <string name="oWins">O Wins!</string>
+</resources>
