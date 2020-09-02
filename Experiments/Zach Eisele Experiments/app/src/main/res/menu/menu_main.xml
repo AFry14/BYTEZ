@@ -1,0 +1,26 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.experiment.MainActivity">
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        android:visible="false"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/page1b"
+        android:checkable="false"
+        android:enabled="true"
+        android:orderInCategory="101"
+        android:title="1st page"
+        android:visible="true" />
+    <item
+        android:id="@+id/page2b"
+        android:orderInCategory="102"
+        android:title="2nd page" />
+    <item
+        android:id="@+id/page3b"
+        android:orderInCategory="103"
+        android:title="3rd page" />
+</menu>
