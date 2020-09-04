@@ -1,13 +1,13 @@
-package com.example.experiment1.experiment1;
+package com.example.experimentDB.experimentDB;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Experiment1Application {
+public class ExperimentDbApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Experiment1Application.class, args);
+		SpringApplication.run(ExperimentDbApplication.class, args);
 	}
 
 }

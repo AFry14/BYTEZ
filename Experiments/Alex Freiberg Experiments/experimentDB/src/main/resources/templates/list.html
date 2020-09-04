@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>experimentalDB Application</title>
+</head>
+<body>
+<h1>Person List</h1>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Last Name</th>
+        <th>First Name</th>
+    </tr>
+    <tr th:each="Person : ${People}">
+        <td th:text="${Person.id}">123</td>
+        <td th:text="${Person.name}">Spring in Action</td>
+        <td th:text="${Person.lastName}">Wrox</td>
+    </tr>
+</table>
+
+</body>
+</html>
