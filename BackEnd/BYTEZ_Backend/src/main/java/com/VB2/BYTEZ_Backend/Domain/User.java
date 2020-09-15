@@ -1,5 +1,7 @@
 package com.VB2.BYTEZ_Backend.Domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,7 +22,10 @@ public class User {
     private String password;
     private String email;
 
-    public User(String firstName, String lastName, String userName, String password, String email){
+    public User(@JsonProperty("firstName")String firstName, @JsonProperty("lastName")String lastName,
+                    @JsonProperty("userName")String userName, @JsonProperty("password")String password,
+                        @JsonProperty("email")String email){
+
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = userName;
