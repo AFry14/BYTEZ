@@ -1,23 +1,51 @@
 package com.VB2.BYTEZ_Backend.Controllers;
 
+import com.VB2.BYTEZ_Backend.Domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import com.VB2.BYTEZ_Backend.Repositories.UserRepository;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Collections;
 
 
 @Controller
+@RequestMapping(path="/user")
 public class UserController {
+    @Autowired
 
-    private final UserRepository userRepository;
+    private UserRepository userRepository;
+    private Long id;
 
-    public UserController(UserRepository userRepository) { this.userRepository = userRepository; }
+    @PostMapping(path="/addNewUser")
+    public @ResponseBody String addNewUser(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String userName,
+                                           @RequestParam String password, @RequestParam String email)
+    {
+        // Create new user
+        User n = new User();
 
-    @RequestMapping("/Users")
-    public String getUsers(Model model){
+        // Set all the fields
+        n.setFirstName(firstName);
+        n.setLastName(lastName);
+        n.setUserName(userName);
+        n.setPassword(password);
+        n.setEmail(email);
 
-        model.addAttribute("Users", userRepository.findAll());
+        // Save to repository
+        userRepository.save(n);
 
-        return "UserList";
+        return "New User Added Successfully!";
+    }
+
+    @GetMapping(path="/getAllUsers")
+    public @ResponseBody Iterable<User> getAllUsers()
+    {
+       return userRepository.findAll();
+    }
+
+    @GetMapping(path="/getUser/{id}")
+    public @ResponseBody Iterable<User> getUserById(@PathVariable("id") Long id)
+    {
+        return userRepository.findAllById(Collections.singleton(id));
     }
 }
