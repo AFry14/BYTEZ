@@ -1,100 +1,107 @@
 package com.VB2.BYTEZ_Backend.Domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
+import java.util.UUID;
 
-// User entity
+// User entity will create a table in the database with name user
 @Entity
 public class User {
-
+    // Variables can be thought of as columns in the table
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
     private String firstName;
+
     private String lastName;
+
     private String userName;
+
     private String password;
+
     private String email;
 
-    public User(@JsonProperty("firstName")String firstName, @JsonProperty("lastName")String lastName,
-                    @JsonProperty("userName")String userName, @JsonProperty("password")String password,
-                        @JsonProperty("email")String email){
+    // Getters and Setters
 
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.userName = userName;
-        this.password = password;
-        this.email = email;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
+    /**
+     * Set the id of the user in the DB.
+     * @param id - Long. Auto generated value.
+     */
+    public void setId(Long id)
+    {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public Long getId()
+    {
+        return id;
     }
 
-    public void setFirstName(String firstName) {
+    public void setFirstName(String firstName)
+    {
         this.firstName = firstName;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getFirstName()
+    {
+        return firstName;
     }
 
-    public void setLastName(String lastName) {
+    public void setLastName(String lastName)
+    {
         this.lastName = lastName;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getLastName()
+    {
+        return lastName;
     }
 
-    public void setUserName(String userName) {
+    public void setUserName(String userName)
+    {
         this.userName = userName;
     }
 
-    public String getPassword() {
-        return password;
+    public String getUserName()
+    {
+        return userName;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(String password)
+    {
         this.password = password;
     }
 
-    public String getEmail() {
-        return email;
+    public String getPassword()
+    {
+        return password;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email)
+    {
         this.email = email;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id.equals(user.id) &&
-                firstName.equals(user.firstName) &&
-                lastName.equals(user.lastName) &&
-                userName.equals(user.userName) &&
-                email.equals(user.email);
+    public String getEmail()
+    {
+        return email;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, firstName, lastName, userName, email);
-    }
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//        User user = (User) o;
+//        return id.equals(user.id) &&
+//                firstName.equals(user.firstName) &&
+//                lastName.equals(user.lastName) &&
+//                userName.equals(user.userName) &&
+//                email.equals(user.email);
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(id, firstName, lastName, userName, email);
+//    }
 }
