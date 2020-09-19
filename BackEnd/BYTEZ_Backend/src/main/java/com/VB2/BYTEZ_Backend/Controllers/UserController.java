@@ -17,7 +17,15 @@ public class UserController {
     private UserRepository userRepository;
     private Long id;
 
-    @PostMapping(path="/addNewUser")
+    @PostMapping(path="/register")
+    public @ResponseBody String addNewUserBody(@RequestBody User user)
+    {
+        userRepository.save(user);
+
+        return "Success!";
+    }
+
+    @PostMapping(path="/register/params")
     public @ResponseBody String addNewUser(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String userName,
                                            @RequestParam String password, @RequestParam String email)
     {
@@ -37,13 +45,13 @@ public class UserController {
         return "New User Added Successfully!";
     }
 
-    @GetMapping(path="/getAllUsers")
+    @GetMapping(path="/")
     public @ResponseBody Iterable<User> getAllUsers()
     {
        return userRepository.findAll();
     }
 
-    @GetMapping(path="/getUser/{id}")
+    @GetMapping(path="/{id}")
     public @ResponseBody Iterable<User> getUserById(@PathVariable("id") Long id)
     {
         return userRepository.findAllById(Collections.singleton(id));

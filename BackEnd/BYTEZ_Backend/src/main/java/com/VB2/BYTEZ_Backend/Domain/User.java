@@ -1,5 +1,8 @@
 package com.VB2.BYTEZ_Backend.Domain;
 
+import com.sun.istack.NotNull;
+import org.springframework.lang.NonNull;
+
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.UUID;
@@ -17,9 +20,9 @@ public class User {
     private String lastName;
 
     private String userName;
-
+    @Column(nullable = false)
     private String password;
-
+    @Column(nullable = false)
     private String email;
 
     // Getters and Setters

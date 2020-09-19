@@ -1,9 +1,6 @@
 package com.VB2.BYTEZ_Backend.Domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 // Business Entity NOT ACTIVE
 @Entity
@@ -17,6 +14,9 @@ public class Business {
     private String ownerLastName;
     private String email;
     private String password;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
+    private Restaurant restaurant;
 
     public Long getId() {
         return id;
