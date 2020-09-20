@@ -1,12 +1,14 @@
 package com.VB2.BYTEZ_Backend.Controllers;
 
 import com.VB2.BYTEZ_Backend.Domain.User;
+import com.sun.org.apache.xpath.internal.operations.Bool;
+import org.hibernate.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.VB2.BYTEZ_Backend.Repositories.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Collections;
+import java.util.function.Consumer;
 
 
 @Controller
@@ -43,6 +45,13 @@ public class UserController {
         userRepository.save(n);
 
         return "New User Added Successfully!";
+    }
+
+    // TODO
+    @GetMapping(path="/login")
+    public @ResponseBody Boolean login(@RequestParam String email, @RequestParam String password)
+    {
+        return false;
     }
 
     @GetMapping(path="/")
