@@ -1,17 +1,15 @@
 package com.VB2.BYTEZ_Backend.Domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 // Review Entity
 @Entity
 public class Review {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
     private Double overallScore;
     private Double foodQualityScore;

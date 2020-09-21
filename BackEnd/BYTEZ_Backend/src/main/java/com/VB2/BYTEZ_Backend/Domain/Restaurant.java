@@ -2,20 +2,20 @@ package com.VB2.BYTEZ_Backend.Domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Restaurant {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String RestaurantName;
-    private User owner;
+    private String restaurantName;
+    @OneToOne(mappedBy = "restaurant")
+    private Business owner;
     private Double avgScore;
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    private Set<Review> reviews;
     private String address;
 
     public Long getId() {
@@ -27,18 +27,18 @@ public class Restaurant {
     }
 
     public String getRestaurantName() {
-        return RestaurantName;
+        return restaurantName;
     }
 
     public void setRestaurantName(String restaurantName) {
-        RestaurantName = restaurantName;
+        this.restaurantName = restaurantName;
     }
 
-    public User getOwner() {
+    public Business getOwner() {
         return owner;
     }
 
-    public void setOwner(User owner) {
+    public void setOwner(Business owner) {
         this.owner = owner;
     }
 
@@ -48,6 +48,16 @@ public class Restaurant {
 
     public void setAvgScore(Double avgScore) {
         this.avgScore = avgScore;
+    }
+
+    public Set<Review> getReview()
+    {
+        return reviews;
+    }
+
+    public void setReviews(Set<Review> reviews)
+    {
+        this.reviews = reviews;
     }
 
     public String getAddress() {
