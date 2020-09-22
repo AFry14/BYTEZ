@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
+import java.util.Optional;
 
 @Controller
 @RequestMapping(path = "/restaurant")
@@ -29,8 +29,8 @@ public class RestaurantController {
     }
 
     @GetMapping(path = "/{id}")
-    public @ResponseBody Iterable<Restaurant> getRestaurantById(@PathVariable("id") Long id)
+    public @ResponseBody Optional<Restaurant> getRestaurantById(@PathVariable("id") Long id)
     {
-        return restaurantRepository.findAllById(Collections.singleton(id));
+        return restaurantRepository.findById(id);
     }
 }
