@@ -15,7 +15,7 @@ public class SingletonVolley
     private SingletonVolley(Context context)
     {
         ctx = context;
-        reqque = Volley.newRequestQueue(ctx.getApplicationContext());
+        reqque = getReqque();
     }
 
     public static synchronized SingletonVolley getInstance(Context context)

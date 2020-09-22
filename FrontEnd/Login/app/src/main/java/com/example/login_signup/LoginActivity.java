@@ -77,12 +77,12 @@ public class LoginActivity extends AppCompatActivity
 
         if(TextUtils.isEmpty(userPassword))
         {
-            textEmail.setError("Please enter your password");
-            textEmail.requestFocus();
+            textPassword.setError("Please enter your password");
+            textPassword.requestFocus();
             return;
         }
 
-        StringRequest strreq = new StringRequest(Request.Method.POST, URLs.URL_LOGIN, new Response.Listener<String>()
+        StringRequest strreq = new StringRequest(Request.Method.GET, URLs.URL_LOGIN, new Response.Listener<String>()
         {
             @Override
             public void onResponse(String response)
