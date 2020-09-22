@@ -1,14 +1,12 @@
 package com.VB2.BYTEZ_Backend.Controllers;
 
 import com.VB2.BYTEZ_Backend.Domain.User;
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import org.hibernate.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.VB2.BYTEZ_Backend.Repositories.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import java.util.Collections;
-import java.util.function.Consumer;
+
+import java.util.Optional;
 
 
 @Controller
@@ -61,8 +59,8 @@ public class UserController {
     }
 
     @GetMapping(path="/{id}")
-    public @ResponseBody Iterable<User> getUserById(@PathVariable("id") Long id)
+    public @ResponseBody Optional<User> getUserById(@PathVariable("id") Long id)
     {
-        return userRepository.findAllById(Collections.singleton(id));
+        return userRepository.findById(id);
     }
 }

@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.VB2</groupId>
 	<artifactId>BYTEZ_Backend</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>BYTEZ_Backend</name>
 	<description>BYTEZ Backend Project Using Spring Boot</description>
 
