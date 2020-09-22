@@ -1,8 +1,10 @@
 package com.example.login_signup;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -13,6 +15,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONException;
@@ -25,18 +28,19 @@ public class MainActivity extends AppCompatActivity
 {
     EditText textEmail;
     EditText textPassword;
+//    private Context ctx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+//        ctx=this;
 
         if(SharedPrefManager.getInstance(this).isLoggedIn())
         {
             finish();
-            startActivity(new Intent(this, SuccessActivity.class));
+            startActivity(new Intent(this, SignUp.class));
         }
 //        View v = findViewById(R.id.SignupB);
 //        v.setOnClickListener(this);
@@ -82,64 +86,39 @@ public class MainActivity extends AppCompatActivity
             return;
         }
 
-        StringRequest strreq = new StringRequest(URLs.URL_LOGIN, new Response.Listener<String>()
-        {
-            @Override
-            public void onResponse(String response)
-            {
-                try
-                {
-                    JSONObject obj = new JSONObject(response);
-
-                    if(!obj.getBoolean("error"))
-                    {
-                        Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-
-
-                        JSONObject JsonUser = obj.getJSONObject("user");
-
-                        User user = new User(
-                                JsonUser.getInt("id"),
-                                JsonUser.getString("username"),
-                                JsonUser.getString("email")
-                        );
-
-                        SharedPrefManager.getInstance(getApplicationContext()).loginInfo(user);
-
-                        finish();
-                        startActivity(new Intent(getApplicationContext(), SuccessActivity.class));
+        String pass = URLs.URL_LOGIN;
+        pass = pass+"?email="+userEmail+"&password="+userPassword;
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, pass, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try{
+                            String w ="";
+                            User JsonUser = new User(response.getInt("id"), response.getString("userName"), response.getString("email"));
+                            SharedPrefManager.getInstance(getApplicationContext()).loginInfo(JsonUser);
+//                            finish();
+                            startActivity(new Intent(getApplicationContext(), SignUp.class));
+                        }
+                        catch(JSONException e)
+                        {
+                            textEmail.setError("Incorrect password or username");
+                            textEmail.requestFocus();
+                            return;
+                        }
                     }
-                    else
-                    {
-                        Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-                    }
-                }
-                catch(JSONException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        },
+                },
                 new Response.ErrorListener()
                 {
                     @Override
-                    public void onErrorResponse(VolleyError err)
+                    public void onErrorResponse(VolleyError error)
                     {
-                        Toast.makeText(getApplicationContext(), err.getMessage(), Toast.LENGTH_SHORT).show();
+                        textPassword.setError("Incorrect password or username");
+                        textPassword.requestFocus();
+                        return;
                     }
-                })
-        {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError
-            {
-                Map<String, String> params = new HashMap<>();
-                params.put("email", userEmail);
-                params.put("password", userPassword);
-                return params;
-            }
-        };
-
-        SingletonVolley.getInstance(this).addToRequestQueue(strreq);
+                }
+        );
+        SingletonVolley.getInstance(this).addToRequestQueue(getRequest);
     }
 
 

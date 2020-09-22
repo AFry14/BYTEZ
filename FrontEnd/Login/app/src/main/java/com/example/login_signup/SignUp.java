@@ -14,7 +14,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -117,65 +117,43 @@ public class SignUp extends AppCompatActivity
             return;
         }
 
-        StringRequest strreq = new StringRequest(Request.Method.POST, URLs.URL_REGISTER, new Response.Listener<String>()
-        {
-            @Override
-            public void onResponse(String response)
-            {
-                try
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("email", userEmail);
+            jsonBody.put("password", userPassword);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, URLs.URL_REGISTER, jsonBody,
+                new Response.Listener<JSONObject>()
                 {
-                    JSONObject obj = new JSONObject(response);
-
-                    if(!obj.getBoolean("error"))
-                    {
-                        Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-
-
-                        JSONObject JsonUser = obj.getJSONObject("user");
-
-                        User user = new User(
-                                JsonUser.getInt("id"),
-                                JsonUser.getString("username"),
-                                JsonUser.getString("email")
-                        );
-
-                        SharedPrefManager.getInstance(getApplicationContext()).loginInfo(user);
-
-                        finish();
-                        startActivity(new Intent(getApplicationContext(), SuccessActivity.class));
+                    @Override
+                    public void onResponse(JSONObject response) {
+//                        try{
+                        String w ="";
+//                            finish();
+                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+//                        }
+//                        catch(JSONException e)
+//                        {
+//                            textEmail.setError("Incorrect password or username");
+//                            textEmail.requestFocus();
+//                            return;
+//                        }
                     }
-                    else
-                    {
-                        Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-                    }
-                }
-                catch(JSONException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        },
+                },
                 new Response.ErrorListener()
                 {
                     @Override
-                    public void onErrorResponse(VolleyError err)
+                    public void onErrorResponse(VolleyError error)
                     {
-                        Toast.makeText(getApplicationContext(), err.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
-                })
-        {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError
-            {
-                Map<String, String> params = new HashMap<>();
-                params.put("email", userEmail);
-                params.put("password", userPassword);
-                params.put("userName", userName);
-                return params;
-            }
-        };
+                });
 
-        SingletonVolley.getInstance(this).addToRequestQueue(strreq);
+        SingletonVolley.getInstance(this).addToRequestQueue(postRequest);
     }
 
 

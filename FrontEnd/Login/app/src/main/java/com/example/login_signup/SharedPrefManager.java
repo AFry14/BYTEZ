@@ -44,7 +44,7 @@ public class SharedPrefManager
         SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         if(sharedPreferences.getString(KEY_EMAIL, null) != null)
         {
-            return true;
+            return false;
         }
         return false;
     }
