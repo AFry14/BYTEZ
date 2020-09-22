@@ -47,9 +47,9 @@ public class UserController {
 
     // TODO
     @GetMapping(path="/login")
-    public @ResponseBody Boolean login(@RequestParam String email, @RequestParam String password)
+    public @ResponseBody User login(@RequestParam String email, @RequestParam String password)
     {
-        return !userRepository.findByEmailAndPassword(email, password).isEmpty();
+        return userRepository.findByEmailAndPassword(email, password);
     }
 
     @GetMapping(path="/")
