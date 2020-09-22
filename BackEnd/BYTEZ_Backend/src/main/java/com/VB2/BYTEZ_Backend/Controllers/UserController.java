@@ -49,7 +49,7 @@ public class UserController {
     @GetMapping(path="/login")
     public @ResponseBody Boolean login(@RequestParam String email, @RequestParam String password)
     {
-        return false;
+        return !userRepository.findByEmailAndPassword(email, password).isEmpty();
     }
 
     @GetMapping(path="/")
