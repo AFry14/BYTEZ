@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Bytez</string>
+    <string-array name="Security_Questions">
+        <item>Mother\'s maiden name?</item>
+        <item>First pet\'s name?</item>
+        <item>High School mascot?</item>
+    </string-array>
+
+</resources>
