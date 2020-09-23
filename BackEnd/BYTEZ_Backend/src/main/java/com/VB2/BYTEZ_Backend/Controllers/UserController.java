@@ -1,6 +1,8 @@
 package com.VB2.BYTEZ_Backend.Controllers;
 
 import com.VB2.BYTEZ_Backend.Domain.User;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.VB2.BYTEZ_Backend.Repositories.UserRepository;
 import org.springframework.stereotype.Controller;
@@ -22,7 +24,7 @@ public class UserController {
     {
         userRepository.save(user);
 
-        return "Success!";
+        return "{\"status\":\"Success\"}";
     }
 
     @PostMapping(path="/register/params")
@@ -45,11 +47,11 @@ public class UserController {
         return "New User Added Successfully!";
     }
 
-    // TODO
+
     @GetMapping(path="/login")
-    public @ResponseBody Boolean login(@RequestParam String email, @RequestParam String password)
+    public @ResponseBody User login(@RequestParam String email, @RequestParam String password)
     {
-        return !userRepository.findByEmailAndPassword(email, password).isEmpty();
+        return userRepository.findByEmailAndPassword(email, password);
     }
 
     @GetMapping(path="/")
