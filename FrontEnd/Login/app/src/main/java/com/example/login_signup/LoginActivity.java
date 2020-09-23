@@ -37,10 +37,8 @@ public class LoginActivity extends AppCompatActivity
         if(SharedPrefManager.getInstance(this).isLoggedIn())
         {
             finish();
-            startActivity(new Intent(this, LoginActivity.class));
+            startActivity(new Intent(this, SuccessActivity.class));
         }
-//        View v = findViewById(R.id.SignupB);
-//        v.setOnClickListener(this);
 
         textEmail = (EditText) findViewById(R.id.editEmail);
         textPassword = (EditText) findViewById(R.id.editPassword);
@@ -90,11 +88,10 @@ public class LoginActivity extends AppCompatActivity
                     @Override
                     public void onResponse(JSONObject response) {
                         try{
-                            String w ="";
                             User JsonUser = new User(response.getInt("id"), response.getString("userName"), response.getString("email"));
                             SharedPrefManager.getInstance(getApplicationContext()).loginInfo(JsonUser);
 //                            finish();
-                            startActivity(new Intent(getApplicationContext(), SignUp.class));
+                            startActivity(new Intent(getApplicationContext(), SuccessActivity.class));
                         }
                         catch(JSONException e)
                         {
@@ -120,13 +117,4 @@ public class LoginActivity extends AppCompatActivity
     }
 
 
-//    public void onClick(View view)
-//    {
-//        if(view.getId() == R.id.SignupB)
-//        {
-//            Intent intent = new Intent(this, SignUp.class);
-//            this.startActivity(intent);
-//        }
-//
-//    }
 }

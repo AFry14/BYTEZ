@@ -42,8 +42,6 @@ public class SignUp extends AppCompatActivity
             startActivity(new Intent(this, SuccessActivity.class));
             return;
         }
-//        View v = findViewById(R.id.SignupB);
-//        v.setOnClickListener(this);
 
         textEmail = (EditText) findViewById(R.id.TextEmail);
         textPassword = (EditText) findViewById(R.id.TextPassword);
@@ -59,14 +57,7 @@ public class SignUp extends AppCompatActivity
             }
         });
 
-//        findViewById(R.id.SignupB).setOnClickListener(new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View view)
-//            {
-//                startActivity(new Intent(getApplicationContext(), SignUp.class));
-//            }
-//        });
+
     }
 
     private void register()
@@ -121,6 +112,7 @@ public class SignUp extends AppCompatActivity
         try {
             jsonBody.put("email", userEmail);
             jsonBody.put("password", userPassword);
+            jsonBody.put("userName", userName);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -131,17 +123,9 @@ public class SignUp extends AppCompatActivity
                 {
                     @Override
                     public void onResponse(JSONObject response) {
-//                        try{
-                        String w ="";
-//                            finish();
+//                        finish();
                         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-//                        }
-//                        catch(JSONException e)
-//                        {
-//                            textEmail.setError("Incorrect password or username");
-//                            textEmail.requestFocus();
-//                            return;
-//                        }
+
                     }
                 },
                 new Response.ErrorListener()
@@ -156,14 +140,4 @@ public class SignUp extends AppCompatActivity
         SingletonVolley.getInstance(this).addToRequestQueue(postRequest);
     }
 
-
-//    public void onClick(View view)
-//    {
-//        if(view.getId() == R.id.SignupB)
-//        {
-//            Intent intent = new Intent(this, SignUp.class);
-//            this.startActivity(intent);
-//        }
-//
-//    }
 }
