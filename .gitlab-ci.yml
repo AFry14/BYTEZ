@@ -6,7 +6,7 @@ stages:
 maven-build:
     stage: mavenbuild
     tags:
-        - shell
+        - BACKEND
     script:
         - cd BackEnd/BYTEZ_Backend
         - mvn package -B
