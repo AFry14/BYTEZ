@@ -28,7 +28,7 @@ autoDeploy:
     tags:
         - shell
     script:
-        - cd Backend/BYTEZ_Backend
+        - cd BackEnd/BYTEZ_Backend
         - mvn test
         - mvn package -B
         - sudo mv target/*.jar /target/web-demo.jar
