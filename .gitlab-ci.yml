@@ -21,7 +21,7 @@ maven-test:
         - mvn package -B
     artifacts:
         paths:
-        - Backend/BYTEZ_Backend/target/*.jar
+            - Backend/BYTEZ_Backend/target/*.jar
 
 autoDeploy:
     stage: autodeploy
