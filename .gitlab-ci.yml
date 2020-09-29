@@ -8,7 +8,7 @@ maven-build:
     tags:
         - shell
     script:
-        - cd Backend/BYTEZ_Backend
+        - cd BackEnd/BYTEZ_Backend
         - mvn package -B
 
 maven-test:
@@ -16,12 +16,12 @@ maven-test:
     tags:
         -shell
     script:
-        - cd Backend/BYTEZ_Backend
+        - cd BackEnd/BYTEZ_Backend
         - mvn test
         - mvn package -B
     artifacts:
      paths:
-        - Backend/BYTEZ_Backend/target/*.jar
+        - BackEnd/BYTEZ_Backend/target/*.jar
 
 autoDeploy:
     stage: autodeploy
