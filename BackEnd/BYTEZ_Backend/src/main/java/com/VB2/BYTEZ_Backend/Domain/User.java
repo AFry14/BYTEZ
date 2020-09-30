@@ -19,13 +19,18 @@ public class User {
 
     private String lastName;
 
+    private String businessName;
+
     private String userName;
     @Column(nullable = false)
     private String password;
     @Column(nullable = false)
     private String email;
+    @Column(nullable = false)
+    private String userType;
 
-    // Getters and Setters
+
+// Getters and Setters
 
     /**
      * Set the id of the user in the DB.
@@ -90,6 +95,14 @@ public class User {
     {
         return email;
     }
+
+    public String getUserType() { return userType; }
+
+    public void setUserType(String userType) { this.userType = userType; }
+
+    public String getBusinessName() { return businessName; }
+
+    public void setBusinessName(String businessName) { this.businessName = businessName; }
 
 //    @Override
 //    public boolean equals(Object o) {
