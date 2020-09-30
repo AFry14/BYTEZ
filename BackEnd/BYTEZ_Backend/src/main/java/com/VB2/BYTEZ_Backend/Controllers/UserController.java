@@ -29,7 +29,7 @@ public class UserController {
 
     @PostMapping(path="/register/params")
     public @ResponseBody String addNewUser(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String userName,
-                                           @RequestParam String password, @RequestParam String email)
+                                           @RequestParam String password, @RequestParam String email, @RequestParam String userType)
     {
         // Create new user
         User n = new User();
@@ -40,6 +40,7 @@ public class UserController {
         n.setUserName(userName);
         n.setPassword(password);
         n.setEmail(email);
+        n.setUserType(userType);
 
         // Save to repository
         userRepository.save(n);
