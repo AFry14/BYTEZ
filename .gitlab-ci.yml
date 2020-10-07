@@ -14,7 +14,7 @@ maven-build:
 maven-test:
     stage: maventest
     tags:
-        - shell
+        - BACKEND
     script:
         - cd BackEnd/BYTEZ_Backend
         - mvn test
@@ -26,7 +26,7 @@ maven-test:
 autoDeploy:
     stage: autodeploy
     tags:
-        - shell
+        - BACKEND
     script:
         - cd BackEnd/BYTEZ_Backend
         - mvn test
