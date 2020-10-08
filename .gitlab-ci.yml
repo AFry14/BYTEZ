@@ -32,5 +32,6 @@ autoDeploy:
         - mvn test
         - mvn package -B
         - sudo mv target/*.jar /target/web-demo.jar
+        - sudo mv application.properties /target/application.properties
         - sudo systemctl stop system-web-demo
         - sudo systemctl start system-web-demo
