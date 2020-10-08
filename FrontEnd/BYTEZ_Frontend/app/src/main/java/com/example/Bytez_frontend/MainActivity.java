@@ -1,4 +1,4 @@
-package com.example.login_signup;
+package com.example.Bytez_frontend;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,18 +11,16 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
+import com.example.Bytez_frontend.Map.HomeActivity;
+import com.example.Bytez_frontend.login.SignUp;
+import com.example.Bytez_frontend.login.SuccessActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -92,7 +90,7 @@ public class MainActivity extends AppCompatActivity
                             User JsonUser = new User(response.getInt("id"), response.getString("userName"), response.getString("email"));
                             SharedPrefManager.getInstance(getApplicationContext()).loginInfo(JsonUser);
 //                            finish();
-                            startActivity(new Intent(getApplicationContext(), SuccessActivity.class));
+                            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                         }
                         catch(JSONException e)
                         {
