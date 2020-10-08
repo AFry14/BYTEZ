@@ -31,6 +31,6 @@ autoDeploy:
         - cd BackEnd/BYTEZ_Backend
         - mvn test
         - mvn package -B
-        - sudo mv target/*.jar target/web-demo.jar
+        - sudo mv target/*.jar /target/web-demo.jar
         - sudo systemctl stop system-web-demo
         - sudo systemctl start system-web-demo
