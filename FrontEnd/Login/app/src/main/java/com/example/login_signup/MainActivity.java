@@ -77,8 +77,8 @@ public class MainActivity extends AppCompatActivity
 
         if(TextUtils.isEmpty(userPassword))
         {
-            textPassword.setError("Please enter your password");
-            textPassword.requestFocus();
+            textEmail.setError("Please enter your password");
+            textEmail.requestFocus();
             return;
         }
 
