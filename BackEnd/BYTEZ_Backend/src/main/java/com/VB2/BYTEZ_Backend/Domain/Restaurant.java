@@ -12,7 +12,7 @@ public class Restaurant {
     private Long id;
     private String restaurantName;
     @OneToOne(mappedBy = "restaurant")
-    private Business owner;
+    private User owner;
     private Double avgScore;
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private Set<Review> reviews;
@@ -34,11 +34,11 @@ public class Restaurant {
         this.restaurantName = restaurantName;
     }
 
-    public Business getOwner() {
+    public User getOwner() {
         return owner;
     }
 
-    public void setOwner(Business owner) {
+    public void setOwner(User owner) {
         this.owner = owner;
     }
 

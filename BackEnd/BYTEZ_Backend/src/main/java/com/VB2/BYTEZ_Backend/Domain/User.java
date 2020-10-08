@@ -5,6 +5,7 @@ import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 // User entity will create a table in the database with name user
@@ -28,6 +29,8 @@ public class User {
     private String email;
     @Column(nullable = false)
     private String userType;
+    @OneToMany
+    private Set<Review> writtenReview;
 
 
 // Getters and Setters
