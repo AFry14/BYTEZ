@@ -1,9 +1,7 @@
-package com.example.Bytez_frontend.Map;
+package com.example.Bytez_frontend.ReviewPackage;
 
 import android.content.Context;
 import android.content.Intent;
-import android.icu.text.Transliterator;
-import android.media.Image;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,7 +11,6 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,19 +19,16 @@ import com.example.Bytez_frontend.R;
 import com.example.Bytez_frontend.Restaurant;
 
 import java.util.ArrayList;
-
 import java.util.Collection;
 import java.util.List;
 
-/**
- * This class is the recycler adapter for the recycle view in MapActivity
- */
-public class MapRecyclerAdapter extends RecyclerView.Adapter<MapRecyclerAdapter.ViewHolder> implements Filterable {
+public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAdapter.ViewHolder> implements Filterable
+{
 
-    private static final String TAG = "MapRecyclerAdapter";
+    private static final String TAG = "ReviewRecyclerAdapter";
 
     // Map context, viewable restaurant list, list of all restaurants
-    private Context context;
+    private Context ctx;
     private List<Restaurant> restaurantList;
     private List<Restaurant> allRestaurantList;
 
@@ -43,10 +37,11 @@ public class MapRecyclerAdapter extends RecyclerView.Adapter<MapRecyclerAdapter.
      * @param restaurantList
      * @param context
      */
-    public MapRecyclerAdapter(List<Restaurant> restaurantList, Context context) {
+    public ReviewRecyclerAdapter(List<Restaurant> restaurantList, Context context)
+    {
         this.restaurantList = restaurantList;
         this.allRestaurantList = new ArrayList<Restaurant>(restaurantList);
-        this.context = context;
+        this.ctx = context;
     }
 
     /**
@@ -57,7 +52,8 @@ public class MapRecyclerAdapter extends RecyclerView.Adapter<MapRecyclerAdapter.
      */
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    {
 
         Log.i(TAG, "onCreateViewHolder: ");
 
@@ -70,19 +66,14 @@ public class MapRecyclerAdapter extends RecyclerView.Adapter<MapRecyclerAdapter.
         return mapViewHolder;
     }
 
-
-    /**
-     * Takes in data and binds it into the viewholder, sets the proper restaurant values in each view holder
-     * @param holder
-     * @param position
-     */
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position)
+    {
         holder.businessCityState.setText(restaurantList.get(position).getAddress());
         holder.businessName.setText(restaurantList.get(position).getName());
-        // CHANGE THIS to set image to a restaurant logo
-        //holder.businessLogo.setImage
     }
+
+
 
     /**
      * Returns the total number of restaurants in recycler view
@@ -145,7 +136,7 @@ public class MapRecyclerAdapter extends RecyclerView.Adapter<MapRecyclerAdapter.
     /**
      * Class that keeps track of all views within each section of the recyclerView
      */
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         // Views within recycler adapter
         ImageView businessLogo;
@@ -183,7 +174,7 @@ public class MapRecyclerAdapter extends RecyclerView.Adapter<MapRecyclerAdapter.
             mapIntent.setPackage("com.google.android.apps.maps");
 
 //            if (mapIntent.resolveActivity(context.getPackageManager()) != null) {
-            context.startActivity(mapIntent);
+            ctx.startActivity(mapIntent);
 //            }
 
         }

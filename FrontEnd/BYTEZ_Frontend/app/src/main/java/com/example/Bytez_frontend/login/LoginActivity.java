@@ -30,38 +30,38 @@ public class LoginActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
+{
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_login);
+
+
+    if(SharedPrefManager.getInstance(this).isLoggedIn())
     {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-
-
-        if(SharedPrefManager.getInstance(this).isLoggedIn())
-        {
-            finish();
-            startActivity(new Intent(this, SuccessActivity.class));
-        }
-
-        textEmail = (EditText) findViewById(R.id.editEmail);
-        textPassword = (EditText) findViewById(R.id.editPassword);
-
-        findViewById(R.id.LoginButton).setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                login();
-            }
-        });
-
-        findViewById(R.id.SignupB).setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                startActivity(new Intent(getApplicationContext(), SignUp.class));
-            }
-        });
+        finish();
+        startActivity(new Intent(this, SuccessActivity.class));
     }
+
+    textEmail = (EditText) findViewById(R.id.editEmail);
+    textPassword = (EditText) findViewById(R.id.editPassword);
+
+    findViewById(R.id.LoginButton).setOnClickListener(new View.OnClickListener()
+    {
+        @Override
+        public void onClick(View view)
+        {
+            login();
+        }
+    });
+
+    findViewById(R.id.SignupB).setOnClickListener(new View.OnClickListener()
+    {
+        @Override
+        public void onClick(View view)
+        {
+            startActivity(new Intent(getApplicationContext(), SignUp.class));
+        }
+    });
+}
 
     private void login()
     {
