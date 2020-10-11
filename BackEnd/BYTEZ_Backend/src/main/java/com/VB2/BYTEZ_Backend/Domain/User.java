@@ -20,7 +20,9 @@ public class User {
 
     private String lastName;
 
-    private String businessName;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
+    private Restaurant restaurant;
 
     private String userName;
     @Column(nullable = false)
@@ -103,9 +105,9 @@ public class User {
 
     public void setUserType(String userType) { this.userType = userType; }
 
-    public String getBusinessName() { return businessName; }
+    public Restaurant getRestaurant() { return restaurant; }
 
-    public void setBusinessName(String businessName) { this.businessName = businessName; }
+    public void setRestaurant(Restaurant restaurant) { this.restaurant = restaurant; }
 
 //    @Override
 //    public boolean equals(Object o) {
