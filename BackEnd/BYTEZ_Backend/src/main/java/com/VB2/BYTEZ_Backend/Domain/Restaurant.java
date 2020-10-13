@@ -3,6 +3,7 @@ package com.VB2.BYTEZ_Backend.Domain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -11,11 +12,11 @@ public class Restaurant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String restaurantName;
-    @OneToOne(mappedBy = "restaurant")
+    @OneToOne(mappedBy = "business")
     private User owner;
     private Double avgScore;
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
-    private Set<Review> reviews;
+    private Set<Review> reviews = new HashSet<>();
     private String address;
 
     public Long getId() {

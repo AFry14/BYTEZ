@@ -11,7 +11,6 @@ public class Review {
     @ManyToOne
     private User author;
     @ManyToOne
-    @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
     private Double overallScore;
     private Double foodQualityScore;
