@@ -2,37 +2,43 @@ package com.example.Bytez_frontend;
 
 public class Review
 {
-    Restaurant rest;
-    User reviewer;
-    double foodQR;
-    double serviceR;
-    double cleanlinessR;
-    public Review(Restaurant place, User reviewer)
+    private int id;
+    private Restaurant rest;
+    private User reviewer;
+    private float foodQR;
+    private float serviceR;
+    private float cleanlinessR;
+    private String comments;
+
+    public Review(int id, Restaurant place, User reviewer)
     {
+        this.id = id;
         rest = place;
         this.reviewer = reviewer;
     }
 
-    public double getFinalReview()
+    public float getFinalRating()
     {
-        double overallS = (getFoodQR() + getCleanlinessR() + getServiceR())/3;
+        float overallS = (getFoodQR() + getCleanlinessR() + getServiceR())/3;
         return overallS;
     }
 
-    public double getFoodQR()
+    public float getFoodQR()
     {
         return foodQR;
     }
 
-    public double getServiceR()
+    public float getServiceR()
     {
         return serviceR;
     }
 
-    public double getCleanlinessR()
+    public float getCleanlinessR()
     {
         return cleanlinessR;
     }
+
+    public String getComments() { return comments; }
 
     public User getReviewer()
     {
@@ -44,19 +50,23 @@ public class Review
         return rest;
     }
 
-    public void setFoodQR(int score)
+    public int getId() { return id; }
+
+    public void setFoodQR(float score)
     {
         foodQR = score;
     }
 
-    public void setServiceR(int score)
+    public void setServiceR(float score)
     {
         serviceR = score;
     }
 
-    public void setCleanlinessR(int score)
+    public void setCleanlinessR(float score)
     {
         cleanlinessR = score;
     }
+
+    public void setComments(String comments) { this.comments = comments; }
 
 }

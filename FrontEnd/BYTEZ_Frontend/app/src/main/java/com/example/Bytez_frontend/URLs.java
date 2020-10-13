@@ -6,6 +6,6 @@ public class URLs
 
     public static final String URL_REGISTER = ROOT_URL + "user/register";
     public static final String URL_LOGIN = ROOT_URL + "user/login";
-    public static final String URL_REST_LIST = ROOT_URL + "restaurant";
+    public static final String URL_REST_LIST = ROOT_URL + "restaurant/";
 
 }

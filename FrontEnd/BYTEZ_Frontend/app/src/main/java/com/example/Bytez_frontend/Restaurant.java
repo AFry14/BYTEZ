@@ -6,12 +6,14 @@ package com.example.Bytez_frontend;
 public class Restaurant {
     private String name;
     private String address;
+    private int id;
     //private Long id;
     //private Double avgScore;
     //private User owner;
     //private logo;
 
-    public Restaurant(String name, String address) {
+    public Restaurant(int id, String name, String address) {
+        this.id = id;
         this.name = name;
         this.address = address;
     }
@@ -31,4 +33,6 @@ public class Restaurant {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    public int getId() { return id; }
 }
