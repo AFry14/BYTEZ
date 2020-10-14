@@ -1,8 +1,6 @@
 package com.VB2.BYTEZ_Backend.Controllers;
 
 import com.VB2.BYTEZ_Backend.Domain.User;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.VB2.BYTEZ_Backend.Repositories.UserRepository;
 import org.springframework.stereotype.Controller;
@@ -15,9 +13,25 @@ import java.util.Optional;
 @RequestMapping(path="/user")
 public class UserController {
     @Autowired
-
     private UserRepository userRepository;
-    private Long id;
+
+    @GetMapping(path="/")
+    public @ResponseBody Iterable<User> getAllUsers()
+    {
+        return userRepository.findAll();
+    }
+
+    @GetMapping(path="/{id}")
+    public @ResponseBody Optional<User> getUserById(@PathVariable("id") Long id)
+    {
+        return userRepository.findById(id);
+    }
+
+    @GetMapping(path="/login")
+    public @ResponseBody Optional<User> login(@RequestParam String email, @RequestParam String password)
+    {
+        return userRepository.findByEmailAndPassword(email, password);
+    }
 
     @PostMapping(path="/register")
     public @ResponseBody String addNewUserBody(@RequestBody User user)
@@ -45,25 +59,39 @@ public class UserController {
         // Save to repository
         userRepository.save(n);
 
-        return "New User Added Successfully!";
+        return "{\"status\":\"Success\"}";
     }
 
+    // TODO - Add more PUT Requests depending on what frontend needs
 
-    @GetMapping(path="/login")
-    public @ResponseBody User login(@RequestParam String email, @RequestParam String password)
+    // TODO - Figure out if this request needs to be a string param or if it needs to be body entity
+    @PutMapping(path = "/updateUserName/{id}")
+    public @ResponseBody User updateUserName(@PathVariable("id") Long id, @RequestBody User newUser)
     {
-        return userRepository.findByEmailAndPassword(email, password);
+        return userRepository.findById(id)
+        .map(user -> {
+            user.setUserName(newUser.getUserName());
+            return userRepository.save(user);
+        })
+        .orElse(null);
     }
 
-    @GetMapping(path="/")
-    public @ResponseBody Iterable<User> getAllUsers()
+    // TODO - Figure out if this needs to be a string param or body entity.
+    @PutMapping(path = "/updateUserInfo/{id}")
+    public @ResponseBody User updateInfo(@PathVariable("id") Long id, @RequestParam String firstName)
     {
-       return userRepository.findAll();
+        return userRepository.findById(id)
+                .map(user -> {
+                    user.setFirstName(firstName);
+                    return userRepository.save(user);
+                })
+                .orElse(null);
     }
 
-    @GetMapping(path="/{id}")
-    public @ResponseBody Optional<User> getUserById(@PathVariable("id") Long id)
+    @DeleteMapping(path = "/delete/{id}")
+    public @ResponseBody String deleteUserById(@PathVariable("id") Long id)
     {
-        return userRepository.findById(id);
+        userRepository.deleteById(id);
+        return "{\"status\":\"Success\"}";
     }
 }
