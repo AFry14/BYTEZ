@@ -4,6 +4,7 @@ import com.sun.istack.NotNull;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -19,7 +20,6 @@ public class User {
     private String firstName;
 
     private String lastName;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
     private Restaurant business;
@@ -32,9 +32,27 @@ public class User {
     @Column(nullable = false)
     private String userType;
     @OneToMany
-    private Set<Review> writtenReview;
+    @JoinColumn(name = "author_id")
+    private Set<Review> reviews = new HashSet<>();
+//    @OneToMany
+//    @JoinColumn(name = "")
+//    private Set<User> friends = new HashSet<>();
 
+    public Set<Review> getReviews() {
+        return reviews;
+    }
 
+    public void setWrittenReview(Set<Review> writtenReview) {
+        this.reviews = writtenReview;
+    }
+
+//    public Set<User> getFriends() {
+//        return friends;
+//    }
+//
+//    public void setFriends(Set<User> friends) {
+//        this.friends = friends;
+//    }
 // Getters and Setters
 
     /**
