@@ -31,4 +31,19 @@ public class ReviewController {
   reviewRepository.save(review);
   return "{\"status\":\"Success\"}";
  }
+
+ // Currently only replaces the overallScore
+ @PutMapping(path = "/updateReview/{id}")
+ public @ResponseBody Review updateReview(@PathVariable("id") Long id, @RequestBody Review newReview)
+ {
+  return reviewRepository.findById(id)
+          .map(review -> {
+           review.setOverallScore(newReview.getOverallScore());
+           return reviewRepository.save(review);
+          })
+          .orElse(null);
+ }
+
+ // TODO Delete mapping
+
 }

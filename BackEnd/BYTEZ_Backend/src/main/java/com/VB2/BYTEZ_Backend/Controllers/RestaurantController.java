@@ -32,4 +32,23 @@ public class RestaurantController {
         restaurantRepository.save(restaurant);
         return "{\"status\":\"Success\"}";
     }
+
+    // Currently only replaces the restaurantName
+    @PutMapping(path = "/updateRestaurant/{id}")
+    public @ResponseBody Restaurant updateRestaurant(@PathVariable("id") Long id, @RequestBody Restaurant newRestaurant)
+    {
+        return restaurantRepository.findById(id)
+                .map(restaurant -> {
+                    restaurant.setRestaurantName(newRestaurant.getRestaurantName());
+                    return restaurantRepository.save(restaurant);
+                })
+                .orElse(null);
+    }
+
+    @DeleteMapping(path = "/delete/{id}")
+    public @ResponseBody String deleteRestaurantById(@PathVariable("id") Long id)
+    {
+        restaurantRepository.deleteById(id);
+        return "{\"status\":\"Success\"}";
+    }
 }
