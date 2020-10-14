@@ -12,15 +12,7 @@ import java.util.Optional;
 @RequestMapping(path = "/restaurant")
 public class RestaurantController {
     @Autowired
-
     private RestaurantRepository restaurantRepository;
-
-    @PostMapping(path = "/add")
-    public @ResponseBody String addRestaurant(@RequestBody Restaurant restaurant)
-    {
-        restaurantRepository.save(restaurant);
-        return "Success!";
-    }
 
     @GetMapping(path = "/")
     public @ResponseBody Iterable<Restaurant> getAllRestaurants()
@@ -32,5 +24,12 @@ public class RestaurantController {
     public @ResponseBody Optional<Restaurant> getRestaurantById(@PathVariable("id") Long id)
     {
         return restaurantRepository.findById(id);
+    }
+
+    @PostMapping(path = "/add")
+    public @ResponseBody String addRestaurant(@RequestBody Restaurant restaurant)
+    {
+        restaurantRepository.save(restaurant);
+        return "{\"status\":\"Success\"}";
     }
 }
