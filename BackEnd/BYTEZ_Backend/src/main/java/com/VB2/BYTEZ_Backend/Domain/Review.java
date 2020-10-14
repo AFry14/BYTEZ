@@ -9,8 +9,10 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
+    @JoinColumn(name = "author_id", referencedColumnName = "id")
     private User author;
     @ManyToOne
+    @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
     private Restaurant restaurant;
     private Double overallScore;
     private Double foodQualityScore;

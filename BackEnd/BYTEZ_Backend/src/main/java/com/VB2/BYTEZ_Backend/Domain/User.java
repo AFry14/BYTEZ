@@ -7,7 +7,6 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 
 // User entity will create a table in the database with name user
 @Entity
@@ -22,7 +21,7 @@ public class User {
     private String lastName;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
-    private Restaurant business;
+    private Restaurant restaurant;
 
     private String userName;
     @Column(nullable = false)
@@ -123,9 +122,9 @@ public class User {
 
     public void setUserType(String userType) { this.userType = userType; }
 
-    public Restaurant getBusinessName() { return business; }
+    public Restaurant getBusinessName() { return restaurant; }
 
-    public void setBusinessName(Restaurant business) { this.business = business; }
+    public void setBusinessName(Restaurant restaurant) { this.restaurant = restaurant; }
 
 //    @Override
 //    public boolean equals(Object o) {
