@@ -23,6 +23,12 @@ public class Review
         return overallS;
     }
 
+    public static float getFinalRating(float food, float service, float clean)
+    {
+        float overallS = (food + service + clean)/3;
+        return overallS;
+    }
+
     public float getFoodQR()
     {
         return foodQR;
