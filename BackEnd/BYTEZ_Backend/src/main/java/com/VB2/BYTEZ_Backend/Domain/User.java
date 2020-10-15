@@ -31,11 +31,11 @@ public class User {
     @Column(nullable = false)
     private String userType;
     @OneToMany
-    @JoinColumn(name = "author_id")
+//    @JoinColumn(name = "review_id", referencedColumnName = "id")
     private Set<Review> reviews = new HashSet<>();
-//    @OneToMany
-//    @JoinColumn(name = "")
-//    private Set<User> friends = new HashSet<>();
+    @OneToMany
+//    @JoinColumn(name = "friendship_id", referencedColumnName = "id")
+    private Set<Friendship> friends = new HashSet<>();
 
     public Set<Review> getReviews() {
         return reviews;
@@ -45,13 +45,13 @@ public class User {
         this.reviews = writtenReview;
     }
 
-//    public Set<User> getFriends() {
-//        return friends;
-//    }
-//
-//    public void setFriends(Set<User> friends) {
-//        this.friends = friends;
-//    }
+    public Set<Friendship> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(Set<Friendship> friends) {
+        this.friends = friends;
+    }
 // Getters and Setters
 
     /**

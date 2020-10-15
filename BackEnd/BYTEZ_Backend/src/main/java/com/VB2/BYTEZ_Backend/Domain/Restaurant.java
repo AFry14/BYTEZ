@@ -17,7 +17,7 @@ public class Restaurant {
     private User owner;
     private Double avgScore;
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "review_id", referencedColumnName = "id")
+//    @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
     private Set<Review> reviews = new HashSet<>();
     private String address;
 
