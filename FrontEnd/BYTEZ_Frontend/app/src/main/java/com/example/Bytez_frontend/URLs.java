@@ -8,5 +8,6 @@ public class URLs
     public static final String URL_LOGIN = ROOT_URL + "user/login";
     public static final String URL_REST_LIST = ROOT_URL + "restaurant/";
     public static final String URL_REVIEW = ROOT_URL + "review/";
+    public static final String URL_BUG = ROOT_URL + "bugReport/";
 
 }

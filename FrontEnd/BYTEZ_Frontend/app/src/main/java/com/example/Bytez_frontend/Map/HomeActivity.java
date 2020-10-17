@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.Bytez_frontend.R;
+import com.example.Bytez_frontend.Settings.SettingsActivity;
+import com.example.Bytez_frontend.login.SignUp;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -15,6 +17,15 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         setTitle("Home");
+
+        findViewById(R.id.settingsB).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+            }
+        });
     }
 
     /**
