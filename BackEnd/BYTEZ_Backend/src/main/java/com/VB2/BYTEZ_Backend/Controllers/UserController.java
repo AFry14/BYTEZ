@@ -66,11 +66,11 @@ public class UserController {
 
     // TODO - Figure out if this request needs to be a string param or if it needs to be body entity
     @PutMapping(path = "/updateUserName/{id}")
-    public @ResponseBody User updateUserName(@PathVariable("id") Long id, @RequestBody User newUser)
+    public @ResponseBody User updateUserName(@PathVariable("id") Long id, @RequestParam String userName)
     {
         return userRepository.findById(id)
         .map(user -> {
-            user.setUserName(newUser.getUserName());
+            user.setUserName(userName);
             return userRepository.save(user);
         })
         .orElse(null);
@@ -78,11 +78,16 @@ public class UserController {
 
     // TODO - Figure out if this needs to be a string param or body entity.
     @PutMapping(path = "/updateUserInfo/{id}")
-    public @ResponseBody User updateInfo(@PathVariable("id") Long id, @RequestParam String firstName)
+    public @ResponseBody User updateInfo(@PathVariable("id") Long id, @RequestBody User newUser)
     {
         return userRepository.findById(id)
                 .map(user -> {
-                    user.setFirstName(firstName);
+                    user.setUserName(newUser.getUserName());
+                    user.setFirstName(newUser.getFirstName());
+                    user.setLastName(newUser.getLastName());
+                    user.setEmail(newUser.getEmail());
+                    user.setPassword(newUser.getPassword());
+                    user.setUserType(newUser.getUserType());
                     return userRepository.save(user);
                 })
                 .orElse(null);
