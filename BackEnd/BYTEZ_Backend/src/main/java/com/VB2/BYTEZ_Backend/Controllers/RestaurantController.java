@@ -12,15 +12,7 @@ import java.util.Optional;
 @RequestMapping(path = "/restaurant")
 public class RestaurantController {
     @Autowired
-
     private RestaurantRepository restaurantRepository;
-
-    @PostMapping(path = "/add")
-    public @ResponseBody String addRestaurant(@RequestBody Restaurant restaurant)
-    {
-        restaurantRepository.save(restaurant);
-        return "Success!";
-    }
 
     @GetMapping(path = "/")
     public @ResponseBody Iterable<Restaurant> getAllRestaurants()
@@ -32,5 +24,31 @@ public class RestaurantController {
     public @ResponseBody Optional<Restaurant> getRestaurantById(@PathVariable("id") Long id)
     {
         return restaurantRepository.findById(id);
+    }
+
+    @PostMapping(path = "/add")
+    public @ResponseBody String addRestaurant(@RequestBody Restaurant restaurant)
+    {
+        restaurantRepository.save(restaurant);
+        return "{\"status\":\"Success\"}";
+    }
+
+    // Currently only replaces the restaurantName
+    @PutMapping(path = "/updateRestaurant/{id}")
+    public @ResponseBody Restaurant updateRestaurant(@PathVariable("id") Long id, @RequestBody Restaurant newRestaurant)
+    {
+        return restaurantRepository.findById(id)
+                .map(restaurant -> {
+                    restaurant.setRestaurantName(newRestaurant.getRestaurantName());
+                    return restaurantRepository.save(restaurant);
+                })
+                .orElse(null);
+    }
+
+    @DeleteMapping(path = "/delete/{id}")
+    public @ResponseBody String deleteRestaurantById(@PathVariable("id") Long id)
+    {
+        restaurantRepository.deleteById(id);
+        return "{\"status\":\"Success\"}";
     }
 }
