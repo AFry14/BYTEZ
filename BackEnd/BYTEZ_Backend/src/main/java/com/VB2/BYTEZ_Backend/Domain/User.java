@@ -30,6 +30,11 @@ public class User {
     private String email;
     @Column(nullable = false)
     private String userType;
+
+    private String favoriteFood;
+    private String favoriteRestaurant;
+    private String favoriteDrink;
+
     @OneToMany
 //    @JoinColumn(name = "review_id", referencedColumnName = "id")
     private Set<Review> reviews = new HashSet<>();
@@ -122,10 +127,37 @@ public class User {
 
     public void setUserType(String userType) { this.userType = userType; }
 
-    public Restaurant getBusinessName() { return restaurant; }
+    public Restaurant getRestaurant() { return restaurant; }
 
-    public void setBusinessName(Restaurant restaurant) { this.restaurant = restaurant; }
+    public void setRestaurant(Restaurant restaurant) { this.restaurant = restaurant; }
 
+    public String getFavoriteFood() {
+        return favoriteFood;
+    }
+
+    public void setFavoriteFood(String favoriteFood) {
+        this.favoriteFood = favoriteFood;
+    }
+
+    public String getFavoriteRestaurant() {
+        return favoriteRestaurant;
+    }
+
+    public void setFavoriteRestaurant(String favoriteRestaurant) {
+        this.favoriteRestaurant = favoriteRestaurant;
+    }
+
+    public String getFavoriteDrink() {
+        return favoriteDrink;
+    }
+
+    public void setFavoriteDrink(String favoriteDrink) {
+        this.favoriteDrink = favoriteDrink;
+    }
+
+    public void setReviews(Set<Review> reviews) {
+        this.reviews = reviews;
+    }
 //    @Override
 //    public boolean equals(Object o) {
 //        if (this == o) return true;
