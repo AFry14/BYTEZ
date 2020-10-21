@@ -1,5 +1,9 @@
 package com.VB2.BYTEZ_Backend.Domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 
 // Review Entity
@@ -8,12 +12,18 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne
     @JoinColumn(name = "author_id", referencedColumnName = "id")
+    @JsonIgnore
     private User author;
+
     @ManyToOne
     @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
+    //@OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private Restaurant restaurant;
+
     private Double overallScore;
     private Double foodQualityScore;
     private Double serviceScore;
@@ -75,5 +85,14 @@ public class Review {
     public void setOverallValueScore(Double overallValueScore) {
         this.overallValueScore = (cleanlinessScore+overallValueScore+foodQualityScore+serviceScore)/4;
     }
-    
+
+    public User getAuthor()
+    {
+        return  author;
+    }
+
+    public void setAuthor(User author)
+    {
+     this.author = author;
+    }
 }

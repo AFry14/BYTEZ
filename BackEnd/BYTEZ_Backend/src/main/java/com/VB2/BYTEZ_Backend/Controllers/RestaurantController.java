@@ -1,11 +1,14 @@
 package com.VB2.BYTEZ_Backend.Controllers;
 
 import com.VB2.BYTEZ_Backend.Domain.Restaurant;
+import com.VB2.BYTEZ_Backend.Domain.Review;
 import com.VB2.BYTEZ_Backend.Repositories.RestaurantRepository;
+import com.VB2.BYTEZ_Backend.Service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -14,23 +17,31 @@ public class RestaurantController {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
+    @Autowired
+    private RestaurantService restaurantService;
+
     @GetMapping(path = "/")
-    public @ResponseBody Iterable<Restaurant> getAllRestaurants()
+    public @ResponseBody List<Restaurant> getAllRestaurants()
     {
-        return restaurantRepository.findAll();
+        return restaurantService.getAllRestaurants();
     }
 
     @GetMapping(path = "/{id}")
-    public @ResponseBody Optional<Restaurant> getRestaurantById(@PathVariable("id") Long id)
+    public @ResponseBody Restaurant getRestaurantById(@PathVariable("id") Long id)
     {
-        return restaurantRepository.findById(id);
+        return restaurantService.getRestaurant(id);
     }
 
-    @PostMapping(path = "/add")
-    public @ResponseBody String addRestaurant(@RequestBody Restaurant restaurant)
+    @GetMapping(path = "/reviews/{restaurantId}")
+    public @ResponseBody List<Review> getReviewsForRestaurant(@PathVariable("restaurantId") Long id)
     {
-        restaurantRepository.save(restaurant);
-        return "{\"status\":\"Success\"}";
+        return restaurantService.getReviewsForRestaurant(id);
+    }
+
+    @PostMapping(path = "/add/{userId}")
+    public @ResponseBody Restaurant addRestaurant(@PathVariable("userId") Long id, @RequestBody Restaurant restaurant)
+    {
+        return restaurantService.createRestaurant(id, restaurant);
     }
 
     // Currently only replaces the restaurantName
@@ -48,7 +59,6 @@ public class RestaurantController {
     @DeleteMapping(path = "/delete/{id}")
     public @ResponseBody String deleteRestaurantById(@PathVariable("id") Long id)
     {
-        restaurantRepository.deleteById(id);
-        return "{\"status\":\"Success\"}";
+        return restaurantService.deleteRestaurant(id);
     }
 }
