@@ -34,26 +34,6 @@ public class User {
 
     private String favoriteDrink;
 
-//    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-//    @JoinTable(name = "user_user", joinColumns = {@JoinColumn(name = "self_id")}, inverseJoinColumns = {@JoinColumn(name = "friend_id")})
-//    private Set<User> friends = new HashSet<>();
-
-//    public Set<Review> getReviews() {
-//        return reviews;
-//    }
-
-//    public void setWrittenReview(Set<Review> writtenReview) {
-//        this.reviews = writtenReview;
-//    }
-
-//   public Set<User> getFriends() {
-//        return friends;
-//    }
-//
-//    public void setFriends(Set<User> friends) {
-//        this.friends = friends;
-//    }
-
 // Getters and Setters
 
     /**
@@ -123,10 +103,6 @@ public class User {
     public String getUserType() { return userType; }
 
     public void setUserType(String userType) { this.userType = userType; }
-
-    //public Restaurant getRestaurant() { return restaurant; }
-
-    //public void setRestaurant(Restaurant restaurant) { this.restaurant = restaurant; }
 
     public String getFavoriteFood() {
         return favoriteFood;

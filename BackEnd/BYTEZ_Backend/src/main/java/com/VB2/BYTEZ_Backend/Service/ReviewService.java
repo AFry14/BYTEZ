@@ -57,6 +57,7 @@ public class ReviewService {
         return userRepository.findById(userId)
                 .map(user -> {
                     review.setAuthor(user);
+                    review.setRestaurant(restaurant);
                     return reviewRepository.save(review);
                 })
                 .orElse(null);
