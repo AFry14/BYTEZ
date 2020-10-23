@@ -1,5 +1,6 @@
 package com.VB2.BYTEZ_Backend.Domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
@@ -12,13 +13,16 @@ public class Restaurant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String restaurantName;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
+    @JsonIgnore
     private User owner;
+
     private Double avgScore;
-    @OneToMany(cascade = CascadeType.ALL)
+   // @OneToMany(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
-    private Set<Review> reviews = new HashSet<>();
+   // private Set<Review> reviews = new HashSet<>();
     private String address;
 
     public Long getId() {
@@ -53,15 +57,15 @@ public class Restaurant {
         this.avgScore = avgScore;
     }
 
-    public Set<Review> getReview()
-    {
-        return reviews;
-    }
+//    public Set<Review> getReview()
+//    {
+//        return reviews;
+//    }
 
-    public void setReviews(Set<Review> reviews)
-    {
-        this.reviews = reviews;
-    }
+//    public void setReviews(Set<Review> reviews)
+//    {
+//        this.reviews = reviews;
+//    }
 
     public String getAddress() {
         return address;

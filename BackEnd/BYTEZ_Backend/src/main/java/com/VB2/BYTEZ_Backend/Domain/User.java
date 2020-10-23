@@ -1,11 +1,7 @@
 package com.VB2.BYTEZ_Backend.Domain;
 
-import com.sun.istack.NotNull;
-import org.springframework.lang.NonNull;
-
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 // User entity will create a table in the database with name user
@@ -19,44 +15,25 @@ public class User {
     private String firstName;
 
     private String lastName;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
-    private Restaurant restaurant;
+
     @Column(unique = true)
     private String userName;
+
     @Column(nullable = false)
     private String password;
+
     @Column(nullable = false, unique = true)
     private String email;
+
     @Column(nullable = false)
     private String userType;
 
     private String favoriteFood;
+
     private String favoriteRestaurant;
+
     private String favoriteDrink;
 
-    @OneToMany
-//    @JoinColumn(name = "review_id", referencedColumnName = "id")
-    private Set<Review> reviews = new HashSet<>();
-    @OneToMany
-//    @JoinColumn(name = "friendship_id", referencedColumnName = "id")
-    private Set<Friendship> friends = new HashSet<>();
-
-    public Set<Review> getReviews() {
-        return reviews;
-    }
-
-    public void setWrittenReview(Set<Review> writtenReview) {
-        this.reviews = writtenReview;
-    }
-
-    public Set<Friendship> getFriends() {
-        return friends;
-    }
-
-    public void setFriends(Set<Friendship> friends) {
-        this.friends = friends;
-    }
 // Getters and Setters
 
     /**
@@ -127,10 +104,6 @@ public class User {
 
     public void setUserType(String userType) { this.userType = userType; }
 
-    public Restaurant getRestaurant() { return restaurant; }
-
-    public void setRestaurant(Restaurant restaurant) { this.restaurant = restaurant; }
-
     public String getFavoriteFood() {
         return favoriteFood;
     }
@@ -155,9 +128,9 @@ public class User {
         this.favoriteDrink = favoriteDrink;
     }
 
-    public void setReviews(Set<Review> reviews) {
-        this.reviews = reviews;
-    }
+//    public void setReviews(Set<Review> reviews) {
+//        this.reviews = reviews;
+//    }
 //    @Override
 //    public boolean equals(Object o) {
 //        if (this == o) return true;
