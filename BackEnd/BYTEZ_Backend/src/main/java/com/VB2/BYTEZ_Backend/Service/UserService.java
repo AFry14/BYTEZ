@@ -76,6 +76,9 @@ public class UserService {
                  user.setEmail(newUser.getEmail());
                  user.setPassword(newUser.getPassword());
                  user.setUserType(newUser.getUserType());
+                 user.setFavoriteDrink(newUser.getFavoriteDrink());
+                 user.setFavoriteFood(newUser.getFavoriteFood());
+                 user.setFavoriteRestaurant(newUser.getFavoriteRestaurant());
                  return userRepository.save(user);
               })
               .orElse(null);
