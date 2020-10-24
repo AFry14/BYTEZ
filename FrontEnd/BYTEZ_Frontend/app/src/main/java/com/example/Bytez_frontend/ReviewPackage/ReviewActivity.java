@@ -17,10 +17,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.Bytez_frontend.Map.HomeActivity;
 import com.example.Bytez_frontend.R;
 import com.example.Bytez_frontend.Restaurant;
@@ -43,9 +45,11 @@ public class ReviewActivity extends AppCompatActivity
     List<Restaurant> restArrayList = new ArrayList<Restaurant>();
     String restStringArray[];
     int restIDArray[];
-    private Context ctx = this;
+    private Context ctx;
     private RecyclerView reviewRecyclerView;
     private ReviewRecyclerAdapter reviewRecyclerAdapter;
+    private RequestQueue reqQueue;
+
 
 
     @Override
@@ -53,6 +57,9 @@ public class ReviewActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
+        ctx = this;
+        reviewRecyclerView = findViewById(R.id.businessRecycler);
+        reqQueue = Volley.newRequestQueue(this);
         String pass = URLs.URL_REST_LIST;
 
         JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, pass, null,
@@ -68,7 +75,9 @@ public class ReviewActivity extends AppCompatActivity
                             {
                                 JSONObject jresponse = response.getJSONObject(i);
                                 restStringArray[i] = jresponse.getString("restaurantName") + ", " + jresponse.getString("address");
-                                restArrayList.add(new Restaurant(jresponse.getString("restaurantName"), jresponse.getString("address")));
+                                String restName = response.getJSONObject(i).getString("restaurantName");
+                                String restAddress = response.getJSONObject(i).getString("address");
+                                restArrayList.add(new Restaurant(restName, restAddress));
                                 restIDArray[i] = jresponse.getInt("id");
                             }
                             AutoCompleteTextView BusinessSearch = (AutoCompleteTextView) findViewById(R.id.BusinessBar);
@@ -85,8 +94,7 @@ public class ReviewActivity extends AppCompatActivity
                         }
                         catch(JSONException e)
                         {
-                            cerror = 3;
-                            return;
+                            e.printStackTrace();
                         }
                     }
                 },
@@ -95,13 +103,13 @@ public class ReviewActivity extends AppCompatActivity
                     @Override
                     public void onErrorResponse(VolleyError error)
                     {
-                        cerror = 1;
-                        return;
+                        error.printStackTrace();
                     }
                 }
         );
 
-        SingletonVolley.getInstance(this).addToRequestQueue(getRequest);
+//        SingletonVolley.getInstance(ctx).addToRequestQueue(getRequest);
+        reqQueue.add(getRequest);
 
         findViewById(R.id.submitButton).setOnClickListener(new View.OnClickListener()
         {
@@ -142,8 +150,8 @@ public class ReviewActivity extends AppCompatActivity
                     e.printStackTrace();
                 }
 
-
-                JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, URLs.URL_REVIEW, jsonBody,
+                String pass = URLs.URL_REVIEW + SharedPrefManager.getInstance(ctx).getUser().getId() + "/" + restID;
+                JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, pass, jsonBody,
                         new Response.Listener<JSONObject>()
                         {
                             @Override

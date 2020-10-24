@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.autofill.AutofillValue;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -136,7 +137,7 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
     /**
      * Class that keeps track of all views within each section of the recyclerView
      */
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         // Views within recycler adapter
         ImageView businessLogo;
@@ -165,17 +166,14 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
          */
         @Override
         public void onClick(View view) {
-            TextView businessAddress = (TextView) view.findViewById(R.id.businessCityState);
-            String address = businessAddress.getText().toString();
+            TextView businessName = (TextView) view.findViewById(R.id.businessName);
+            String name = businessName.getText().toString();
 
-            // Open Google Maps with address obtained from clicked restaurant
-            Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + address);
-            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-            mapIntent.setPackage("com.google.android.apps.maps");
+//            TextView businessSearch = (TextView) findViewById(R.id.businessBar);
+////            businessSearch.setText(name);
 
-//            if (mapIntent.resolveActivity(context.getPackageManager()) != null) {
-            ctx.startActivity(mapIntent);
-//            }
+
+
 
         }
 
