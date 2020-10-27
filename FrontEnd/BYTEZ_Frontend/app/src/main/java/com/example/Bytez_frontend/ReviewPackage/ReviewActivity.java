@@ -3,6 +3,7 @@ package com.example.Bytez_frontend.ReviewPackage;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -48,7 +49,7 @@ public class ReviewActivity extends AppCompatActivity
     private Context ctx;
     private RecyclerView reviewRecyclerView;
     private ReviewRecyclerAdapter reviewRecyclerAdapter;
-    private RequestQueue reqQueue;
+//    private RequestQueue reqQueue;
 
 
 
@@ -59,7 +60,7 @@ public class ReviewActivity extends AppCompatActivity
         setContentView(R.layout.activity_review);
         ctx = this;
         reviewRecyclerView = findViewById(R.id.businessRecycler);
-        reqQueue = Volley.newRequestQueue(this);
+//        reqQueue = Volley.newRequestQueue(this);
         String pass = URLs.URL_REST_LIST;
 
         JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, pass, null,
@@ -80,7 +81,8 @@ public class ReviewActivity extends AppCompatActivity
                                 restArrayList.add(new Restaurant(restName, restAddress));
                                 restIDArray[i] = jresponse.getInt("id");
                             }
-                            AutoCompleteTextView BusinessSearch = (AutoCompleteTextView) findViewById(R.id.BusinessBar);
+
+                            AutoCompleteTextView BusinessSearch = findViewById(R.id.businessBar);
                             ArrayAdapter<String> adapter = new ArrayAdapter<String>(ctx, android.R.layout.simple_list_item_1, restStringArray);
                             BusinessSearch.setAdapter(adapter);
 
@@ -108,8 +110,12 @@ public class ReviewActivity extends AppCompatActivity
                 }
         );
 
+
+
 //        SingletonVolley.getInstance(ctx).addToRequestQueue(getRequest);
-        reqQueue.add(getRequest);
+//        reqQueue.add(getRequest);
+        SingletonVolley.getInstance(this).addToRequestQueue(getRequest);
+
 
         findViewById(R.id.submitButton).setOnClickListener(new View.OnClickListener()
         {
@@ -119,15 +125,43 @@ public class ReviewActivity extends AppCompatActivity
                 RatingBar foodBar = (RatingBar) findViewById(R.id.foodBar);
                 RatingBar serviceBar = (RatingBar) findViewById(R.id.serviceBar);
                 RatingBar cleanBar = (RatingBar) findViewById(R.id.cleanlinessBar);
+                AutoCompleteTextView business = (AutoCompleteTextView) findViewById(R.id.businessBar);
+                String rest = business.getText().toString();
                 EditText commentText = (EditText) findViewById(R.id.commentSection);
                 float foodS = foodBar.getRating();
                 float serviceS = serviceBar.getRating();
                 float cleanS = cleanBar.getRating();
                 String comments = commentText.getText().toString();
 
+                if(TextUtils.isEmpty(rest))
+                {
+                    business.setError("Please enter a restaurant");
+                    business.requestFocus();
+                    return;
+                }
+
+                if(foodS == 0)
+                {
+                    String str = "Please enter a rating for how the food tasted";
+                    Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(serviceS == 0)
+                {
+                    String str = "Please enter a rating for how the service was";
+                    Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(cleanS == 0)
+                {
+                    String str = "Please enter a rating for how the restaurant's cleanliness was";
+                    Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 int restID=-1;
-                AutoCompleteTextView business = (AutoCompleteTextView) findViewById(R.id.BusinessBar);
-                String rest = business.getText().toString();
                 for(int i = 0; i<restStringArray.length; i++)
                 {
                     if(rest == restStringArray[i])

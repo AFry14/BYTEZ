@@ -9,5 +9,6 @@ public class URLs
     public static final String URL_REST_LIST = ROOT_URL + "restaurant/";
     public static final String URL_REVIEW = ROOT_URL + "review/add/";
     public static final String URL_BUG = ROOT_URL + "bugReport/";
+    public static final String URL_REVIEW_LIST = ROOT_URL + "review/";
 
 }

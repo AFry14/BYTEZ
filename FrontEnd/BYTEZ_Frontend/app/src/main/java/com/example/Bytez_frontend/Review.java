@@ -5,6 +5,7 @@ public class Review
     private int id;
     private Restaurant rest;
     private User reviewer;
+    private int reviewerId;
     private float foodQR;
     private float serviceR;
     private float cleanlinessR;
@@ -15,6 +16,22 @@ public class Review
         this.id = id;
         rest = place;
         this.reviewer = reviewer;
+    }
+
+    public Review(int id, Restaurant place, User reviewer, String comments)
+    {
+        this.id = id;
+        rest = place;
+        this.reviewer = reviewer;
+        this.comments = comments;
+    }
+
+    public Review(int id, Restaurant place, int reviewer, String comments)
+    {
+        this.id = id;
+        rest = place;
+        this.reviewerId = reviewer;
+        this.comments = comments;
     }
 
     public float getFinalRating()
