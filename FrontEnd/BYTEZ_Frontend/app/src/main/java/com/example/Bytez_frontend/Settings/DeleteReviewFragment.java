@@ -24,6 +24,8 @@ import com.example.Bytez_frontend.R;
 import com.example.Bytez_frontend.Restaurant;
 import com.example.Bytez_frontend.Review;
 import com.example.Bytez_frontend.ReviewPackage.ReviewRecyclerAdapter;
+import com.example.Bytez_frontend.SharedPrefManager;
+import com.example.Bytez_frontend.SingletonVolley;
 import com.example.Bytez_frontend.URLs;
 import com.example.Bytez_frontend.User;
 
@@ -52,8 +54,8 @@ public class DeleteReviewFragment extends Fragment
         super.onCreateView(inflater, container, savedInstanceState);
         final View view = inflater.inflate(R.layout.fragment_delete_review, container, false);
         reviewRecyclerView = view.findViewById(R.id.settingsReviewRecycler);
-        reqQueue = Volley.newRequestQueue(ctx);
-        String pass = URLs.URL_REVIEW_LIST;
+//        reqQueue = Volley.newRequestQueue(ctx);
+        String pass = URLs.URL_AUTHOR + SharedPrefManager.getInstance(ctx).getUser().getId();
 
         JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, pass, null,
                 new Response.Listener<JSONArray>() {
@@ -103,7 +105,7 @@ public class DeleteReviewFragment extends Fragment
                 }
         );
 
-
+        SingletonVolley.getInstance(ctx).addToRequestQueue(getRequest);
 
         return view;
     }

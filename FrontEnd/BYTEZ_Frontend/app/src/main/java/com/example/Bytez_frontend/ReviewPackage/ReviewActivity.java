@@ -164,21 +164,19 @@ public class ReviewActivity extends AppCompatActivity
                 int restID=-1;
                 for(int i = 0; i<restStringArray.length; i++)
                 {
-                    if(rest == restStringArray[i])
+                    if(rest.equals(restStringArray[i]))
                     {
-                       restID = i;
+                       restID = i+1;
                     }
                 }
 
                 JSONObject jsonBody = new JSONObject();
                 try {
-                    jsonBody.put("restaurantId", restID);
-                    jsonBody.put("userId", SharedPrefManager.getInstance(ctx).getUser().getId());
-                    jsonBody.put("foodScore", foodS);
+                    jsonBody.put("foodQualityScore", foodS);
                     jsonBody.put("serviceScore", serviceS);
                     jsonBody.put("cleanlinessScore", cleanS);
                     jsonBody.put("overallScore", Review.getFinalRating(foodS, serviceS, cleanS));
-                    jsonBody.put("comments", comments);
+//                    jsonBody.put("comments", comments);
 
                 } catch (JSONException e) {
                     e.printStackTrace();

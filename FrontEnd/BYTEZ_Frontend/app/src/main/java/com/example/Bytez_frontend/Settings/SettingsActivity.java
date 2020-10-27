@@ -24,35 +24,35 @@ public class SettingsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        findViewById(R.id.logoutB).setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                SharedPrefManager.getInstance(ctx).logout();
-                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-            }
-        });
-
-        findViewById(R.id.bugReportB).setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                Intent intent = new Intent(ctx, bugReportFragment.class);
-                startActivity(intent);
-            }
-        });
-
-        findViewById(R.id.deleteReviewB).setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                SharedPrefManager.getInstance(ctx).logout();
-                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-            }
-        });
+//        findViewById(R.id.logoutB).setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                SharedPrefManager.getInstance(ctx).logout();
+//                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+//            }
+//        });
+//
+//        findViewById(R.id.bugReportB).setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                Intent intent = new Intent(ctx, bugReportFragment.class);
+//                startActivity(intent);
+//            }
+//        });
+//
+//        findViewById(R.id.deleteReviewB).setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                SharedPrefManager.getInstance(ctx).logout();
+//                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+//            }
+//        });
     }
 
 }
