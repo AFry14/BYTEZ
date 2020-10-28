@@ -72,7 +72,6 @@ public class UserController {
        return userService.registerUser(user);
     }
 
-
     /* This should not be used anymore
     @PostMapping(path="/register/params")
     public @ResponseBody String addNewUser(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String userName,
