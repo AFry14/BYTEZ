@@ -26,13 +26,13 @@ public class Review
         this.comments = comments;
     }
 
-    public Review(int id, Restaurant place, int reviewer, String comments)
-    {
-        this.id = id;
-        rest = place;
-        this.reviewerId = reviewer;
-        this.comments = comments;
-    }
+//    public Review(int id, Restaurant place, int reviewer, String comments)
+//    {
+//        this.id = id;
+//        rest = place;
+//        this.reviewerId = reviewer;
+//        this.comments = comments;
+//    }
 
     public float getFinalRating()
     {

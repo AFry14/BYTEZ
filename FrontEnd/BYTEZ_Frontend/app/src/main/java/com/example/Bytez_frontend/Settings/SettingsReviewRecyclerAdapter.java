@@ -59,10 +59,10 @@ public class SettingsReviewRecyclerAdapter extends RecyclerView.Adapter<com.exam
 
         // Each part of the recyclerView is one mapEntry
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View mapEntry = layoutInflater.inflate(R.layout.row_review_item, parent, false);
+        View reviewEntry = layoutInflater.inflate(R.layout.row_review_item, parent, false);
 
         // ViewHolder that contains the views within each part of the recyclerView
-        SettingsReviewRecyclerAdapter.ViewHolder reviewViewHolder = new SettingsReviewRecyclerAdapter.ViewHolder(mapEntry);
+        SettingsReviewRecyclerAdapter.ViewHolder reviewViewHolder = new SettingsReviewRecyclerAdapter.ViewHolder(reviewEntry);
         return reviewViewHolder;
     }
 

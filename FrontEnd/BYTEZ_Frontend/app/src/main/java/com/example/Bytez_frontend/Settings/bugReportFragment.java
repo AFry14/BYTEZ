@@ -1,5 +1,6 @@
 package com.example.Bytez_frontend.Settings;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,7 +28,20 @@ import org.json.JSONObject;
 
 public class bugReportFragment extends Fragment
 {
-    Context ctx = getActivity();
+//    Context ctx = getActivity();
+    Context mCtx;
+
+    @Override
+    public void onAttach(Context context)
+    {
+        super.onAttach(context);
+
+        if(context instanceof Activity)
+        {
+            mCtx = context;
+        }
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -54,14 +68,14 @@ public class bugReportFragment extends Fragment
 
                 JSONObject jsonBody = new JSONObject();
                 try {
-                    jsonBody.put("bugReport", report);
-                    jsonBody.put("userId", SharedPrefManager.getInstance(ctx).getUser().getId());
+                    jsonBody.put("report", report);
+                    jsonBody.put("author_id", SharedPrefManager.getInstance(mCtx).getUser().getId());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-
-                JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, URLs.URL_BUG, jsonBody,
+                String pass = URLs.URL_BUG_ADD + SharedPrefManager.getInstance(mCtx).getUser().getId();
+                JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, pass, jsonBody,
                         new Response.Listener<JSONObject>()
                         {
                             @Override
@@ -78,7 +92,7 @@ public class bugReportFragment extends Fragment
                             }
                         });
 
-                SingletonVolley.getInstance(getActivity()).addToRequestQueue(postRequest);
+                SingletonVolley.getInstance(mCtx).addToRequestQueue(postRequest);
 
             }
         });
