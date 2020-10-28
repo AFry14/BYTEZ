@@ -48,6 +48,18 @@ public class RestaurantService {
                 .orElse(null);
     }
 
+    public Restaurant updateRestaurant(Long restaurantId, Restaurant newRestaurant)
+    {
+        return restaurantRepository.findById(restaurantId)
+                .map(restaurant -> {
+                    restaurant.setRestaurantName(newRestaurant.getRestaurantName());
+                    restaurant.setAddress(newRestaurant.getAddress());
+                    restaurant.setAvgScore(newRestaurant.getAvgScore());
+                    return restaurantRepository.save(restaurant);
+                })
+                .orElse(null);
+    }
+
     public String deleteRestaurant(Long id)
     {
         restaurantRepository.deleteById(id);
