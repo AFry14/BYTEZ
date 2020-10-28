@@ -26,8 +26,8 @@ public class RestaurantController {
         return restaurantService.getAllRestaurants();
     }
 
-    @GetMapping(path = "/{id}")
-    public @ResponseBody Restaurant getRestaurantById(@PathVariable("id") Long id)
+    @GetMapping(path = "/{restaurantId}")
+    public @ResponseBody Restaurant getRestaurantById(@PathVariable("restaurantId") Long id)
     {
         return restaurantService.getRestaurant(id);
     }
@@ -45,8 +45,8 @@ public class RestaurantController {
     }
 
     // Currently only replaces the restaurantName
-    @PutMapping(path = "/updateRestaurant/{id}")
-    public @ResponseBody Restaurant updateRestaurant(@PathVariable("id") Long id, @RequestBody Restaurant newRestaurant)
+    @PutMapping(path = "/updateRestaurant/{restaurantId}")
+    public @ResponseBody Restaurant updateRestaurant(@PathVariable("restaurantId") Long id, @RequestBody Restaurant newRestaurant)
     {
         return restaurantRepository.findById(id)
                 .map(restaurant -> {
@@ -56,8 +56,8 @@ public class RestaurantController {
                 .orElse(null);
     }
 
-    @DeleteMapping(path = "/delete/{id}")
-    public @ResponseBody String deleteRestaurantById(@PathVariable("id") Long id)
+    @DeleteMapping(path = "/delete/{restaurantId}")
+    public @ResponseBody String deleteRestaurantById(@PathVariable("restaurantId") Long id)
     {
         return restaurantService.deleteRestaurant(id);
     }

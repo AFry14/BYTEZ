@@ -7,10 +7,12 @@ import com.VB2.BYTEZ_Backend.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 
 @Service
+@Transactional
 public class FriendshipService {
     @Autowired
     private UserRepository userRepository;
@@ -21,6 +23,12 @@ public class FriendshipService {
     public List<Friendship> getAllFriendships()
     {
         return friendshipRepository.findAll();
+    }
+
+    public Friendship getFriendshipById(Long id)
+    {
+        return friendshipRepository.findById(id).isPresent() ?
+                friendshipRepository.findById(id).get() : null;
     }
 
     public Friendship requestFriend(Long selfId, Long friendId)
@@ -37,6 +45,13 @@ public class FriendshipService {
                 .orElse(null);
     }
 
+    public String removeFriend(Long self_id, Long friend_id)
+    {
+        friendshipRepository.deleteBySelfIdAndFriendId(self_id, friend_id);
+        friendshipRepository.deleteBySelfIdAndFriendId(friend_id, self_id);
+
+        return "{\"Status\":\"Success\"}";
+    }
 
     public void saveFriendship(Long self, Long friend)
     {
