@@ -38,4 +38,4 @@ autoDeploy:
         refs:
             - master
         changes:
-            - BackEnd/*
+            - BackEnd/**/*
