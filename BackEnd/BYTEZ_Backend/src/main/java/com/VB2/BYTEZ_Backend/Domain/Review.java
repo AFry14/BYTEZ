@@ -29,6 +29,7 @@ public class Review {
     private Double serviceScore;
     private Double cleanlinessScore;
     private Double overallValueScore;
+    private String comment;
 
     public Long getId() {
         return id;
@@ -94,5 +95,15 @@ public class Review {
     public void setAuthor(User author)
     {
      this.author = author;
+    }
+
+    public String getComment()
+    {
+        return comment;
+    }
+
+    public void setComment(String comment)
+    {
+        this.comment = comment;
     }
 }

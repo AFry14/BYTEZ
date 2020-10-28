@@ -3,7 +3,9 @@ package com.VB2.BYTEZ_Backend.Domain;
 import javax.persistence.*;
 import java.util.Date;
 
+
 @Entity
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"self_id", "friend_id"})})
 public class Friendship {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
