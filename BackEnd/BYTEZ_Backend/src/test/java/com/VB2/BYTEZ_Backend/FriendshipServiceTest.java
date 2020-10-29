@@ -22,6 +22,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+
 @RunWith(SpringRunner.class)
 public class FriendshipServiceTest {
 
@@ -57,7 +58,6 @@ public class FriendshipServiceTest {
     @Test
     public void testFriendshipService(){
         List<Friendship> fList = new ArrayList<>();
-        List<User> uList = new ArrayList<>();
 
         when(fRepo.findAll()).thenReturn(fList);
 
@@ -71,7 +71,7 @@ public class FriendshipServiceTest {
 
 
         assertEquals(fList, fService.getAllFriendships());
-        
+
     }
 
 }
