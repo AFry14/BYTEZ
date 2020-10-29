@@ -1,7 +1,6 @@
 package com.VB2.BYTEZ_Backend;
 
 import com.VB2.BYTEZ_Backend.Controllers.ReviewController;
-import com.VB2.BYTEZ_Backend.Domain.Restaurant;
 import com.VB2.BYTEZ_Backend.Domain.Review;
 import com.VB2.BYTEZ_Backend.Repositories.ReviewRepository;
 import com.VB2.BYTEZ_Backend.Service.ReviewService;
