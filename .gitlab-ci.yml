@@ -2,6 +2,7 @@ stages:
     - mavenbuild
     - maventest
     - autodeploy
+    - androidbuild
     
 maven-build:
     stage: mavenbuild
@@ -39,3 +40,19 @@ autoDeploy:
             - master
         changes:
             - BackEnd/**/*
+            
+android-build:
+	image: noahkelleher/android-ci:latest
+	stage: androidbuild
+	before_script:
+		- export GRADLE_USER_HOME='pwd'/.gradle
+		- chmod +x ./FrontEnd/BYTEZ_Frontend/gradlew
+	tags:
+		- FRONTEND
+	script:
+		- cd FrontEnd/BYTEZ_Frontend/
+		- ./gradlew assemble
+	artifacts:
+		path:
+			- FrontEnd/BYTEZ_Frontend/app/build/outputs/
+            
