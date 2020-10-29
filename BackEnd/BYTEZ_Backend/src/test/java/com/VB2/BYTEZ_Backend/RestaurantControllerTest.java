@@ -45,7 +45,7 @@ public class RestaurantControllerTest {
                     restaurantList.add(r);
                     return null;
                 });
-        
+
         Long id = 1L;
         when(rService.getRestaurant(id)).thenReturn(new Restaurant());
 
