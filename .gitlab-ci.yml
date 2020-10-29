@@ -53,5 +53,5 @@ android-build:
         - cd FrontEnd/BYTEZ_Frontend/
         - ./gradlew assemble
     artifacts:
-        path:
+        paths:
             - FrontEnd/BYTEZ_Frontend/app/build/outputs/
