@@ -41,7 +41,7 @@ autoDeploy:
         changes:
             - BackEnd/**/*
             
-android-build:
+androidbuild:
 	image: noahkelleher/android-ci:latest
 	stage: androidbuild
 	before_script:
