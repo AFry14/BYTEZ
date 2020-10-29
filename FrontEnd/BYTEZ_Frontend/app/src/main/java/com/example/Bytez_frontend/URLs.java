@@ -11,7 +11,7 @@ public class URLs
     public static final String URL_REVIEW = ROOT_URL + "review/add/";
     public static final String URL_BUG_ADD = ROOT_URL + "report/add/";
     public static final String URL_REVIEW_LIST = ROOT_URL + "review/";
-    public static final String URL_REST_IN_REVIEW = ROOT_URL + "/review/restaurant/";
-    public static final String URL_AUTHOR_OF_REVIEW = ROOT_URL +  "/review/author/";
+    public static final String URL_REST_IN_REVIEW = ROOT_URL + "review/restaurant/";
+    public static final String URL_AUTHOR_OF_REVIEW = ROOT_URL +  "review/author/";
 
 }

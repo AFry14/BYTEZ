@@ -11,8 +11,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,6 +35,7 @@ import com.example.Bytez_frontend.SharedPrefManager;
 import com.example.Bytez_frontend.SingletonVolley;
 import com.example.Bytez_frontend.URLs;
 import com.example.Bytez_frontend.User;
+import com.example.Bytez_frontend.login.LoginActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,6 +48,12 @@ public class DeleteReviewFragment extends Fragment
 {
     protected FragmentActivity mActivity;
     Context mCtx;
+    View view;
+    private SettingsReviewRecyclerAdapter SettingsReviewRecyclerAdapter;
+    ArrayList<Integer> reviewIds = new ArrayList<Integer>();
+    ArrayList<Restaurant> locations = new ArrayList<Restaurant>();
+    ArrayList<User> reviewers = new ArrayList<User>();
+    ArrayList<Double> ratings = new ArrayList<Double>();
 
     int cerror=-1;
     List<Review> reviewArrayList = new ArrayList<Review>();
@@ -53,6 +62,12 @@ public class DeleteReviewFragment extends Fragment
     private RecyclerView reviewRecyclerView;
     private SettingsReviewRecyclerAdapter settingsReviewRecyclerAdapter;
     private RequestQueue reqQueue;
+
+
+    public DeleteReviewFragment()
+    {
+
+    }
 
     @Override
     public void onAttach(Context context)
@@ -69,113 +84,111 @@ public class DeleteReviewFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater, container, savedInstanceState);
-        final View view = inflater.inflate(R.layout.fragment_delete_review, container, false);
+        final View view = inflater.inflate(R.layout.fragment_loading, container, false);
         reviewRecyclerView = view.findViewById(R.id.settingsReviewRecycler);
+
+        Bundle bundle = getArguments();
+        reviewIds = bundle.getIntegerArrayList("ids");
+        ratings = (ArrayList<Double>) bundle.getSerializable("ratings");
 //        reqQueue = Volley.newRequestQueue(ctx);
-        String pass = URLs.URL_AUTHORS_WORK + SharedPrefManager.getInstance(mCtx).getUser().getId();
 
-        JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, pass, null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        try{
-                            Log.d("TAG", response.toString());
-//                            restStringArray = new String[response.length()];
-//                            restIDArray = new int[response.length()];
-                            for(int i =0; i<response.length(); i++)
-                            {
-                                JSONObject jresponse = response.getJSONObject(i);
-//                                restStringArray[i] = jresponse.getString("restaurantName") + ", " + jresponse.getString("address");
-                                int reviewId = response.getJSONObject(i).getInt("id");
-                                String pass = URLs.URL_REST_IN_REVIEW + reviewId;
-                                final ArrayList<Restaurant> locations = new ArrayList<Restaurant>();
-                                JsonObjectRequest getRestRequest = new JsonObjectRequest(Request.Method.GET, pass, null,
-                                        new Response.Listener<JSONObject>() {
-                                            @Override
-                                            public void onResponse(JSONObject response) {
-                                                try{
-                                                    locations.add(new Restaurant(response.getInt("id"), response.getString("restaurantName"), response.getString("address")));
-                                                }
-                                                catch(JSONException e)
-                                                {
-                                                    System.out.println("RestRequestCatchError");
-                                                    return;
-                                                }
-                                            }
-                                        },
-                                        new Response.ErrorListener()
-                                        {
-                                            @Override
-                                            public void onErrorResponse(VolleyError error)
-                                            {
-                                                System.out.println("RestRequestErrorResponse");
-                                                return;
-                                            }
-                                        }
-                                );
 
-                                SingletonVolley.getInstance(mCtx).addToRequestQueue(getRestRequest);
-                                final ArrayList<User> reviewers = new ArrayList<User>();
-                                JsonObjectRequest getUserRequest = new JsonObjectRequest(Request.Method.GET, pass, null,
-                                        new Response.Listener<JSONObject>() {
-                                            @Override
-                                            public void onResponse(JSONObject response) {
-                                                try{
-                                                    reviewers.add(new User(response.getInt("id"), response.getString("userName"), response.getString("email")));
-                                                }
-                                                catch(JSONException e)
-                                                {
-                                                    System.out.println("ReviewerRequestCatchError");
-                                                    return;
-                                                }
-                                            }
-                                        },
-                                        new Response.ErrorListener()
-                                        {
-                                            @Override
-                                            public void onErrorResponse(VolleyError error)
-                                            {
-                                                System.out.println("ReviewerRequestErrorResponse");
-                                                return;
-                                            }
-                                        }
-                                );
-                                SingletonVolley.getInstance(mCtx).addToRequestQueue(getUserRequest);
-//                                String comments = response.getJSONObject(i).getString("comments");
-                                reviewArrayList.add(new Review(reviewId, locations.get(i), reviewers.get(i)));
-//                                restIDArray[i] = jresponse.getInt("id");
+//        while(reviewIds.size()==0)
+//        {
+//
+//            if(reviewIds.size() != 0)
+//            {
+//                break;
+//            }
+//        }
+
+
+        for(int i = 0; i<reviewIds.size(); i++)
+        {
+            String pass1 = URLs.URL_REST_IN_REVIEW + reviewIds.get(i);
+            JsonObjectRequest getRestRequest = new JsonObjectRequest(Request.Method.GET, pass1, null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try{
+                                locations.add(new Restaurant(response.getInt("id"), response.getString("restaurantName"), response.getString("address")));
                             }
-
-//                            AutoCompleteTextView BusinessSearch = view.findViewById(R.id.businessBar);
-//                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(ctx, android.R.layout.simple_list_item_1, restStringArray);
-//                            BusinessSearch.setAdapter(adapter);
-
-                            settingsReviewRecyclerAdapter = new SettingsReviewRecyclerAdapter(reviewArrayList, mCtx);
-                            reviewRecyclerView.setLayoutManager(new LinearLayoutManager(mCtx));
-
-                            reviewRecyclerView.setAdapter(settingsReviewRecyclerAdapter);
-                            DividerItemDecoration restaurantDivider = new DividerItemDecoration(mCtx, DividerItemDecoration.VERTICAL);
-                            reviewRecyclerView.addItemDecoration(restaurantDivider);
-
+                            catch(JSONException e)
+                            {
+                                System.out.println("RestRequestCatchError");
+                                return;
+                            }
                         }
-                        catch(JSONException e)
-                        {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error)
+                    },
+                    new Response.ErrorListener()
                     {
-                        error.printStackTrace();
+                        @Override
+                        public void onErrorResponse(VolleyError error)
+                        {
+                            System.out.println("RestRequestErrorResponse");
+                            return;
+                        }
                     }
-                }
-        );
+            );
 
-        SingletonVolley.getInstance(mCtx).addToRequestQueue(getRequest);
+            SingletonVolley.getInstance(mCtx).addToRequestQueue(getRestRequest);
+        }
 
+        for(int i=0; i<reviewIds.size(); i++)
+        {
+            String pass1 = URLs.URL_AUTHOR_OF_REVIEW + reviewIds.get(i);
+            JsonObjectRequest getUserRequest = new JsonObjectRequest(Request.Method.GET, pass1, null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try{
+                                reviewers.add(new User(response.getInt("id"), response.getString("userName"), response.getString("email")));
+                            }
+                            catch(JSONException e)
+                            {
+                                System.out.println("ReviewerRequestCatchError");
+                                return;
+                            }
+                        }
+                    },
+                    new Response.ErrorListener()
+                    {
+                        @Override
+                        public void onErrorResponse(VolleyError error)
+                        {
+                            System.out.println("ReviewerRequestErrorResponse");
+                            return;
+                        }
+                    }
+            );
+            SingletonVolley.getInstance(mCtx).addToRequestQueue(getUserRequest);
+        }
+
+
+        this.view = view;
         return view;
     }
+
+
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState)
+    {
+        super.onViewCreated(view, savedInstanceState);
+
+        view.findViewById(R.id.yesB).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("ids", reviewIds);
+                bundle.putSerializable("rest", locations);
+                bundle.putSerializable("user", reviewers);
+                bundle.putSerializable("ratings", ratings);
+                NavHostFragment.findNavController(DeleteReviewFragment.this)
+                        .navigate(R.id.action_DeleteReviewFragment_to_ReviewShowFragment, bundle);
+            }
+        });
+    }
+
+
 }

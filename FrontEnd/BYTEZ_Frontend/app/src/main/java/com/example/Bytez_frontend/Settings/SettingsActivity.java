@@ -24,6 +24,8 @@ public class SettingsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        getSupportFragmentManager().beginTransaction().add(new SettingsMainFragment(), "Tag").commit();
+
 //        findViewById(R.id.logoutB).setOnClickListener(new View.OnClickListener()
 //        {
 //            @Override

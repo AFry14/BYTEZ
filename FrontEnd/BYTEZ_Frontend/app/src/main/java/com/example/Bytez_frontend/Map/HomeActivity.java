@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.Bytez_frontend.R;
+import com.example.Bytez_frontend.ReviewPackage.ReviewActivity;
 import com.example.Bytez_frontend.Settings.SettingsActivity;
 import com.example.Bytez_frontend.login.SignUp;
 
@@ -26,6 +27,17 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
             }
         });
+
+        findViewById(R.id.button).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                startActivity(new Intent(getApplicationContext(), ReviewActivity.class));
+            }
+        });
+
+
     }
 
     /**

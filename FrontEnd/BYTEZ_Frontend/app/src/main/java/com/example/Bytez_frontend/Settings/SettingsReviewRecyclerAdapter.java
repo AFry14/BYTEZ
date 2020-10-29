@@ -71,7 +71,8 @@ public class SettingsReviewRecyclerAdapter extends RecyclerView.Adapter<com.exam
     {
         holder.userInfo.setText(reviewList.get(position).getReviewer().getUsername() + " reviewed " + reviewList.get(position).getRest().getName());
         holder.comments.setText(reviewList.get(position).getComments());
-        holder.rating.setRating(reviewList.get(position).getFinalRating());
+        holder.rating.setIsIndicator(true);
+        holder.rating.setRating(reviewList.get(position).getOverallR());
     }
 
 
@@ -167,18 +168,9 @@ public class SettingsReviewRecyclerAdapter extends RecyclerView.Adapter<com.exam
          * @param view
          */
         @Override
-        public void onClick(View view) {
-//            TextView businessAddress = (TextView) view.findViewById(R.id.businessCityState);
-////            String address = businessAddress.getText().toString();
-////
-////            // Open Google Maps with address obtained from clicked restaurant
-////            Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + address);
-////            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-////            mapIntent.setPackage("com.google.android.apps.maps");
-////
-//////            if (mapIntent.resolveActivity(context.getPackageManager()) != null) {
-////            context.startActivity(mapIntent);
-//            }
+        public void onClick(View view)
+        {
+            
 
         }
 

@@ -9,11 +9,20 @@ public class Review
     private float foodQR;
     private float serviceR;
     private float cleanlinessR;
+    private float overallR;
     private String comments;
 
     public Review(int id, Restaurant place, User reviewer)
     {
         this.id = id;
+        rest = place;
+        this.reviewer = reviewer;
+    }
+
+    public Review(int id, float rating, Restaurant place, User reviewer)
+    {
+        this.id = id;
+        overallR = rating;
         rest = place;
         this.reviewer = reviewer;
     }
@@ -37,7 +46,13 @@ public class Review
     public float getFinalRating()
     {
         float overallS = (getFoodQR() + getCleanlinessR() + getServiceR())/3;
+        overallR = overallS;
         return overallS;
+    }
+
+    public float getOverallR()
+    {
+        return overallR;
     }
 
     public static float getFinalRating(float food, float service, float clean)

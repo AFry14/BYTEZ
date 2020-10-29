@@ -3,8 +3,19 @@ package com.example.Bytez_frontend;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.Bytez_frontend.login.LoginActivity;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class SharedPrefManager
 {
@@ -15,6 +26,7 @@ public class SharedPrefManager
 
     private static SharedPrefManager spm;
     private static Context ctx;
+
 
 
     private SharedPrefManager(Context context)
@@ -70,6 +82,5 @@ public class SharedPrefManager
         editor.apply();
         ctx.startActivity(new Intent(ctx, LoginActivity.class));
     }
-
 
 }

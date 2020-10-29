@@ -26,6 +26,19 @@
     <fragment
         android:id="@+id/DeleteReviewFragment"
         android:name="com.example.Bytez_frontend.Settings.DeleteReviewFragment"
-        android:label="Delete Review Fragment" >
+        android:label="Delete Review Fragment"
+        tools:layout="@layout/fragment_loading">
+        <action
+            android:id="@+id/action_DeleteReviewFragment_to_ReviewShowFragment"
+            app:destination="@id/ReviewShowFragment" />
+        <action
+            android:id="@+id/action_DeleteReviewFragment_to_SettingsMainFragment"
+            app:destination="@id/SettingsMainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ReviewShowFragment"
+        android:name="com.example.Bytez_frontend.Settings.ReviewShowFragment"
+        android:label="Review View Fragment"
+        tools:layout="@layout/fragment_delete_review">
     </fragment>
 </navigation>
