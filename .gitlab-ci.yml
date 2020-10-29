@@ -55,4 +55,3 @@ android-build:
 	artifacts:
 		path:
 			- FrontEnd/BYTEZ_Frontend/app/build/outputs/
-            
