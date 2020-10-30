@@ -64,13 +64,21 @@ public class FriendshipServiceTest {
         when(fRepo.save(any(Friendship.class)))
                 .thenAnswer(x -> {
                     Friendship f = x.getArgument(0);
+                    User self = new User();
+                    self.setId(1L);
+                    User friend = new User();
+                    friend.setId(2L);
+                    f.setSelf(self);
+                    f.setFriend(friend);
                     fList.add(f);
                     return null;
                 });
 
 
 
+
         assertEquals(fList, fService.getAllFriendships());
+        assertEquals(fList.get(0), fService.requestFriend(1L, 2L));
 
     }
 

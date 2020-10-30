@@ -1,5 +1,7 @@
 package com.VB2.BYTEZ_Backend;
 
+import com.VB2.BYTEZ_Backend.Domain.Restaurant;
+import com.VB2.BYTEZ_Backend.Domain.Review;
 import com.VB2.BYTEZ_Backend.Domain.User;
 import com.VB2.BYTEZ_Backend.Repositories.RestaurantRepository;
 import com.VB2.BYTEZ_Backend.Repositories.ReviewRepository;
@@ -61,6 +63,12 @@ public class UserServiceTest {
     @Test
     public void testUserService(){
         List<User> uList = new ArrayList<>();
+        List<Review> revList = new ArrayList<>();
+        Restaurant restaurant = new Restaurant();
+
+        when(restRepo.findByOwnerId(any(Long.class))).thenReturn(restaurant);
+
+        when(revRepo.findByAuthorId(any(Long.class))).thenReturn(revList);
 
         when(uRepo.findAll()).thenReturn(uList);
 
@@ -72,5 +80,7 @@ public class UserServiceTest {
                 });
 
         assertEquals(uList, uService.getAllUsers());
+        assertEquals(revList, uService.getAllReviewsByUser(1L));
+        assertEquals(restaurant, uService.getUserRestaurant(1L));
     }
 }
