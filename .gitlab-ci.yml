@@ -42,7 +42,7 @@ autoDeploy:
             - BackEnd/**/*
             
 android-build:
-    image: noahkelleher/android-ci:latest
+    image: nokel/android-ci:latest
     stage: androidbuild
     before_script:
         - export GRADLE_USER_HOME='pwd'/.gradle
