@@ -126,6 +126,10 @@ public class SettingsMainFragment extends Fragment
             @Override
             public void onClick(View view)
             {
+//                ArrayList<Integer> sendIds = reviewIds;
+//                ArrayList<Double> sendRatings = ratings;
+//                reviewIds.clear();
+//                ratings.clear();
                 Bundle bundle = new Bundle();
                 bundle.putIntegerArrayList("ids", reviewIds);
                 bundle.putSerializable("ratings", ratings);

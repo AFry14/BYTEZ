@@ -24,6 +24,7 @@ import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity
 {
+
     EditText textEmail;
     EditText textPassword;
 

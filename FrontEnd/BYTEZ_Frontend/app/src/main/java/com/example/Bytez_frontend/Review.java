@@ -27,6 +27,14 @@ public class Review
         this.reviewer = reviewer;
     }
 
+    public Review(float rating, Restaurant place, User reviewer)
+    {
+        this.id = id;
+        overallR = rating;
+        rest = place;
+        this.reviewer = reviewer;
+    }
+
     public Review(int id, Restaurant place, User reviewer, String comments)
     {
         this.id = id;

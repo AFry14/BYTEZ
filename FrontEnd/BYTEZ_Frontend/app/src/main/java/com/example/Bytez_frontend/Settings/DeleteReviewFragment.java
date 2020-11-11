@@ -179,6 +179,10 @@ public class DeleteReviewFragment extends Fragment
             @Override
             public void onClick(View view)
             {
+//                ArrayList<Integer> sendIds = reviewIds;
+//                ArrayList<Restaurant> sendRest = locations;
+//                ArrayList<User> sendUsers = reviewers;
+//                ArrayList<Double> sendRatings = ratings;
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("ids", reviewIds);
                 bundle.putSerializable("rest", locations);
@@ -186,6 +190,8 @@ public class DeleteReviewFragment extends Fragment
                 bundle.putSerializable("ratings", ratings);
                 NavHostFragment.findNavController(DeleteReviewFragment.this)
                         .navigate(R.id.action_DeleteReviewFragment_to_ReviewShowFragment, bundle);
+
+
             }
         });
     }

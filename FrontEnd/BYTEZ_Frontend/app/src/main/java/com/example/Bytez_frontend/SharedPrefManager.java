@@ -26,6 +26,7 @@ public class SharedPrefManager
 
     private static SharedPrefManager spm;
     private static Context ctx;
+    private boolean token;
 
 
 
@@ -43,6 +44,11 @@ public class SharedPrefManager
         return spm;
     }
 
+    public void login()
+    {
+        token = true;
+    }
+
     public void loginInfo(User user)
     {
         SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
@@ -53,14 +59,19 @@ public class SharedPrefManager
         editor.apply();
     }
 
+//    public boolean isLoggedIn()
+//    {
+//        SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+//        if(sharedPreferences.getString(KEY_EMAIL, null) != null)
+//        {
+//            return false;
+//        }
+//        return false;
+//    }
+
     public boolean isLoggedIn()
     {
-        SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        if(sharedPreferences.getString(KEY_EMAIL, null) != null)
-        {
-            return false;
-        }
-        return false;
+        return token;
     }
 
     public User getUser()

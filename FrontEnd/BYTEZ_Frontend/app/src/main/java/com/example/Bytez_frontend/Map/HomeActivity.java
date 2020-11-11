@@ -28,7 +28,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.button).setOnClickListener(new View.OnClickListener()
+        findViewById(R.id.button6).setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
@@ -36,7 +36,6 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), ReviewActivity.class));
             }
         });
-
 
     }
 
