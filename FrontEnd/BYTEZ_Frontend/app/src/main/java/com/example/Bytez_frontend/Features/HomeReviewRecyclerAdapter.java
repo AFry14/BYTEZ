@@ -1,14 +1,13 @@
-package com.example.Bytez_frontend.Settings;
+package com.example.Bytez_frontend.Map;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -16,30 +15,30 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.Bytez_frontend.Features.MapRecyclerAdapter;
 import com.example.Bytez_frontend.R;
-import com.example.Bytez_frontend.Restaurant;
 import com.example.Bytez_frontend.Review;
+import com.example.Bytez_frontend.Settings.SettingsReviewRecyclerAdapter;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class SettingsReviewRecyclerAdapter extends RecyclerView.Adapter<com.example.Bytez_frontend.Settings.SettingsReviewRecyclerAdapter.ViewHolder> implements Filterable {
-
-    private static final String TAG = "SettingReviewRecAdapter";
+public class HomeReviewRecyclerAdapter extends RecyclerView.Adapter<com.example.Bytez_frontend.Map.HomeReviewRecyclerAdapter.ViewHolder> implements Filterable
+{
+    private static final String TAG = "HomeReviewRecAdapter";
 
     // Map context, viewable restaurant list, list of all restaurants
     private Context context;
     private List<Review> reviewList;
     private List<Review> allReviewsList;
 
+
     /**
      * Map activity recycler adapter with a list of restaurants and the map context
      * @param reviewList
      * @param context
      */
-    public SettingsReviewRecyclerAdapter(List<Review> reviewList, Context context) {
+    public HomeReviewRecyclerAdapter(List<Review> reviewList, Context context) {
         this.reviewList = reviewList;
         this.allReviewsList = new ArrayList<Review>(reviewList);
         this.context = context;
@@ -53,7 +52,7 @@ public class SettingsReviewRecyclerAdapter extends RecyclerView.Adapter<com.exam
      */
     @NonNull
     @Override
-    public SettingsReviewRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public HomeReviewRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         Log.i(TAG, "onCreateViewHolder: ");
 
@@ -62,7 +61,7 @@ public class SettingsReviewRecyclerAdapter extends RecyclerView.Adapter<com.exam
         View reviewEntry = layoutInflater.inflate(R.layout.row_review_item, parent, false);
 
         // ViewHolder that contains the views within each part of the recyclerView
-        SettingsReviewRecyclerAdapter.ViewHolder reviewViewHolder = new SettingsReviewRecyclerAdapter.ViewHolder(reviewEntry);
+        HomeReviewRecyclerAdapter.ViewHolder reviewViewHolder = new HomeReviewRecyclerAdapter.ViewHolder(reviewEntry);
         return reviewViewHolder;
     }
 
@@ -73,7 +72,20 @@ public class SettingsReviewRecyclerAdapter extends RecyclerView.Adapter<com.exam
         holder.comments.setText(reviewList.get(position).getComments());
         holder.rating.setIsIndicator(true);
         holder.rating.setRating(reviewList.get(position).getOverallR());
+//        holder.helpfulValue.setText();
+//        holder.agreeValue.setText();
+//        holder.disagreeValue.setText();
+
     }
+
+//    @Override
+//    public void onBindViewHolder(@NonNull SettingsReviewRecyclerAdapter.ViewHolder holder, int position)
+//    {
+//        holder.userInfo.setText(reviewList.get(position).getReviewer().getUsername() + " reviewed " + reviewList.get(position).getRest().getName());
+//        holder.comments.setText(reviewList.get(position).getComments());
+//        holder.rating.setIsIndicator(true);
+//        holder.rating.setRating(reviewList.get(position).getOverallR());
+//    }
 
 
 
@@ -142,7 +154,8 @@ public class SettingsReviewRecyclerAdapter extends RecyclerView.Adapter<com.exam
 
         // Views within recycler adapter
         ImageView profilePic;
-        TextView userInfo, comments;
+        TextView userInfo, comments, helpfulValue, agreeValue, disagreeValue;
+        ImageButton helpful, agree, disagree;
         RatingBar rating;
 
         /**
@@ -156,6 +169,13 @@ public class SettingsReviewRecyclerAdapter extends RecyclerView.Adapter<com.exam
             userInfo = itemView.findViewById(R.id.userInfo);
             comments = itemView.findViewById(R.id.comments);
             rating = itemView.findViewById(R.id.ratingBar);
+            helpful = itemView.findViewById(R.id.helpfulButton);
+            agree = itemView.findViewById(R.id.agreeButton);
+            disagree = itemView.findViewById(R.id.disagreeButton);
+            helpfulValue = itemView.findViewById(R.id.helpAmount);
+            agreeValue = itemView.findViewById(R.id.agreeAmount);
+            disagreeValue = itemView.findViewById(R.id.disagreeAmount);
+
 
             // Allow for each viewholder to have button functionality
             itemView.setOnClickListener(this);
@@ -170,10 +190,13 @@ public class SettingsReviewRecyclerAdapter extends RecyclerView.Adapter<com.exam
         @Override
         public void onClick(View view)
         {
-            
+
 
         }
 
     }
+
+
+
 
 }

@@ -1,8 +1,10 @@
 package com.example.Bytez_frontend.login;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -12,7 +14,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.Bytez_frontend.Map.HomeActivity;
+import com.example.Bytez_frontend.Features.HomeActivity;
 import com.example.Bytez_frontend.R;
 import com.example.Bytez_frontend.SharedPrefManager;
 import com.example.Bytez_frontend.SingletonVolley;

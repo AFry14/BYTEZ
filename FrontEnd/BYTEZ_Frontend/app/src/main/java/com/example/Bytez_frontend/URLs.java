@@ -8,6 +8,12 @@ public class URLs
     public static final String URL_LOGIN = ROOT_URL + "user/login";
     public static final String URL_AUTHORS_WORK = ROOT_URL + "user/reviews/";
     public static final String URL_REST_LIST = ROOT_URL + "restaurant/";
+    public static final String URL_UPDATE_USER_INFO = ROOT_URL + "user/updateUserInfo/";
+    public static final String URL_UPDATE_USERNAME = ROOT_URL + "user/updateUserName/";
+    public static final String URL_GET_USER_FRIENDS = ROOT_URL + "user/getFriends/";
+    public static final String URL_GET_USER_FRIEND_REQUESTS = ROOT_URL + "user/getFriendRequests/";
+    public static final String URL_SEND_FRIEND_REQUEST = ROOT_URL + "friendship/friendRequest/";
+    public static final String URL_REMOVE_FRIEND = ROOT_URL + "friendship/removeFriend/";
     public static final String URL_REVIEW = ROOT_URL + "review/add/";
     public static final String URL_BUG_ADD = ROOT_URL + "report/add/";
     public static final String URL_REVIEW_LIST = ROOT_URL + "review/";

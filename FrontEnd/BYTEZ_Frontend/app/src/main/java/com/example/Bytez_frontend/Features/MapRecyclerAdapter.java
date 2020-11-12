@@ -1,4 +1,4 @@
-package com.example.Bytez_frontend.Settings;
+package com.example.Bytez_frontend.Features;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,41 +7,43 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.Bytez_frontend.Features.MapRecyclerAdapter;
 import com.example.Bytez_frontend.R;
 import com.example.Bytez_frontend.Restaurant;
-import com.example.Bytez_frontend.Review;
 
 import java.util.ArrayList;
+
 import java.util.Collection;
 import java.util.List;
 
-public class SettingsReviewRecyclerAdapter extends RecyclerView.Adapter<com.example.Bytez_frontend.Settings.SettingsReviewRecyclerAdapter.ViewHolder> implements Filterable {
+/**
+ * This class is the recycler adapter for the recycle view in MapActivity
+ */
+public class MapRecyclerAdapter extends RecyclerView.Adapter<MapRecyclerAdapter.ViewHolder> implements Filterable {
 
-    private static final String TAG = "SettingReviewRecAdapter";
+    private static final String TAG = "MapRecyclerAdapter";
 
     // Map context, viewable restaurant list, list of all restaurants
     private Context context;
-    private List<Review> reviewList;
-    private List<Review> allReviewsList;
+    private List<Restaurant> restaurantList;
+    private List<Restaurant> allRestaurantList;
 
     /**
      * Map activity recycler adapter with a list of restaurants and the map context
-     * @param reviewList
+     * @param restaurantList
      * @param context
      */
-    public SettingsReviewRecyclerAdapter(List<Review> reviewList, Context context) {
-        this.reviewList = reviewList;
-        this.allReviewsList = new ArrayList<Review>(reviewList);
+    public MapRecyclerAdapter(List<Restaurant> restaurantList, Context context) {
+        this.restaurantList = restaurantList;
+        this.allRestaurantList = new ArrayList<Restaurant>(restaurantList);
         this.context = context;
     }
 
@@ -53,29 +55,37 @@ public class SettingsReviewRecyclerAdapter extends RecyclerView.Adapter<com.exam
      */
     @NonNull
     @Override
-    public SettingsReviewRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         Log.i(TAG, "onCreateViewHolder: ");
 
+        ViewGroup l = parent;
+
         // Each part of the recyclerView is one mapEntry
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View reviewEntry = layoutInflater.inflate(R.layout.row_review_item, parent, false);
+        View mapEntry = layoutInflater.inflate(R.layout.row_map_item, parent, false);
 
         // ViewHolder that contains the views within each part of the recyclerView
-        SettingsReviewRecyclerAdapter.ViewHolder reviewViewHolder = new SettingsReviewRecyclerAdapter.ViewHolder(reviewEntry);
-        return reviewViewHolder;
+        ViewHolder mapViewHolder = new ViewHolder(mapEntry);
+        return mapViewHolder;
     }
 
+
+    /**
+     * Takes in data and binds it into the viewholder, sets the proper restaurant values in each view holder
+     * @param holder
+     * @param position
+     */
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position)
-    {
-        holder.userInfo.setText(reviewList.get(position).getReviewer().getUsername() + " reviewed " + reviewList.get(position).getRest().getName());
-        holder.comments.setText(reviewList.get(position).getComments());
-        holder.rating.setIsIndicator(true);
-        holder.rating.setRating(reviewList.get(position).getOverallR());
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.businessCityState.setText(restaurantList.get(position).getAddress());
+        holder.businessName.setText(restaurantList.get(position).getName());
+        holder.restaurantPosition.setText(String.valueOf(position));
+        holder.addButton.setVisibility(View.GONE);
+        holder.unfriendButton.setVisibility(View.GONE);
+        // CHANGE THIS to set image to a restaurant logo
+        //holder.businessLogo.setImage
     }
-
-
 
     /**
      * Returns the total number of restaurants in recycler view
@@ -83,7 +93,7 @@ public class SettingsReviewRecyclerAdapter extends RecyclerView.Adapter<com.exam
      */
     @Override
     public int getItemCount() {
-        return reviewList.size();
+        return restaurantList.size();
     }
 
     /**
@@ -105,16 +115,16 @@ public class SettingsReviewRecyclerAdapter extends RecyclerView.Adapter<com.exam
         protected FilterResults performFiltering(CharSequence charSequence) {
 
             // Filtered list of restaurants
-            List<Review> filteredList = new ArrayList<>();
+            List<Restaurant> filteredList = new ArrayList<>();
 
             // If there is nothing typed in the search bar, return all restaurants
             if (charSequence.toString().isEmpty()) {
-                filteredList.addAll(allReviewsList);
+                filteredList.addAll(allRestaurantList);
             } else {
                 // For all elements in restaurant list, check if charSequence is in the name, add to list if true; not case sensitive
-                for (int i = 0; i < allReviewsList.size(); i++) {
-                    if (allReviewsList.get(i).getReviewer().toString().toLowerCase().contains(charSequence.toString().toLowerCase())) {
-                        filteredList.add(allReviewsList.get(i));
+                for (int i = 0; i < allRestaurantList.size(); i++) {
+                    if (allRestaurantList.get(i).getName().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+                        filteredList.add(allRestaurantList.get(i));
                     }
                 }
             }
@@ -128,8 +138,8 @@ public class SettingsReviewRecyclerAdapter extends RecyclerView.Adapter<com.exam
         // Updates UI with filtered results
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            reviewList.clear();
-            reviewList.addAll((Collection<? extends Review>) filterResults.values);
+            restaurantList.clear();
+            restaurantList.addAll((Collection<? extends Restaurant>) filterResults.values);
             notifyDataSetChanged();
         }
     };
@@ -138,12 +148,12 @@ public class SettingsReviewRecyclerAdapter extends RecyclerView.Adapter<com.exam
     /**
      * Class that keeps track of all views within each section of the recyclerView
      */
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         // Views within recycler adapter
-        ImageView profilePic;
-        TextView userInfo, comments;
-        RatingBar rating;
+        ImageView businessLogo;
+        TextView businessName, businessCityState, restaurantPosition;
+        Button addButton, unfriendButton;
 
         /**
          * Class for each viewholder, sets button functionality for each viewholder and has proper restaurant values set
@@ -152,10 +162,12 @@ public class SettingsReviewRecyclerAdapter extends RecyclerView.Adapter<com.exam
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            profilePic = itemView.findViewById(R.id.profileImage);
-            userInfo = itemView.findViewById(R.id.userInfo);
-            comments = itemView.findViewById(R.id.comments);
-            rating = itemView.findViewById(R.id.ratingBar);
+            businessLogo = itemView.findViewById(R.id.businessLogo);
+            businessName = itemView.findViewById(R.id.businessName);
+            businessCityState = itemView.findViewById(R.id.businessCityState);
+            restaurantPosition = itemView.findViewById(R.id.position);
+            addButton = itemView.findViewById(R.id.addFriend);
+            unfriendButton = itemView.findViewById(R.id.undfriendButton);
 
             // Allow for each viewholder to have button functionality
             itemView.setOnClickListener(this);
@@ -168,12 +180,17 @@ public class SettingsReviewRecyclerAdapter extends RecyclerView.Adapter<com.exam
          * @param view
          */
         @Override
-        public void onClick(View view)
-        {
-            
+        public void onClick(View view) {
+            TextView businessAddress = (TextView) view.findViewById(R.id.businessCityState);
+            String address = businessAddress.getText().toString();
 
+            // Open Google Maps with address obtained from clicked restaurant
+            Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + address);
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+            mapIntent.setPackage("com.google.android.apps.maps");
+
+            context.startActivity(mapIntent);
         }
-
     }
-
 }
+

@@ -23,7 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.Bytez_frontend.Map.HomeActivity;
+import com.example.Bytez_frontend.Features.HomeActivity;
 import com.example.Bytez_frontend.R;
 import com.example.Bytez_frontend.Restaurant;
 import com.example.Bytez_frontend.SharedPrefManager;

@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,7 +14,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.Bytez_frontend.Map.HomeActivity;
+import com.example.Bytez_frontend.Features.HomeActivity;
 import com.example.Bytez_frontend.login.SignUp;
 import com.example.Bytez_frontend.login.SuccessActivity;
 
@@ -24,9 +23,9 @@ import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity
 {
-
     EditText textEmail;
     EditText textPassword;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -39,6 +38,8 @@ public class MainActivity extends AppCompatActivity
             finish();
             startActivity(new Intent(this, SuccessActivity.class));
         }
+
+        context = this;
 
         textEmail = (EditText) findViewById(R.id.editEmail);
         textPassword = (EditText) findViewById(R.id.editPassword);
@@ -88,10 +89,34 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onResponse(JSONObject response) {
                         try{
-                            User JsonUser = new User(response.getInt("id"), response.getString("userName"), response.getString("email"));
+                            //User JsonUser = new User(response.getInt("id"), response.getString("userName"), response.getString("email"));
+                            User JsonUser = new User(response.getInt("id"), response.getString("userName"), response.getString("email"),
+                                    response.getString("password"), response.getString("favoriteFood"), response.getString("favoriteDrink"),
+                                    response.getString("favoriteRestaurant"), response.getString("firstName"), response.getString("lastName"),
+                                    response.getString("userType"));
+
+
+                            //Testing purposes
+                            if (JsonUser.getFavFood().equals("null")) {
+                                JsonUser.setFavFood("Pizza");
+                            }
+                            if (JsonUser.getFavDrink().equals("null")) {
+                                JsonUser.setFavDrink("Pepsi");
+                            }
+                            if (JsonUser.getFavRestaurant().equals("null")) {
+                                JsonUser.setFavRestaurant("Panda Express");
+                            }
+                            if (JsonUser.getUserType().equals("")) {
+                                JsonUser.setUserType("General User");
+                            }
+
+
                             SharedPrefManager.getInstance(getApplicationContext()).loginInfo(JsonUser);
-//                            finish();
-                            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+
+                            // Start home activity
+                            Intent homeActivity = new Intent(context, HomeActivity.class);
+                            startActivity(homeActivity);
+                            finish();
                         }
                         catch(JSONException e)
                         {

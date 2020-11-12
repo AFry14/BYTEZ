@@ -2,26 +2,25 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.Bytez_frontend">
 
-    <uses-permission android:name = "android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:allowBackup="true"
-        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".login.SignUp"></activity>
-        <activity android:name=".login.SuccessActivity"></activity>
-        <activity android:name=".login.LoginActivity"
-            android:exported = "true">
-        </activity>
-        <activity android:name=".Map.HomeActivity"></activity>
-        <activity android:name=".Map.MapActivity"></activity>
-        <activity android:name=".ReviewPackage.ReviewActivity"
-            android:exported = "true">
-        </activity>
-
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".Features.FriendRequestActivity"></activity>
+        <activity android:name=".Features.FriendsActivity" />
+        <activity android:name=".Features.EditProfileActivity" />
+        <activity android:name=".Features.ProfileActivity" />
+        <activity android:name=".login.SignUp" />
+        <activity android:name=".login.SuccessActivity" />
+        <activity android:name=".login.LoginActivity" />
+        <activity android:name=".Features.HomeActivity" />
+        <activity android:name=".Features.MapActivity" />
+        <activity android:name=".ReviewPackage.ReviewActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
