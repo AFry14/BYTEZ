@@ -72,6 +72,22 @@ public class UserController {
        return userService.registerUser(user);
     }
 
+    @GetMapping(path = "/getCritFood/{userId}")
+    public @ResponseBody int getCritFood(@PathVariable("userId") Long userId){
+        return userService.getCritFood(userId);
+    }
+
+    @GetMapping(path = "/getCritService/{userId}")
+    public @ResponseBody int getCritService(@PathVariable("userId") Long userId){
+        return userService.getCritService(userId);
+    }
+
+    @GetMapping(path = "/getCritClean/{userId}")
+    public @ResponseBody int getCritClean(@PathVariable("userId") Long userId){
+        return userService.getCritClean(userId);
+    }
+    
+
     /* This should not be used anymore
     @PostMapping(path="/register/params")
     public @ResponseBody String addNewUser(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String userName,

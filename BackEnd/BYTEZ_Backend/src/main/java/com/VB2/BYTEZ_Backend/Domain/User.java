@@ -55,6 +55,36 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "review_id"))
     private Set<Review> dislikedReviews;
 
+    private int critFood;
+
+    private int critService;
+
+    private int critClean;
+
+    public int getCritFood() {
+        return critFood;
+    }
+
+    public void setCritFood(int critFood) {
+        this.critFood = critFood;
+    }
+
+    public int getCritService() {
+        return critService;
+    }
+
+    public void setCritService(int critService) {
+        this.critService = critService;
+    }
+
+    public int getCritClean() {
+        return critClean;
+    }
+
+    public void setCritClean(int critClean) {
+        this.critClean = critClean;
+    }
+
     public Set<Review> getHelpfulReviews() {
         return helpfulReviews;
     }
