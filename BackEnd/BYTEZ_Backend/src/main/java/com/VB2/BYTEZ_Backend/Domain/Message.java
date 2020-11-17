@@ -26,7 +26,6 @@ public class Message
 
     public Message()
     {
-
     }
 
     public Message(String userNameSelf, String userNameFriend, String content)
