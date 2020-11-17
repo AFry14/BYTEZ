@@ -3,7 +3,7 @@ var ws;
 function connect() {
     var username = document.getElementById("username").value;
     var usernameFriend = document.getElementById("friend").value;
-    var url = "ws://coms-309-vb-02.cs.iastate.edu/:8080/chat/" + username + "/" + usernameFriend;
+    var url = "ws://coms-309-vb-02.cs.iastate.edu:8080/chat/" + username + "/" + usernameFriend;
     //var url = "ws://echo.websocket.org";
 
     ws = new WebSocket(url);
