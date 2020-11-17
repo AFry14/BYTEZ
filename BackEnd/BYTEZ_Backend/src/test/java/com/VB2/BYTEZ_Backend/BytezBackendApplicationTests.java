@@ -7,8 +7,8 @@ import javax.websocket.server.ServerContainer;
 @SpringBootTest
 class BytezBackendApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+// 	@Test
+// 	void contextLoads() {
+// 	}
 
 }
