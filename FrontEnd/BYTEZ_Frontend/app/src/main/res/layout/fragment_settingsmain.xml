@@ -51,4 +51,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/adjustCriteriaB"
+        android:layout_width="410dp"
+        android:layout_height="57dp"
+        android:text="Adjust Rating Criteria"
+        app:layout_constraintBottom_toTopOf="@+id/bugReportB"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/deleteReviewB" />
 </androidx.constraintlayout.widget.ConstraintLayout>

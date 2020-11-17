@@ -13,9 +13,11 @@ import android.widget.RatingBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.adapter.FragmentViewHolder;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -28,9 +30,11 @@ import com.example.Bytez_frontend.Features.HomeActivity;
 import com.example.Bytez_frontend.R;
 import com.example.Bytez_frontend.Restaurant;
 import com.example.Bytez_frontend.Review;
+import com.example.Bytez_frontend.Settings.AdjustCriteriaFragment;
 import com.example.Bytez_frontend.SharedPrefManager;
 import com.example.Bytez_frontend.SingletonVolley;
 import com.example.Bytez_frontend.URLs;
+import com.example.Bytez_frontend.User;
 import com.example.Bytez_frontend.login.LoginActivity;
 
 import org.json.JSONArray;
@@ -59,7 +63,7 @@ public class ReviewActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
         ctx = this;
-        reviewRecyclerView = findViewById(R.id.businessRecycler);
+//        reviewRecyclerView = findViewById(R.id.businessRecycler);
 //        reqQueue = Volley.newRequestQueue(this);
         String pass = URLs.URL_REST_LIST;
 
@@ -86,12 +90,12 @@ public class ReviewActivity extends AppCompatActivity
                             ArrayAdapter<String> adapter = new ArrayAdapter<String>(ctx, android.R.layout.simple_list_item_1, restStringArray);
                             BusinessSearch.setAdapter(adapter);
 
-                            reviewRecyclerAdapter = new ReviewRecyclerAdapter(restArrayList, ctx);
-                            reviewRecyclerView.setLayoutManager(new LinearLayoutManager(ctx));
-
-                            reviewRecyclerView.setAdapter(reviewRecyclerAdapter);
-                            DividerItemDecoration restaurantDivider = new DividerItemDecoration(ctx, DividerItemDecoration.VERTICAL);
-                            reviewRecyclerView.addItemDecoration(restaurantDivider);
+//                            reviewRecyclerAdapter = new ReviewRecyclerAdapter(restArrayList, ctx);
+//                            reviewRecyclerView.setLayoutManager(new LinearLayoutManager(ctx));
+//
+//                            reviewRecyclerView.setAdapter(reviewRecyclerAdapter);
+//                            DividerItemDecoration restaurantDivider = new DividerItemDecoration(ctx, DividerItemDecoration.VERTICAL);
+//                            reviewRecyclerView.addItemDecoration(restaurantDivider);
 
                         }
                         catch(JSONException e)
@@ -120,8 +124,8 @@ public class ReviewActivity extends AppCompatActivity
         findViewById(R.id.submitButton).setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
+
                 RatingBar foodBar = (RatingBar) findViewById(R.id.foodBar);
                 RatingBar serviceBar = (RatingBar) findViewById(R.id.serviceBar);
                 RatingBar cleanBar = (RatingBar) findViewById(R.id.cleanlinessBar);
@@ -133,71 +137,66 @@ public class ReviewActivity extends AppCompatActivity
                 float cleanS = cleanBar.getRating();
                 String comments = commentText.getText().toString();
 
-                if(TextUtils.isEmpty(rest))
-                {
+                if (TextUtils.isEmpty(rest)) {
                     business.setError("Please enter a restaurant");
                     business.requestFocus();
                     return;
                 }
 
-                if(foodS == 0)
-                {
+                if (foodS == 0) {
                     String str = "Please enter a rating for how the food tasted";
                     Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if(serviceS == 0)
-                {
+                if (serviceS == 0) {
                     String str = "Please enter a rating for how the service was";
                     Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if(cleanS == 0)
-                {
+                if (cleanS == 0) {
                     String str = "Please enter a rating for how the restaurant's cleanliness was";
                     Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                int restID=-1;
-                for(int i = 0; i<restStringArray.length; i++)
-                {
-                    if(rest.equals(restStringArray[i]))
-                    {
-                       restID = i+1;
+                int restID = -1;
+                for (int i = 0; i < restStringArray.length; i++) {
+                    if (rest.equals(restStringArray[i])) {
+                        restID = i + 1;
                     }
                 }
 
                 JSONObject jsonBody = new JSONObject();
                 try {
+                    AdjustCriteriaInReviewFragment criteriaFrag = (AdjustCriteriaInReviewFragment) getSupportFragmentManager().findFragmentById(R.id.fragment3);
+                    int foodCrit = criteriaFrag.getFood();
+                    int serviceCrit = criteriaFrag.getService();
+                    int cleanCrit = criteriaFrag.getClean();
                     jsonBody.put("foodQualityScore", foodS);
                     jsonBody.put("serviceScore", serviceS);
                     jsonBody.put("cleanlinessScore", cleanS);
-                    jsonBody.put("overallScore", Review.getFinalRating(foodS, serviceS, cleanS));
-//                    jsonBody.put("comments", comments);
+                    jsonBody.put("overallScore", Review.getFinalRating(foodS, serviceS, cleanS, foodCrit, serviceCrit, cleanCrit));
+                    jsonBody.put("comment", comments);
 
-                } catch (JSONException e) {
+                }
+                catch (JSONException e) {
                     e.printStackTrace();
                 }
 
                 String pass = URLs.URL_REVIEW + SharedPrefManager.getInstance(ctx).getUser().getId() + "/" + restID;
                 JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, pass, jsonBody,
-                        new Response.Listener<JSONObject>()
-                        {
+                        new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+//                                  finish();
+                                    startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                                }
+                            },
+                        new Response.ErrorListener() {
                             @Override
-                            public void onResponse(JSONObject response) {
-//                        finish();
-                                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-
-                            }
-                        },
-                        new Response.ErrorListener()
-                        {
-                            @Override
-                            public void onErrorResponse(VolleyError error)
-                            {
+                            public void onErrorResponse(VolleyError error) {
                                 Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -205,7 +204,9 @@ public class ReviewActivity extends AppCompatActivity
                 SingletonVolley.getInstance(ctx).addToRequestQueue(postRequest);
 
             }
+
         });
+
     }
 
 }

@@ -5,6 +5,8 @@ public class Review
     private int id;
     private Restaurant rest;
     private User reviewer;
+    String userName;
+    String restName;
     private int reviewerId;
     private float foodQR;
     private float serviceR;
@@ -17,6 +19,8 @@ public class Review
         this.id = id;
         rest = place;
         this.reviewer = reviewer;
+        userName = reviewer.getUsername();
+        restName = place.getName();
     }
 
     public Review(int id, float rating, Restaurant place, User reviewer)
@@ -25,6 +29,8 @@ public class Review
         overallR = rating;
         rest = place;
         this.reviewer = reviewer;
+        userName = reviewer.getUsername();
+        restName = place.getName();
     }
 
     public Review(float rating, Restaurant place, User reviewer)
@@ -33,6 +39,32 @@ public class Review
         overallR = rating;
         rest = place;
         this.reviewer = reviewer;
+        userName = reviewer.getUsername();
+        restName = place.getName();
+    }
+
+    public Review(int id, float rating, String userName, String rest, float foodQR, float cleanlinessR, float serviceR, String comments)
+    {
+        this.id = id;
+        overallR = rating;
+        this.userName = userName;
+        restName = rest;
+        this.foodQR = foodQR;
+        this.cleanlinessR = cleanlinessR;
+        this.serviceR = serviceR;
+        this.comments = comments;
+    }
+
+    public Review(int id, float rating, float foodQR, float cleanlinessR, float serviceR, String comments)
+    {
+        this.id = id;
+        overallR = rating;
+//        this.userName = userName;
+//        restName = rest;
+        this.foodQR = foodQR;
+        this.cleanlinessR = cleanlinessR;
+        this.serviceR = serviceR;
+        this.comments = comments;
     }
 
     public Review(int id, Restaurant place, User reviewer, String comments)
@@ -40,6 +72,8 @@ public class Review
         this.id = id;
         rest = place;
         this.reviewer = reviewer;
+        userName = reviewer.getUsername();
+        restName = place.getName();
         this.comments = comments;
     }
 
@@ -63,9 +97,26 @@ public class Review
         return overallR;
     }
 
-    public static float getFinalRating(float food, float service, float clean)
+//    public static float[] getWeights(int foodCrit, int serviceCrit, int cleanCrit)
+//    {
+//
+//        return result;
+//    }
+
+    public static float getFinalRating(float foodScore, float serviceScore, float cleanScore, int foodCrit, int serviceCrit, int cleanCrit)
     {
-        float overallS = (food + service + clean)/3;
+        float critAvg = (float) (foodCrit + serviceCrit + cleanCrit)/3;
+        float foodWeight = foodCrit/critAvg;
+        float serviceWeight = serviceCrit/critAvg;
+        float cleanWeight = cleanCrit/critAvg;
+        float weights[] = new float[3];
+        weights[0] = foodWeight;
+        weights[1] = serviceWeight;
+        weights[2] = cleanWeight;
+        float foodAS = weights[0]*foodScore;
+        float serviceAS = weights[1]*serviceScore;
+        float cleanAS = weights[2]*cleanScore;
+        float overallS = (foodAS + serviceAS + cleanAS)/3;
         return overallS;
     }
 

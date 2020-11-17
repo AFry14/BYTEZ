@@ -73,6 +73,7 @@ public class SettingsReviewRecyclerAdapter extends RecyclerView.Adapter<com.exam
         holder.comments.setText(reviewList.get(position).getComments());
         holder.rating.setIsIndicator(true);
         holder.rating.setRating(reviewList.get(position).getOverallR());
+        holder.reviewId.setText(reviewList.get(position).getId());
     }
 
 
@@ -142,7 +143,7 @@ public class SettingsReviewRecyclerAdapter extends RecyclerView.Adapter<com.exam
 
         // Views within recycler adapter
         ImageView profilePic;
-        TextView userInfo, comments;
+        TextView userInfo, comments, reviewId;
         RatingBar rating;
 
         /**
@@ -156,6 +157,7 @@ public class SettingsReviewRecyclerAdapter extends RecyclerView.Adapter<com.exam
             userInfo = itemView.findViewById(R.id.userInfo);
             comments = itemView.findViewById(R.id.comments);
             rating = itemView.findViewById(R.id.ratingBar);
+            reviewId = itemView.findViewById(R.id.reviewId);
 
             // Allow for each viewholder to have button functionality
             itemView.setOnClickListener(this);

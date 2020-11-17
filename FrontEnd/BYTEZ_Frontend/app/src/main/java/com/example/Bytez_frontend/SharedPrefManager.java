@@ -11,7 +11,7 @@ public class SharedPrefManager
     private static final String SHARED_PREF_NAME = "bytezsharedpref";
     private static final String KEY_USERNAME = "keyusername";
     private static final String KEY_EMAIL = "keyemail";
-    private static final String KEY_ID = "keyid";
+    private static final String KEY_ID = "id";
     private static final String KEY_PASSWORD = "keypassword";
     private static final String KEY_FAVFOOD = "keyfavfood";
     private static final String KEY_FAVDRINK = "keyfavdrink";
@@ -19,6 +19,10 @@ public class SharedPrefManager
     private static final String KEY_FNAME = "keyfname";
     private static final String KEY_LNAME = "keylname";
     private static final String KEY_USERTYPE = "keyusertype";
+    private static final String KEY_CRIT_FOOD = "keycritfood";
+    private static final String KEY_CRIT_SERVICE = "keycritservice";
+    private static final String KEY_CRIT_CLEAN = "keycritclean";
+
 
     private static SharedPrefManager spm;
     private static Context ctx;
@@ -38,6 +42,16 @@ public class SharedPrefManager
         return spm;
     }
 
+//    public void updateWeights(User user)
+//    {
+//        SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.putInt(KEY_CRIT_FOOD, user.getCritFood());
+//        editor.putInt(KEY_CRIT_SERVICE, user.getCritService());
+//        editor.putInt(KEY_CRIT_CLEAN, user.getCritClean());
+//        editor.apply();
+//    }
+
     public void loginInfo(User user)
     {
         SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
@@ -52,6 +66,9 @@ public class SharedPrefManager
         editor.putString(KEY_FNAME, user.getfName());
         editor.putString(KEY_LNAME, user.getlName());
         editor.putString(KEY_USERTYPE, user.getUserType());
+        editor.putInt(KEY_CRIT_FOOD, user.getCritFood());
+        editor.putInt(KEY_CRIT_SERVICE, user.getCritService());
+        editor.putInt(KEY_CRIT_CLEAN, user.getCritClean());
         editor.apply();
     }
 
@@ -78,7 +95,10 @@ public class SharedPrefManager
                 sharedPreferences.getString(KEY_FAVREST, null),
                 sharedPreferences.getString(KEY_FNAME, null),
                 sharedPreferences.getString(KEY_LNAME, null),
-                sharedPreferences.getString(KEY_USERTYPE, null)
+                sharedPreferences.getString(KEY_USERTYPE, null),
+                sharedPreferences.getInt(KEY_CRIT_FOOD, 1),
+                sharedPreferences.getInt(KEY_CRIT_SERVICE, 1),
+                sharedPreferences.getInt(KEY_CRIT_CLEAN, 1)
         );
         return retUser;
     }

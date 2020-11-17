@@ -138,6 +138,13 @@ public class SettingsMainFragment extends Fragment
             }
         });
 
+        view.findViewById(R.id.adjustCriteriaB).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(SettingsMainFragment.this).navigate(R.id.action_SettingsMainFragment_to_AdjustCriteriaFragment);
+            }
+        });
+
     }
 
 

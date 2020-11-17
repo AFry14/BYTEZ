@@ -16,6 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.Bytez_frontend.Features.HomeActivity;
 import com.example.Bytez_frontend.R;
 import com.example.Bytez_frontend.Restaurant;
 
@@ -166,14 +167,10 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
          */
         @Override
         public void onClick(View view) {
-            TextView businessName = (TextView) view.findViewById(R.id.businessName);
-            String name = businessName.getText().toString();
+
 
 //            TextView businessSearch = (TextView) findViewById(R.id.businessBar);
 ////            businessSearch.setText(name);
-
-
-
 
         }
 

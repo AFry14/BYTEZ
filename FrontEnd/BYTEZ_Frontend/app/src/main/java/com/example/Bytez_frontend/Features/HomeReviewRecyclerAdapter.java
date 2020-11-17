@@ -1,6 +1,7 @@
-package com.example.Bytez_frontend.Map;
+package com.example.Bytez_frontend.Features;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,19 +12,30 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.Bytez_frontend.R;
 import com.example.Bytez_frontend.Review;
+import com.example.Bytez_frontend.ReviewPackage.ShowFullReviewActivity;
 import com.example.Bytez_frontend.Settings.SettingsReviewRecyclerAdapter;
+import com.example.Bytez_frontend.URLs;
+import com.example.Bytez_frontend.User;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class HomeReviewRecyclerAdapter extends RecyclerView.Adapter<com.example.Bytez_frontend.Map.HomeReviewRecyclerAdapter.ViewHolder> implements Filterable
+public class HomeReviewRecyclerAdapter extends RecyclerView.Adapter<com.example.Bytez_frontend.Features.HomeReviewRecyclerAdapter.ViewHolder> implements Filterable
 {
     private static final String TAG = "HomeReviewRecAdapter";
 
@@ -58,7 +70,7 @@ public class HomeReviewRecyclerAdapter extends RecyclerView.Adapter<com.example.
 
         // Each part of the recyclerView is one mapEntry
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View reviewEntry = layoutInflater.inflate(R.layout.row_review_item, parent, false);
+        View reviewEntry = layoutInflater.inflate(R.layout.row_reviewbuttons_item, parent, false);
 
         // ViewHolder that contains the views within each part of the recyclerView
         HomeReviewRecyclerAdapter.ViewHolder reviewViewHolder = new HomeReviewRecyclerAdapter.ViewHolder(reviewEntry);
@@ -68,10 +80,11 @@ public class HomeReviewRecyclerAdapter extends RecyclerView.Adapter<com.example.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
-        holder.userInfo.setText(reviewList.get(position).getReviewer().getUsername() + " reviewed " + reviewList.get(position).getRest().getName());
+//        holder.userInfo.setText(reviewList.get(position).getReviewer().getUsername() + " reviewed " + reviewList.get(position).getRest().getName());
         holder.comments.setText(reviewList.get(position).getComments());
         holder.rating.setIsIndicator(true);
         holder.rating.setRating(reviewList.get(position).getOverallR());
+        holder.reviewId.setText(String.valueOf(reviewList.get(position).getId()));
 //        holder.helpfulValue.setText();
 //        holder.agreeValue.setText();
 //        holder.disagreeValue.setText();
@@ -154,9 +167,11 @@ public class HomeReviewRecyclerAdapter extends RecyclerView.Adapter<com.example.
 
         // Views within recycler adapter
         ImageView profilePic;
-        TextView userInfo, comments, helpfulValue, agreeValue, disagreeValue;
+        TextView userInfo, comments, helpfulValue, agreeValue, disagreeValue, reviewId;
         ImageButton helpful, agree, disagree;
         RatingBar rating;
+        int helpfulIntValue, agreeIntValue, disagreeIntValue;
+
 
         /**
          * Class for each viewholder, sets button functionality for each viewholder and has proper restaurant values set
@@ -165,20 +180,43 @@ public class HomeReviewRecyclerAdapter extends RecyclerView.Adapter<com.example.
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            profilePic = itemView.findViewById(R.id.profileImage);
-            userInfo = itemView.findViewById(R.id.userInfo);
-            comments = itemView.findViewById(R.id.comments);
-            rating = itemView.findViewById(R.id.ratingBar);
-            helpful = itemView.findViewById(R.id.helpfulButton);
-            agree = itemView.findViewById(R.id.agreeButton);
-            disagree = itemView.findViewById(R.id.disagreeButton);
-            helpfulValue = itemView.findViewById(R.id.helpAmount);
-            agreeValue = itemView.findViewById(R.id.agreeAmount);
-            disagreeValue = itemView.findViewById(R.id.disagreeAmount);
 
+            profilePic = (ImageView) itemView.findViewById(R.id.profileImage);
+            userInfo = (TextView) itemView.findViewById(R.id.userInfo);
+            comments = (TextView) itemView.findViewById(R.id.comments);
+            rating = (RatingBar) itemView.findViewById(R.id.ratingBar);
+            helpful = (ImageButton) itemView.findViewById(R.id.helpfulButton);
+            agree = (ImageButton) itemView.findViewById(R.id.agreeButton);
+            disagree = (ImageButton) itemView.findViewById(R.id.disagreeButton);
+            helpfulValue = (TextView) itemView.findViewById(R.id.helpAmount);
+            agreeValue = (TextView) itemView.findViewById(R.id.agreeAmount);
+            disagreeValue = (TextView) itemView.findViewById(R.id.disagreeAmount);
+            reviewId = (TextView) itemView.findViewById(R.id.reviewId);
+
+            String helpfulS = helpfulValue.getText().toString();
+            String agreeS = agreeValue.getText().toString();
+            String disagreeS = disagreeValue.getText().toString();
+
+            helpfulIntValue = Integer.parseInt(helpfulS);
+            agreeIntValue = Integer.parseInt(agreeS);
+            disagreeIntValue = Integer.parseInt(disagreeS);
 
             // Allow for each viewholder to have button functionality
             itemView.setOnClickListener(this);
+
+            helpful.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(helpful.isActivated())
+                    {
+                        helpful.setActivated(false);
+                    }
+                    else
+                    {
+                        helpful.setActivated(true);
+                    }
+                }
+            });
 
         }
 
@@ -190,8 +228,13 @@ public class HomeReviewRecyclerAdapter extends RecyclerView.Adapter<com.example.
         @Override
         public void onClick(View view)
         {
+            TextView rId = (TextView) view.findViewById(R.id.reviewId);
+            String name = rId.getText().toString();
+            int id = Integer.parseInt(name);
 
-
+            Intent mIntent = new Intent(context, ShowFullReviewActivity.class);
+            mIntent.putExtra("id", id);
+            context.startActivity(mIntent);
         }
 
     }

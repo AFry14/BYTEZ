@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_SettingsMainFragment_to_DeleteReviewFragment"
             app:destination="@id/DeleteReviewFragment" />
+        <action
+            android:id="@+id/action_SettingsMainFragment_to_AdjustCriteriaFragment"
+            app:destination="@id/AdjustCriteriaFragment" />
     </fragment>
     <fragment
         android:id="@+id/bugReportFragment"
@@ -40,5 +43,13 @@
         android:name="com.example.Bytez_frontend.Settings.ReviewShowFragment"
         android:label="Review View Fragment"
         tools:layout="@layout/fragment_delete_review">
+    </fragment>
+    <fragment
+        android:id="@+id/AdjustCriteriaFragment"
+        android:name="com.example.Bytez_frontend.Settings.AdjustCriteriaFragment"
+        android:label="Adjust Criteria Fragment">
+        <action
+            android:id="@+id/action_AdjustCriteriaFragment_to_SettingsMainFragment"
+            app:destination="@id/SettingsMainFragment" />
     </fragment>
 </navigation>

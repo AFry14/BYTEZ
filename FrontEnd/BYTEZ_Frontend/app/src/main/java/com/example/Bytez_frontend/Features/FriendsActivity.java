@@ -234,3 +234,4 @@ public class FriendsActivity extends AppCompatActivity {
     }
 
 }
+

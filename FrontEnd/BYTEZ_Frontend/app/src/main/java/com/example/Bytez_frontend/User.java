@@ -17,23 +17,11 @@ public class User implements Parcelable
     private String fName;
     private String lName;
     private String userType;
+    private int critFood;
+    private int critService;
+    private int critClean;
 
-    public User(int id, String username, String email, String favFood, String favDrink, String favRestaurant, String fName, String lName)
-    {
-    this.id = id;
-    this.username = username;
-    this.email = email;
-    this.favFood = favFood;
-    this.favDrink = favDrink;
-    this.favRestaurant = favRestaurant;
-    this.fName = fName;
-    this.lName = lName;
-    }
-
-
-    // Actual constructor
-    public User(int id, String username, String email, String password, String favFood, String favDrink, String favRestaurant, String fName, String lName,
-                String userType)
+    public User(int id, String username, String email)
     {
         this.id = id;
         this.username = username;
@@ -52,7 +40,6 @@ public class User implements Parcelable
         this.lName = lName;
     }
 
-    // Actual constructor
     public User(int id, String username, String email, String password, String favFood, String favDrink, String favRestaurant, String fName, String lName,
                 String userType)
     {
@@ -66,6 +53,28 @@ public class User implements Parcelable
         this.fName = fName;
         this.lName = lName;
         this.userType = userType;
+        this.critFood = 1;
+        this.critService = 1;
+        this.critClean = 1;
+    }
+
+    // Actual constructor
+    public User(int id, String username, String email, String password, String favFood, String favDrink, String favRestaurant, String fName, String lName,
+                String userType, int critFood, int critService, int critClean)
+    {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.favFood = favFood;
+        this.favDrink = favDrink;
+        this.favRestaurant = favRestaurant;
+        this.fName = fName;
+        this.lName = lName;
+        this.userType = userType;
+        this.critFood = critFood;
+        this.critService = critService;
+        this.critClean = critClean;
     }
 
 
@@ -133,6 +142,12 @@ public class User implements Parcelable
 
     public String getUserType() { return userType; }
 
+    public int getCritFood() { return critFood; }
+
+    public int getCritService() { return critService; }
+
+    public int getCritClean() { return critClean; }
+
     // Setter methods
     public void setUsername(String userName) {
         username = userName;
@@ -168,6 +183,21 @@ public class User implements Parcelable
 
     public void setUserType(String usertype) {
         userType = usertype;
+    }
+
+    public void setCritFood(int score)
+    {
+        critFood = score;
+    }
+
+    public void setCritService(int score)
+    {
+        critService = score;
+    }
+
+    public void setCritClean(int score)
+    {
+        critClean = score;
     }
 
 

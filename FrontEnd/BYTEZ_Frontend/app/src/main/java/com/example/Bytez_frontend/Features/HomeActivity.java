@@ -1,23 +1,43 @@
 package com.example.Bytez_frontend.Features;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.Bytez_frontend.R;
+import com.example.Bytez_frontend.Review;
+import com.example.Bytez_frontend.Settings.SettingsReviewRecyclerAdapter;
 import com.example.Bytez_frontend.SharedPrefManager;
+import com.example.Bytez_frontend.SingletonVolley;
+import com.example.Bytez_frontend.URLs;
 import com.example.Bytez_frontend.User;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Map;
 
 import com.example.Bytez_frontend.ReviewPackage.ReviewActivity;
 import com.example.Bytez_frontend.Settings.SettingsActivity;
 import com.example.Bytez_frontend.login.SignUp;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class HomeActivity extends AppCompatActivity {
 
+    Context ctx = this;
     User currentUser;
 
     @Override

@@ -3,7 +3,6 @@
     package="com.example.Bytez_frontend">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,8 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Features.MessageFriendsActivity"></activity>
-        <activity android:name=".Features.FriendRequestActivity" />
+        <activity android:name=".Features.FriendRequestActivity"></activity>
         <activity android:name=".Features.FriendsActivity" />
         <activity android:name=".Features.EditProfileActivity" />
         <activity android:name=".Features.ProfileActivity" />
@@ -23,10 +21,10 @@
         <activity android:name=".Features.HomeActivity" />
         <activity android:name=".Features.MapActivity" />
         <activity android:name=".ReviewPackage.ReviewActivity" />
+        <activity android:name=".ReviewPackage.ShowFullReviewActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -92,7 +92,6 @@ public class ReviewShowFragment extends Fragment
         }
 
         SettingsReviewRecyclerAdapter = new SettingsReviewRecyclerAdapter(reviewArrayList, mCtx);
-//        reviewArrayList.clear();
         reviewRecyclerView.setLayoutManager(new LinearLayoutManager(mCtx));
 
         reviewRecyclerView.setAdapter(SettingsReviewRecyclerAdapter);
