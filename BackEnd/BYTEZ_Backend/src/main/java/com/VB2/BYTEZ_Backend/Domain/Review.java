@@ -5,6 +5,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.util.Set;
 
 // Review Entity
 @Entity
@@ -33,6 +34,14 @@ public class Review {
     private String restaurantName;
     private String authorName;
 
+    @ManyToMany(mappedBy = "likedReviews")
+    private Set<User> likes;
+
+    @ManyToMany(mappedBy = "helpfulReviews")
+    private Set<User> helpfuls;
+
+    @ManyToMany(mappedBy = "dislikedReviews")
+    private Set<User> dislikes;
 
 
 

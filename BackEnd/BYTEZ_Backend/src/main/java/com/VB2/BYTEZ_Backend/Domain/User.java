@@ -34,6 +34,51 @@ public class User {
 
     private String favoriteDrink;
 
+    @ManyToMany
+    @JoinTable(
+            name = "review_like",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "review_id"))
+    private Set<Review> likedReviews;
+
+    @ManyToMany
+    @JoinTable(
+            name = "review_helpful",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "review_id"))
+    private Set<Review> helpfulReviews;
+
+    @ManyToMany
+    @JoinTable(
+            name = "review_dislike",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "review_id"))
+    private Set<Review> dislikedReviews;
+
+    public Set<Review> getDislikedReviews() {
+        return dislikedReviews;
+    }
+
+    public void setDislikedReviews(Set<Review> dislikedReviews) {
+        this.dislikedReviews = dislikedReviews;
+    }
+
+    public Set<Review> getHelpfulReviews() {
+        return helpfulReviews;
+    }
+
+    public void setHelpfulReviews(Set<Review> helpfulReviews) {
+        this.helpfulReviews = helpfulReviews;
+    }
+
+    public Set<Review> getLikedReviews(){
+        return likedReviews;
+    }
+
+    public void setLikedReviews(Set<Review> likedReviews){
+        this.likedReviews = likedReviews;
+    }
+
 // Getters and Setters
 
     /**
