@@ -1,7 +1,6 @@
 package com.VB2.BYTEZ_Backend.Domain;
 
 import com.sun.istack.NotNull;
-
 import javax.persistence.*;
 import java.util.Date;
 
