@@ -71,6 +71,13 @@ public class User {
         this.likedReviews = likedReviews;
     }
 
+    public Set<Review> getDislikedReviews() {
+        return dislikedReviews;
+    }
+
+    public void setDislikedReviews(Set<Review> dislikedReviews) {
+        this.dislikedReviews = dislikedReviews;
+    }
 // Getters and Setters
 
     /**

@@ -88,6 +88,34 @@ public class ReviewService {
 
     public String likeReview(Long userId, Long reviewId)
     {
-        
+        Set<Review> likedReviews = userRepository.findById(userId).get().getLikedReviews();
+        Set<User> likes = reviewRepository.findById(reviewId).get().getLikes();
+        likedReviews.add(reviewRepository.findById(reviewId).get());
+        likes.add(userRepository.findById(userId).get());
+        userRepository.findById(reviewId).get().setLikedReviews(likedReviews);
+        reviewRepository.findById(userId).get().setLikes(likes);
+        return "{\"status\":\"Success\"}";
+    }
+
+    public String helpfulReview(Long userId, Long reviewId)
+    {
+        Set<Review> helpfulReviews = userRepository.findById(userId).get().getHelpfulReviews();
+        Set<User> helpfuls = reviewRepository.findById(reviewId).get().getHelpfuls();
+        helpfulReviews.add(reviewRepository.findById(reviewId).get());
+        helpfuls.add(userRepository.findById(userId).get());
+        userRepository.findById(reviewId).get().setLikedReviews(helpfulReviews);
+        reviewRepository.findById(userId).get().setLikes(helpfuls);
+        return "{\"status\":\"Success\"}";
+    }
+
+    public String dislikeReview(Long userId, Long reviewId)
+    {
+        Set<Review> dislikedReviews = userRepository.findById(userId).get().getDislikedReviews();
+        Set<User> dislikes = reviewRepository.findById(reviewId).get().getDislikes();
+        dislikedReviews.add(reviewRepository.findById(reviewId).get());
+        dislikes.add(userRepository.findById(userId).get());
+        userRepository.findById(reviewId).get().setLikedReviews(dislikedReviews);
+        reviewRepository.findById(userId).get().setLikes(dislikes);
+        return "{\"status\":\"Success\"}";
     }
 }

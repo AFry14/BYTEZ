@@ -80,6 +80,19 @@ public class ReviewController
   public @ResponseBody
   String likeReview(@PathVariable("userId") Long userId, @PathVariable("reviewId") Long reviewId)
   {
-    return reviewService.
+    return reviewService.likeReview(userId, reviewId);
+  }
+
+  @PostMapping(path = "/helpful/{userId}/{reviewId}")
+  String helpfulReview(@PathVariable("userId") Long userId, @PathVariable("reviewId") Long reviewId)
+  {
+    return reviewService.helpfulReview(userId, reviewId);
+  }
+
+  @PostMapping(path = "/dislike/{userId}/{reviewId}")
+  public @ResponseBody
+  String dislikeReview(@PathVariable("userId") Long userId, @PathVariable("reviewId") Long reviewId)
+  {
+    return reviewService.dislikeReview(userId, reviewId);
   }
 }
