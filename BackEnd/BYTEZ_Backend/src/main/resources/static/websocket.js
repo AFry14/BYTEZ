@@ -2,7 +2,8 @@ var ws;
 
 function connect() {
     var username = document.getElementById("username").value;
-    var url = "ws://coms-309-vb-02.cs.iastate.edu:8080/websocket/" + username;
+    var usernameFriend = document.getElementById("friend").value;
+    var url = "ws://localhost:8080/chat/" + username + "/" + usernameFriend;
     //var url = "ws://echo.websocket.org";
 
     ws = new WebSocket(url);
@@ -12,7 +13,7 @@ function connect() {
 
         // display on browser
         var log = document.getElementById("log");
-        log.innerHTML += "message from server: " + event.data + "\n";
+        log.innerHTML += "" + event.data + "\n";
     };
 
     ws.onopen = function(event) { // called when connection is opened
