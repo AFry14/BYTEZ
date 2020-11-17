@@ -1,9 +1,9 @@
 var ws;
 
 function connect() {
-    //var username = document.getElementById("username").value;
-    var url = "ws://localhost:8080/websocket/" + username;
-    var url = "ws://echo.websocket.org";
+    var username = document.getElementById("username").value;
+    var url = "ws://coms-309-vb-02.cs.iastate.edu:8080/websocket/" + username;
+    //var url = "ws://echo.websocket.org";
 
     ws = new WebSocket(url);
 
