@@ -117,6 +117,7 @@ public class SignUp extends AppCompatActivity
             jsonBody.put("email", userEmail);
             jsonBody.put("password", userPassword);
             jsonBody.put("userName", userName);
+            jsonBody.put("userType", "User");
         } catch (JSONException e) {
             e.printStackTrace();
         }

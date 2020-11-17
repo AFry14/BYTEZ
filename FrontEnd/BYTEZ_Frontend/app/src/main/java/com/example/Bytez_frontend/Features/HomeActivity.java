@@ -12,6 +12,10 @@ import com.example.Bytez_frontend.User;
 
 import java.util.Map;
 
+import com.example.Bytez_frontend.ReviewPackage.ReviewActivity;
+import com.example.Bytez_frontend.Settings.SettingsActivity;
+import com.example.Bytez_frontend.login.SignUp;
+
 public class HomeActivity extends AppCompatActivity {
 
     User currentUser;
@@ -23,6 +27,25 @@ public class HomeActivity extends AppCompatActivity {
         setTitle("Home");
 
         currentUser = SharedPrefManager.getInstance(this).getUser();
+
+        findViewById(R.id.settingsB).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+            }
+        });
+
+//        findViewById(R.id.reviewButton).setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                startActivity(new Intent(getApplicationContext(), ReviewActivity.class));
+//            }
+//        });
+
     }
 
     /**
@@ -52,4 +75,11 @@ public class HomeActivity extends AppCompatActivity {
         friendsActivity.putExtra("user", currentUser);
         startActivity(friendsActivity);
     }
+
+    public void launchReviewSubmit(View v) {
+        Intent ReviewActivity = new Intent(this, ReviewActivity.class);
+//        friendsActivity.putExtra("user", currentUser);
+        startActivity(ReviewActivity);
+    }
+
 }

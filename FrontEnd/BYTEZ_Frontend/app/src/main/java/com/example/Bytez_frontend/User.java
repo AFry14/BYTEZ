@@ -38,6 +38,27 @@ public class User implements Parcelable
         this.id = id;
         this.username = username;
         this.email = email;
+    }
+
+    public User(int id, String username, String email, String favFood, String favDrink, String favRestaurant, String fName, String lName)
+    {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.favFood = favFood;
+        this.favDrink = favDrink;
+        this.favRestaurant = favRestaurant;
+        this.fName = fName;
+        this.lName = lName;
+    }
+
+    // Actual constructor
+    public User(int id, String username, String email, String password, String favFood, String favDrink, String favRestaurant, String fName, String lName,
+                String userType)
+    {
+        this.id = id;
+        this.username = username;
+        this.email = email;
         this.password = password;
         this.favFood = favFood;
         this.favDrink = favDrink;
@@ -63,7 +84,6 @@ public class User implements Parcelable
         lName = in.readString();
 
         userType = in.readString();
-
 
 
 
