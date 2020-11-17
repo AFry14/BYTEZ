@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/SettingsMainFragment">
+
+    <fragment
+        android:id="@+id/SettingsMainFragment"
+        android:name="com.example.Bytez_frontend.Settings.SettingsMainFragment"
+        android:label="Settings Main Fragment"
+        tools:layout="@layout/fragment_settingsmain">
+        <action
+            android:id="@+id/action_SettingsMainFragment_to_bugReportFragment"
+            app:destination="@id/bugReportFragment" />
+        <action
+            android:id="@+id/action_SettingsMainFragment_to_DeleteReviewFragment"
+            app:destination="@id/DeleteReviewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bugReportFragment"
+        android:name="com.example.Bytez_frontend.Settings.bugReportFragment"
+        android:label="Bug Report Fragment"
+        tools:layout="@layout/fragment_bug_report">
+    </fragment>
+    <fragment
+        android:id="@+id/DeleteReviewFragment"
+        android:name="com.example.Bytez_frontend.Settings.DeleteReviewFragment"
+        android:label="Delete Review Fragment"
+        tools:layout="@layout/fragment_loading">
+        <action
+            android:id="@+id/action_DeleteReviewFragment_to_ReviewShowFragment"
+            app:destination="@id/ReviewShowFragment" />
+        <action
+            android:id="@+id/action_DeleteReviewFragment_to_SettingsMainFragment"
+            app:destination="@id/SettingsMainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ReviewShowFragment"
+        android:name="com.example.Bytez_frontend.Settings.ReviewShowFragment"
+        android:label="Review View Fragment"
+        tools:layout="@layout/fragment_delete_review">
+    </fragment>
+</navigation>

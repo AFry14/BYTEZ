@@ -2,37 +2,89 @@ package com.example.Bytez_frontend;
 
 public class Review
 {
-    Restaurant rest;
-    User reviewer;
-    double foodQR;
-    double serviceR;
-    double cleanlinessR;
-    public Review(Restaurant place, User reviewer)
+    private int id;
+    private Restaurant rest;
+    private User reviewer;
+    private int reviewerId;
+    private float foodQR;
+    private float serviceR;
+    private float cleanlinessR;
+    private float overallR;
+    private String comments;
+
+    public Review(int id, Restaurant place, User reviewer)
     {
+        this.id = id;
         rest = place;
         this.reviewer = reviewer;
     }
 
-    public double getFinalReview()
+    public Review(int id, float rating, Restaurant place, User reviewer)
     {
-        double overallS = (getFoodQR() + getCleanlinessR() + getServiceR())/3;
+        this.id = id;
+        overallR = rating;
+        rest = place;
+        this.reviewer = reviewer;
+    }
+
+    public Review(float rating, Restaurant place, User reviewer)
+    {
+        this.id = id;
+        overallR = rating;
+        rest = place;
+        this.reviewer = reviewer;
+    }
+
+    public Review(int id, Restaurant place, User reviewer, String comments)
+    {
+        this.id = id;
+        rest = place;
+        this.reviewer = reviewer;
+        this.comments = comments;
+    }
+
+//    public Review(int id, Restaurant place, int reviewer, String comments)
+//    {
+//        this.id = id;
+//        rest = place;
+//        this.reviewerId = reviewer;
+//        this.comments = comments;
+//    }
+
+    public float getFinalRating()
+    {
+        float overallS = (getFoodQR() + getCleanlinessR() + getServiceR())/3;
+        overallR = overallS;
         return overallS;
     }
 
-    public double getFoodQR()
+    public float getOverallR()
+    {
+        return overallR;
+    }
+
+    public static float getFinalRating(float food, float service, float clean)
+    {
+        float overallS = (food + service + clean)/3;
+        return overallS;
+    }
+
+    public float getFoodQR()
     {
         return foodQR;
     }
 
-    public double getServiceR()
+    public float getServiceR()
     {
         return serviceR;
     }
 
-    public double getCleanlinessR()
+    public float getCleanlinessR()
     {
         return cleanlinessR;
     }
+
+    public String getComments() { return comments; }
 
     public User getReviewer()
     {
@@ -44,19 +96,23 @@ public class Review
         return rest;
     }
 
-    public void setFoodQR(int score)
+    public int getId() { return id; }
+
+    public void setFoodQR(float score)
     {
         foodQR = score;
     }
 
-    public void setServiceR(int score)
+    public void setServiceR(float score)
     {
         serviceR = score;
     }
 
-    public void setCleanlinessR(int score)
+    public void setCleanlinessR(float score)
     {
         cleanlinessR = score;
     }
+
+    public void setComments(String comments) { this.comments = comments; }
 
 }

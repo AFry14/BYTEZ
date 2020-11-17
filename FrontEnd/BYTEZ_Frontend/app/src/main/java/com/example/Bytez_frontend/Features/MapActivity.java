@@ -64,7 +64,7 @@ public class MapActivity extends AppCompatActivity {
         mapContext = this;
         reqQueue = Volley.newRequestQueue(this);
 
-        // Jsonobject GET request, getting a list of restaurant users from database for display in recycler view
+// Jsonobject GET request, getting a list of restaurant users from database for display in recycler view
         //String url = "http://coms-309-vb-02.cs.iastate.edu:8080/restaurant/";
         String url = URLs.URL_REST_LIST;
 
