@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ReviewService {
@@ -83,5 +84,10 @@ public class ReviewService {
     {
         reviewRepository.deleteById(id);
         return "{\"status\":\"Success\"}";
+    }
+
+    public String likeReview(Long userId, Long reviewId)
+    {
+        
     }
 }

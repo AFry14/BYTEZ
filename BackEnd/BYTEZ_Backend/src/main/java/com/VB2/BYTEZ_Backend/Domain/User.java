@@ -55,14 +55,6 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "review_id"))
     private Set<Review> dislikedReviews;
 
-    public Set<Review> getDislikedReviews() {
-        return dislikedReviews;
-    }
-
-    public void setDislikedReviews(Set<Review> dislikedReviews) {
-        this.dislikedReviews = dislikedReviews;
-    }
-
     public Set<Review> getHelpfulReviews() {
         return helpfulReviews;
     }

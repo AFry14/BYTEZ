@@ -43,7 +43,29 @@ public class Review {
     @ManyToMany(mappedBy = "dislikedReviews")
     private Set<User> dislikes;
 
+    public Set<User> getLikes() {
+        return likes;
+    }
 
+    public void setLikes(Set<User> likes) {
+        this.likes = likes;
+    }
+
+    public Set<User> getHelpfuls() {
+        return helpfuls;
+    }
+
+    public void setHelpfuls(Set<User> helpfuls) {
+        this.helpfuls = helpfuls;
+    }
+
+    public Set<User> getDislikes() {
+        return dislikes;
+    }
+
+    public void setDislikes(Set<User> dislikes) {
+        this.dislikes = dislikes;
+    }
 
     public String getRestaurantName() {
         return restaurantName;

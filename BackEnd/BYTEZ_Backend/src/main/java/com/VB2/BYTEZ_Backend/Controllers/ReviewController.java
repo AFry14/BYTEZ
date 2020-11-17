@@ -75,4 +75,11 @@ public class ReviewController
   {
     return reviewService.deleteReview(id);
   }
+
+  @PostMapping(path = "/like/{userId}/{reviewId}")
+  public @ResponseBody
+  String likeReview(@PathVariable("userId") Long userId, @PathVariable("reviewId") Long reviewId)
+  {
+    return reviewService.
+  }
 }
