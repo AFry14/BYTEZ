@@ -19,9 +19,7 @@ import java.util.Map;
 @Component
 public class WebSocket
 {
-    @Autowired
-    UserService userService;
-
+   
     private static Map<Session, String> sessionUserMap = new Hashtable<>();
     private static Map<String, Session> userSessionMap = new Hashtable<>();
 
