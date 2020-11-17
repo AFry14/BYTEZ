@@ -32,7 +32,6 @@ public class ReportService
     {
         Long userId = reportRepository.findById(id).get().getAuthor().getId();
         return userRepository.findById(userId).isPresent() ? userRepository.findById(userId).get() : null;
-
     }
 
     public Report addReport(Long id, Report report)
