@@ -123,83 +123,6 @@ public class FriendsActivity extends AppCompatActivity {
 
     }
 
-    /**
-     * Add a friend
-     * @param view
-     */
-//    public void addFriend(View view) {
-//        //If user = current logged in user, add button does this
-//        if (user.getId() == SharedPrefManager.getInstance(this).getUser().getId()) {
-//            // Accept Friend Request
-//            int loggedInID = SharedPrefManager.getInstance(this).getUser().getId();
-//            Button addButton = findViewById(R.id.addFriend);
-//            int friendID = Integer.parseInt(addButton.getText().toString());
-//            String postReqURL = URLs.URL_SEND_FRIEND_REQUEST + loggedInID + "/" + friendID;
-//            //Request for friends of current user
-//            JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.POST, postReqURL, null, new Response.Listener<JSONArray>() {
-//                // Called if successful
-//                @Override
-//                public void onResponse(JSONArray response) {
-//                    try {
-//
-//                        for(int i = 0; i < response.length(); i++) {
-//                            int id = response.getJSONObject(i).getInt("id");
-//                            String username = response.getJSONObject(i).getString("userName");
-//                            String email = response.getJSONObject(i).getString("email");
-//                            String favFood = response.getJSONObject(i).getString("favoriteFood");
-//                            String favDrink = response.getJSONObject(i).getString("favoriteDrink");
-//                            String favRest = response.getJSONObject(i).getString("favoriteRestaurant");
-//                            String firstName = response.getJSONObject(i).getString("firstName");
-//                            String lastName = response.getJSONObject(i).getString("lastName");
-//
-//                            friendsList.add(new User(id, username, email, favFood, favDrink, favRest, firstName, lastName));
-//                        }
-//
-//                        // Set restaurant list in recycler view with each item as a restaurant in the restaurant list
-//                        friendsRecyclerAdapter = new FriendsRecyclerAdapter(friendsList, friendsContext, user);
-//                        usersRecyclerView.setLayoutManager(new LinearLayoutManager(friendsContext));
-//
-//                        // Attach friendsRecyclerAdapter to friendsRecyclerView
-//                        usersRecyclerView.setAdapter(friendsRecyclerAdapter);
-//                        DividerItemDecoration usersDivider = new DividerItemDecoration(friendsContext, DividerItemDecoration.VERTICAL);
-//                        usersRecyclerView.addItemDecoration(usersDivider);
-//
-//
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//
-//                // Called if there is an error
-//            }, new Response.ErrorListener() {
-//                @Override
-//                public void onErrorResponse(VolleyError error) {
-//                    error.printStackTrace();
-//                }
-//            });
-//
-//            requestQueue.add(getRequest);
-//
-//
-//            // Start friends activity
-////            Intent friendsActivity = getIntent();
-////            finish();
-////            startActivity(friendsActivity);
-//        } else {
-//            // Send friend request
-//            // Post request
-//
-//
-//
-//
-//
-//            // Restart friends activity
-////            Intent friendsActivity = getIntent();
-////            finish();
-////            startActivity(friendsActivity);
-//        }
-//    }
-
     public void launchFriendRequests(View view) {
         Intent friendRequestActivity = new Intent(this, FriendRequestActivity.class);
         friendRequestActivity.putExtra("user", user);
@@ -234,3 +157,4 @@ public class FriendsActivity extends AppCompatActivity {
     }
 
 }
+

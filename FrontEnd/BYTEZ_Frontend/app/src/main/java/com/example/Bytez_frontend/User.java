@@ -18,22 +18,7 @@ public class User implements Parcelable
     private String lName;
     private String userType;
 
-    public User(int id, String username, String email, String favFood, String favDrink, String favRestaurant, String fName, String lName)
-    {
-    this.id = id;
-    this.username = username;
-    this.email = email;
-    this.favFood = favFood;
-    this.favDrink = favDrink;
-    this.favRestaurant = favRestaurant;
-    this.fName = fName;
-    this.lName = lName;
-    }
-
-
-    // Actual constructor
-    public User(int id, String username, String email, String password, String favFood, String favDrink, String favRestaurant, String fName, String lName,
-                String userType)
+    public User(int id, String username, String email)
     {
         this.id = id;
         this.username = username;

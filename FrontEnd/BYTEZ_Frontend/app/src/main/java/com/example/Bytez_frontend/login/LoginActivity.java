@@ -29,16 +29,12 @@ public class LoginActivity extends AppCompatActivity
 {
     EditText textEmail;
     EditText textPassword;
-    private Context context;
-    private User currentUser;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-{
+    protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
 
-    context = this;
 
     if(SharedPrefManager.getInstance(this).isLoggedIn())
     {
@@ -87,10 +83,6 @@ public class LoginActivity extends AppCompatActivity
             return;
         }
 
-        //Intent to start home activity
-//        Intent homeActivity = new Intent(context, HomeActivity.class);
-
-
         String pass = URLs.URL_LOGIN;
         pass = pass+"?email="+userEmail+"&password="+userPassword;
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, pass, null,
@@ -98,18 +90,10 @@ public class LoginActivity extends AppCompatActivity
                     @Override
                     public void onResponse(JSONObject response) {
                         try{
-                            User JsonUser = new User(response.getInt("id"), response.getString("userName"), response.getString("email"),
-                                    response.getString("password"), response.getString("favoriteFood"), response.getString("favoriteDrink"),
-                                    response.getString("favoriteRestaurant"), response.getString("firstName"), response.getString("lastName"),
-                                    response.getString("userType"));
-                            SharedPrefManager.getInstance(context).loginInfo(JsonUser);
-
-                            // Pass json into home activity
-    //                        Intent homeActivity = new Intent(context, HomeActivity.class);
-                            String user = response.toString();
-                            Log.d("response", response.toString());
-      //                      homeActivity.putExtra("json", user);
-     //                       startActivity(homeActivity);
+                            User JsonUser = new User(response.getInt("id"), response.getString("userName"), response.getString("email"));
+                            SharedPrefManager.getInstance(getApplicationContext()).loginInfo(JsonUser);
+//                            finish();
+                            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                         }
                         catch(JSONException e)
                         {
