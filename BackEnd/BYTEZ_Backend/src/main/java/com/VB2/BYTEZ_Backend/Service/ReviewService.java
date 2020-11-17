@@ -118,4 +118,17 @@ public class ReviewService {
         reviewRepository.findById(userId).get().setLikes(dislikes);
         return "{\"status\":\"Success\"}";
     }
+
+    public Set<User> getLikes(Long reviewId)
+    {
+       return reviewRepository.findById(reviewId).get().getLikes();
+    }
+
+    public Set<User> getHelpfuls(Long reviewId){
+        return reviewRepository.findById(reviewId).get().getHelpfuls();
+    }
+
+    public Set<User> getDislikes(Long reviewId){
+        return reviewRepository.findById(reviewId).get().getDislikes();
+    }
 }
