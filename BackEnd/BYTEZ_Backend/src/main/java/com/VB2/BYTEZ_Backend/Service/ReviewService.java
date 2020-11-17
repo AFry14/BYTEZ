@@ -58,6 +58,8 @@ public class ReviewService {
                 .map(user -> {
                     review.setAuthor(user);
                     review.setRestaurant(restaurant);
+                    review.setAuthorName(user.getUserName());
+                    review.setRestaurantName(restaurant.getRestaurantName());
                     return reviewRepository.save(review);
                 })
                 .orElse(null);

@@ -30,6 +30,25 @@ public class Review {
     private Double cleanlinessScore;
     private Double overallValueScore;
     private String comment;
+    private String restaurantName;
+    private String authorName;
+
+
+    public String getRestaurantName() {
+        return restaurantName;
+    }
+
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
+    }
+
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
+    }
 
     public Long getId() {
         return id;
