@@ -65,5 +65,4 @@ public class RestaurantService {
         restaurantRepository.deleteById(id);
         return "{\"Status\":\"Success\"}";
     }
-
 }
