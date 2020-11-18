@@ -1,8 +1,10 @@
 package com.example.Bytez_frontend.login;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -12,7 +14,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.Bytez_frontend.Map.HomeActivity;
+import com.example.Bytez_frontend.Features.HomeActivity;
 import com.example.Bytez_frontend.R;
 import com.example.Bytez_frontend.SharedPrefManager;
 import com.example.Bytez_frontend.SingletonVolley;
@@ -27,6 +29,8 @@ public class LoginActivity extends AppCompatActivity
 {
     EditText textEmail;
     EditText textPassword;
+    private Context context;
+    private User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -34,6 +38,7 @@ public class LoginActivity extends AppCompatActivity
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
 
+    context = this;
 
     if(SharedPrefManager.getInstance(this).isLoggedIn())
     {
@@ -82,6 +87,10 @@ public class LoginActivity extends AppCompatActivity
             return;
         }
 
+        //Intent to start home activity
+//        Intent homeActivity = new Intent(context, HomeActivity.class);
+
+
         String pass = URLs.URL_LOGIN;
         pass = pass+"?email="+userEmail+"&password="+userPassword;
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, pass, null,
@@ -89,10 +98,18 @@ public class LoginActivity extends AppCompatActivity
                     @Override
                     public void onResponse(JSONObject response) {
                         try{
-                            User JsonUser = new User(response.getInt("id"), response.getString("userName"), response.getString("email"));
-                            SharedPrefManager.getInstance(getApplicationContext()).loginInfo(JsonUser);
-//                            finish();
-                            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                            User JsonUser = new User(response.getInt("id"), response.getString("userName"), response.getString("email"),
+                                    response.getString("password"), response.getString("favoriteFood"), response.getString("favoriteDrink"),
+                                    response.getString("favoriteRestaurant"), response.getString("firstName"), response.getString("lastName"),
+                                    response.getString("userType"));
+                            SharedPrefManager.getInstance(context).loginInfo(JsonUser);
+
+                            // Pass json into home activity
+    //                        Intent homeActivity = new Intent(context, HomeActivity.class);
+                            String user = response.toString();
+                            Log.d("response", response.toString());
+      //                      homeActivity.putExtra("json", user);
+     //                       startActivity(homeActivity);
                         }
                         catch(JSONException e)
                         {

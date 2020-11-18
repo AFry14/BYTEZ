@@ -139,4 +139,28 @@ public class UserService {
       userRepository.deleteById(id);
       return "{\"status\":\"Success\"}";
    }
+
+   public int getCritFood(Long userId){
+       return userRepository.findById(userId).get().getCritFood();
+   }
+
+   public int getCritService(Long userId){
+       return userRepository.findById(userId).get().getCritService();
+   }
+
+   public int getCritClean(Long userId){
+       return userRepository.findById(userId).get().getCritClean();
+   }
+
+   public void changeCritClean(Long userId, int value){
+       userRepository.findById(userId).get().setCritClean(value);
+   }
+
+    public void changeCritService(Long userId, int value){
+        userRepository.findById(userId).get().setCritService(value);
+    }
+
+    public void changeCritFood(Long userId, int value){
+        userRepository.findById(userId).get().setCritFood(value);
+    }
 }
