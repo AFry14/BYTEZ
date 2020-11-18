@@ -19,6 +19,7 @@ public class URLs
     public static final String URL_REVIEW_LIST = ROOT_URL + "review/";
     public static final String URL_REST_IN_REVIEW = ROOT_URL + "review/restaurant/";
     public static final String URL_AUTHOR_OF_REVIEW = ROOT_URL +  "review/author/";
-    public static final String URL_WEBSOCKET = "ws://coms-309-vb-02.cs.iastate.edu:8080/websocket/";
+    public static final String URL_WEBSOCKET = "ws://coms-309-vb-02.cs.iastate.edu:8080/chat/";
+    public static final String URL_DELETE_CHAT_HISTORY = ROOT_URL + "messages/delete/";
 
 }

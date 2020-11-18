@@ -11,27 +11,11 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.Bytez_frontend.R;
-import com.example.Bytez_frontend.SharedPrefManager;
-import com.example.Bytez_frontend.URLs;
 import com.example.Bytez_frontend.User;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-
 import java.util.Collection;
 import java.util.List;
 
@@ -39,12 +23,19 @@ public class MessageFriendsAdapter extends RecyclerView.Adapter<MessageFriendsAd
 
     private static final String TAG = "MessageFriendsAdapter";
 
-    // FriendRequest context, viewable user list, list of all users
+    // FriendRequest context
     private Context context;
+
+    // List of users (used for filtering)
     private List<User> usersList;
+
+    // List of all users that are friends with the current user
     private List<User> allUsersList;
+
+    // Current logged in user
     private User user;
 
+    // Constructor
     public MessageFriendsAdapter(List<User> usersList, Context context, User user) {
         this.usersList = usersList;
         this.allUsersList = new ArrayList<User>(usersList);
@@ -52,6 +43,12 @@ public class MessageFriendsAdapter extends RecyclerView.Adapter<MessageFriendsAd
         this.user = user;
     }
 
+    /**
+     * Method that creates the viewholder for each entry in the recycler view
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @NonNull
     @Override
     public MessageFriendsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -66,6 +63,11 @@ public class MessageFriendsAdapter extends RecyclerView.Adapter<MessageFriendsAd
         return friendsViewHolder;
     }
 
+    /**
+     * Method that binds the data from the user list into each viewholder
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull MessageFriendsAdapter.ViewHolder holder, int position) {
         holder.email.setText(usersList.get(position).getEmail());
@@ -75,11 +77,19 @@ public class MessageFriendsAdapter extends RecyclerView.Adapter<MessageFriendsAd
         holder.unfriendButton.setVisibility(View.GONE);
     }
 
+    /**
+     * Method that returns the current size of usersList
+     * @return size of usersList
+     */
     @Override
     public int getItemCount() {
         return usersList.size();
     }
 
+    /**
+     * Method that returns the filter of the adapter
+     * @return searchFilter
+     */
     @Override
     public Filter getFilter() {
         return searchFilter;
@@ -156,19 +166,23 @@ public class MessageFriendsAdapter extends RecyclerView.Adapter<MessageFriendsAd
 
         /**
          * Function of clicking viewholder
-         * Opens profile activity of selected user
+         * Opens chat activity with the current user and the selected friend
          *
          * @param view
          */
         @Override
         public void onClick(View view) {
-            //Open profile activity with selected user
+            // Generate new intent for the chat activity
             Intent chatActivity = new Intent(context, ChatActivity.class);
+
+            // Retrieve the selected friend and the current user and send their data to the chat activity
             TextView userPositionView = view.findViewById(R.id.position);
             int userPosition = Integer.parseInt(userPositionView.getText().toString());
             User clickedUser = usersList.get(userPosition);
             chatActivity.putExtra("user", clickedUser);
             chatActivity.putExtra("currentUser", user);
+
+            // Start the chat activity
             context.startActivity(chatActivity);
         }
 

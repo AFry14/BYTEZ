@@ -5,13 +5,11 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -21,10 +19,8 @@ import com.android.volley.toolbox.Volley;
 import com.example.Bytez_frontend.R;
 import com.example.Bytez_frontend.URLs;
 import com.example.Bytez_frontend.User;
-
 import org.json.JSONArray;
 import org.json.JSONException;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,23 +28,31 @@ public class MessageFriendsActivity extends AppCompatActivity {
     // Volley request queue
     private RequestQueue requestQueue;
 
+    // Recycler view and adapter used to list friends of the logged in user for the chat activity
     private RecyclerView messageFriendsRecycler;
     private MessageFriendsAdapter messageFriendsAdapter;
 
-    // List of restaurant accounts
+    // List of friends of the current logged in user
     private List<User> friendsList = new ArrayList<User>();
 
-    // Current friends context
+    // Current context
     private Context messageListContext;
 
     // Current user logged in
     private User currentUser;
 
+    /**
+     * MessageFriendsActivity used for allowing the current logged in user to select a friend to chat with
+     * The activity lists the friends of the current logged in user and allows them to click on a friend
+     * to chat with
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_friends);
 
+        // Receive user information from previous activity
         Intent i = getIntent();
         currentUser = i.getParcelableExtra("user");
         setTitle("Message");
@@ -58,6 +62,7 @@ public class MessageFriendsActivity extends AppCompatActivity {
         messageListContext = this;
         requestQueue = Volley.newRequestQueue(this);
 
+        // URL for receiving list of users that are friends with the current user
         final String url = URLs.URL_GET_USER_FRIENDS + currentUser.getId();
 
         //Request for friends of current user
@@ -66,7 +71,7 @@ public class MessageFriendsActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONArray response) {
                 try {
-
+                    // Add all friends of the current user to the list
                     for(int i = 0; i < response.length(); i++) {
                         int id = response.getJSONObject(i).getInt("id");
                         String username = response.getJSONObject(i).getString("userName");
@@ -80,7 +85,7 @@ public class MessageFriendsActivity extends AppCompatActivity {
                         friendsList.add(new User(id, username, email, favFood, favDrink, favRest, firstName, lastName));
                     }
 
-                    // Set restaurant list in recycler view with each item as a restaurant in the restaurant list
+                    // Set the friends list with each friend as an item in the recycler view
                     messageFriendsAdapter = new MessageFriendsAdapter(friendsList, messageListContext, currentUser);
                     messageFriendsRecycler.setLayoutManager(new LinearLayoutManager(messageListContext));
 
@@ -88,9 +93,6 @@ public class MessageFriendsActivity extends AppCompatActivity {
                     messageFriendsRecycler.setAdapter(messageFriendsAdapter);
                     DividerItemDecoration usersDivider = new DividerItemDecoration(messageListContext, DividerItemDecoration.VERTICAL);
                     messageFriendsRecycler.addItemDecoration(usersDivider);
-
-
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -105,11 +107,12 @@ public class MessageFriendsActivity extends AppCompatActivity {
             }
         });
 
+        // Add the JSON request to the request queue
         requestQueue.add(getRequest);
     }
 
     /**
-     * When search menu item is clicked
+     * When search menu item is clicked, allow sorting of list through typing strings
      * @param menu
      * @return
      */
@@ -130,7 +133,6 @@ public class MessageFriendsActivity extends AppCompatActivity {
                 return false;
             }
         });
-
         return super.onCreateOptionsMenu(menu);
     }
 }
