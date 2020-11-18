@@ -40,12 +40,6 @@ public class UserService {
               userRepository.findById(id).get() : null;
    }
 
-   public User getByUsername(String userName)
-   {
-       return userRepository.findByUserName(userName).isPresent() ?
-               userRepository.findByUserName(userName).get() : null;
-   }
-
    public User loginUser(String email, String password)
    {
     return userRepository.findByEmailAndPassword(email, password).isPresent() ?
@@ -96,6 +90,7 @@ public class UserService {
                 ret.add(f.getSelf());
             }
         }
+
 
         return ret;
     }
