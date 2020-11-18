@@ -11,11 +11,13 @@ import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @ServerEndpoint(value = "/chat/{userNameSelf}/{userNameFriend}")
@@ -28,6 +30,16 @@ public class MessageController
     {
         this.messageRepository = messageRepository;
     }
+
+    @DeleteMapping(path = "/messages/delete/{userNameSelf}/{userNameFriend}")
+    public @ResponseBody String deleteChatHistory(@PathVariable("userNameSelf") String userNameSelf, @PathVariable("userNameFriend") String userNameFriend)
+    {
+        messageRepository.deleteByUserNameSelfAndUserNameFriend(userNameSelf, userNameFriend);
+        messageRepository.deleteByUserNameSelfAndUserNameFriend(userNameFriend, userNameSelf);
+        return "{\"Status\" : \"Success\"}";
+    }
+
+
 
     private final Logger logger = LoggerFactory.getLogger(MessageController.class);
 
@@ -44,7 +56,7 @@ public class MessageController
         userSessionMap.put(userNameSelf, session);
         userUserMap.put(userNameSelf, userNameFriend);
 
-        broadcast(getMessageHistory(userNameSelf, userNameFriend));
+        broadcast(getMessageHistory(userNameSelf, userNameFriend), userNameSelf);
     }
 
     @OnMessage
@@ -57,7 +69,7 @@ public class MessageController
 
         messageRepository.save(new Message(userNameSelf, userNameFriend, message));
 
-        broadcast(userNameSelf + " : " + message);
+        broadcast(userNameSelf + " : " + message, null);
 
     }
 
@@ -81,10 +93,13 @@ public class MessageController
         throwable.printStackTrace();
     }
 
-    private void broadcast(String message) {
+    private void broadcast(String message, String userName) {
         sessionUserMap.forEach((session, username) -> {
             try {
-                session.getBasicRemote().sendText(message);
+                if (userName == null || userName.equals(username))
+                {
+                    session.getBasicRemote().sendText(message);
+                }
             }
             catch (IOException e) {
                 logger.info("Exception: " + e.getMessage().toString());
@@ -96,22 +111,18 @@ public class MessageController
     private String getMessageHistory(String usernameSelf, String usernameFriend)
     {
         List<Message> messages = messageRepository.findByUserNameSelfAndUserNameFriend(usernameSelf, usernameFriend);
-        List<Message> messages2 = messageRepository.findByUserNameSelfAndUserNameFriend(usernameFriend, usernameSelf);
+        messages.addAll(messageRepository.findByUserNameSelfAndUserNameFriend(usernameFriend, usernameSelf));
+        messages.sort(Comparator.comparing(Message::getId));
+
         StringBuilder sb = new StringBuilder();
         DateTimeFormatter date = DateTimeFormatter.ofPattern("MM-dd-yyyy");
 
             for (Message m : messages)
             {
+                sb.append(m.getSent().toString() + m.getUserNameSelf() + " : " + m.getContent() + "\n");
+            }
 
-                sb.append(m.getSent().toString() + m.getUserNameSelf() + " : " + m.getContent() + "\n");
-            }
-            for (Message m : messages2)
-            {
-                sb.append(m.getSent().toString() + m.getUserNameSelf() + " : " + m.getContent() + "\n");
-            }
             sb.append("Now \n");
         return sb.toString();
     }
-
-
 }
