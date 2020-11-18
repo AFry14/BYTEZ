@@ -85,6 +85,7 @@ public class ReviewController
   }
 
   @PostMapping(path = "/helpful/{userId}/{reviewId}")
+  public @ResponseBody
   String helpfulReview(@PathVariable("userId") Long userId, @PathVariable("reviewId") Long reviewId)
   {
     return reviewService.helpfulReview(userId, reviewId);
