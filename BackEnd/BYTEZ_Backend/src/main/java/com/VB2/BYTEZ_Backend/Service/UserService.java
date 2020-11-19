@@ -147,14 +147,27 @@ public class UserService {
    }
 
    public void changeCritClean(Long userId, int value){
-       userRepository.findById(userId).get().setCritClean(value);
+       userRepository.findById(userId)
+               .map(user -> {
+                   user.setCritClean(value);
+                   return userRepository.save(user);
+               }).orElse(null);
    }
 
     public void changeCritService(Long userId, int value){
-        userRepository.findById(userId).get().setCritService(value);
+        userRepository.findById(userId)
+                .map(user -> {
+                    user.setCritService(value);
+                    return userRepository.save(user);
+                }).orElse(null);
     }
 
     public void changeCritFood(Long userId, int value){
-        userRepository.findById(userId).get().setCritFood(value);
+        userRepository.findById(userId)
+               .map(user -> {
+                   user.setCritFood(value);
+                   return userRepository.save(user);
+               }).orElse(null);
+//        userRepository.findById(userId).get().setCritFood(value);
     }
 }
