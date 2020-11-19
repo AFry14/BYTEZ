@@ -115,7 +115,7 @@ public class MessageController
         messages.sort(Comparator.comparing(Message::getId));
 
         StringBuilder sb = new StringBuilder();
-        DateTimeFormatter date = DateTimeFormatter.ofPattern("MM/dd hh:mm a");
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd hh:mm a");
 
             for (Message m : messages)
             {
