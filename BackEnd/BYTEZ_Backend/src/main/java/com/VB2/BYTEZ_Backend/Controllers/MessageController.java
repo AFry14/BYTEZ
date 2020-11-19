@@ -115,11 +115,12 @@ public class MessageController
         messages.sort(Comparator.comparing(Message::getId));
 
         StringBuilder sb = new StringBuilder();
-        DateTimeFormatter date = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+        DateTimeFormatter date = DateTimeFormatter.ofPattern("MM/dd hh:mm a");
 
             for (Message m : messages)
             {
-                sb.append(m.getSent().toString() + m.getUserNameSelf() + " : " + m.getContent() + "\n");
+                String prettyDate = format.format(m.getSent());
+                sb.append(prettyDate + " - " + m.getUserNameSelf() + " : " + m.getContent() + "\n");
             }
 
             sb.append("Now \n");
