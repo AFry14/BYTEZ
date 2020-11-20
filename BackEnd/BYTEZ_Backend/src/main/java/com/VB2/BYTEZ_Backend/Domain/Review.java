@@ -35,12 +35,15 @@ public class Review {
     private String authorName;
 
     @ManyToMany(mappedBy = "likedReviews")
+    @JsonIgnore
     private Set<User> likes;
 
     @ManyToMany(mappedBy = "helpfulReviews")
+    @JsonIgnore
     private Set<User> helpfuls;
 
     @ManyToMany(mappedBy = "dislikedReviews")
+    @JsonIgnore
     private Set<User> dislikes;
 
     public Set<User> getLikes() {

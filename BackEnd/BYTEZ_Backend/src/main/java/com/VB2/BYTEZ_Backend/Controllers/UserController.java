@@ -105,6 +105,15 @@ public class UserController {
         return "{\"status\":\"Success\"}";
     }
 
+    @PutMapping(path = "/changeCritValues/{userId}")
+    public @ResponseBody String changeCritValues(@PathVariable("userId") Long userId, @RequestParam int critFood,
+                                                 @RequestParam int critClean, @RequestParam int critService){
+       userService.changeCritValues(userId, critFood, critClean, critService);
+       return "{\"status\":\"Success\"}";
+    }
+
+
+
 
     /* This should not be used anymore
     @PostMapping(path="/register/params")

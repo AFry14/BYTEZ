@@ -170,4 +170,14 @@ public class UserService {
                }).orElse(null);
 //        userRepository.findById(userId).get().setCritFood(value);
     }
+
+    public void changeCritValues(Long userId, int critFood, int critClean, int critService){
+       userRepository.findById(userId)
+                .map((user -> {
+                    user.setCritClean(critClean);
+                    user.setCritService(critService);
+                    user.setCritFood(critFood);
+                    return userRepository.save(user);
+                }));
+    }
 }

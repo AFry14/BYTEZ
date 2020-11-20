@@ -92,8 +92,17 @@ public class ReviewService {
         Set<User> likes = reviewRepository.findById(reviewId).get().getLikes();
         likedReviews.add(reviewRepository.findById(reviewId).get());
         likes.add(userRepository.findById(userId).get());
-        userRepository.findById(reviewId).get().setLikedReviews(likedReviews);
-        reviewRepository.findById(userId).get().setLikes(likes);
+        reviewRepository.findById(reviewId)
+                .map(review -> {
+                    review.setLikes(likes);
+                    return reviewRepository.save(review);
+                });
+        userRepository.findById(userId)
+                .map(user -> {
+                    user.setLikedReviews(likedReviews);
+                    return userRepository.save(user);
+                });
+
         return "{\"status\":\"Success\"}";
     }
 
@@ -103,8 +112,16 @@ public class ReviewService {
         Set<User> helpfuls = reviewRepository.findById(reviewId).get().getHelpfuls();
         helpfulReviews.add(reviewRepository.findById(reviewId).get());
         helpfuls.add(userRepository.findById(userId).get());
-        userRepository.findById(reviewId).get().setLikedReviews(helpfulReviews);
-        reviewRepository.findById(userId).get().setLikes(helpfuls);
+        reviewRepository.findById(reviewId)
+                .map(review -> {
+                    review.setHelpfuls(helpfuls);
+                    return reviewRepository.save(review);
+                });
+        userRepository.findById(userId)
+                .map(user -> {
+                    user.setHelpfulReviews(helpfulReviews);
+                    return userRepository.save(user);
+                });
         return "{\"status\":\"Success\"}";
     }
 
@@ -114,8 +131,16 @@ public class ReviewService {
         Set<User> dislikes = reviewRepository.findById(reviewId).get().getDislikes();
         dislikedReviews.add(reviewRepository.findById(reviewId).get());
         dislikes.add(userRepository.findById(userId).get());
-        userRepository.findById(reviewId).get().setLikedReviews(dislikedReviews);
-        reviewRepository.findById(userId).get().setLikes(dislikes);
+        reviewRepository.findById(reviewId)
+                .map(review -> {
+                    review.setDislikes(dislikes);
+                    return reviewRepository.save(review);
+                });
+        userRepository.findById(userId)
+                .map(user -> {
+                    user.setDislikedReviews(dislikedReviews);
+                    return userRepository.save(user);
+                });
         return "{\"status\":\"Success\"}";
     }
 
