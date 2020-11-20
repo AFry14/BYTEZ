@@ -3,6 +3,7 @@ package com.example.Bytez_frontend;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class User implements Parcelable
@@ -17,9 +18,12 @@ public class User implements Parcelable
     private String fName;
     private String lName;
     private String userType;
-    private int critFood;
-    private int critService;
-    private int critClean;
+    private int critFood = 1;
+    private int critService = 1;
+    private int critClean = 1;
+    ArrayList<Integer> agrees;
+    ArrayList<Integer> disagrees;
+    ArrayList<Integer> helpfuls;
 
     public User(int id, String username, String email)
     {
@@ -77,6 +81,26 @@ public class User implements Parcelable
         this.critClean = critClean;
     }
 
+    public User(int id, String username, String email, String password, String favFood, String favDrink, String favRestaurant, String fName, String lName,
+                String userType, int critFood, int critService, int critClean, ArrayList<Integer> helpfuls, ArrayList<Integer> agrees, ArrayList<Integer> disagrees)
+    {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.favFood = favFood;
+        this.favDrink = favDrink;
+        this.favRestaurant = favRestaurant;
+        this.fName = fName;
+        this.lName = lName;
+        this.userType = userType;
+        this.critFood = critFood;
+        this.critService = critService;
+        this.critClean = critClean;
+        this.helpfuls = helpfuls;
+        this.agrees = agrees;
+        this.disagrees = disagrees;
+    }
 
     // Parcelable constructors
     protected User(Parcel in) {
@@ -147,6 +171,12 @@ public class User implements Parcelable
     public int getCritService() { return critService; }
 
     public int getCritClean() { return critClean; }
+
+    public ArrayList<Integer> getHelpfuls() { return helpfuls; }
+
+    public ArrayList<Integer> getAgrees() { return agrees; }
+
+    public ArrayList<Integer> getDisagrees() { return disagrees; }
 
     // Setter methods
     public void setUsername(String userName) {

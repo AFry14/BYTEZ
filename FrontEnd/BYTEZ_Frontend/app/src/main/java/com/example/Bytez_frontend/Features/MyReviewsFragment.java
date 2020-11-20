@@ -1,4 +1,4 @@
-package com.example.Bytez_frontend.Settings;
+package com.example.Bytez_frontend.Features;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,26 +10,19 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.Bytez_frontend.Features.HomeReviewRecyclerAdapter;
 import com.example.Bytez_frontend.R;
-import com.example.Bytez_frontend.Restaurant;
 import com.example.Bytez_frontend.Review;
 import com.example.Bytez_frontend.SharedPrefManager;
 import com.example.Bytez_frontend.SingletonVolley;
 import com.example.Bytez_frontend.URLs;
-import com.example.Bytez_frontend.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,32 +30,19 @@ import org.json.JSONObject;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.List;
 
-public class ReviewShowFragment extends Fragment
+public class MyReviewsFragment extends Fragment
 {
-    protected FragmentActivity mActivity;
     Context mCtx;
-    View view;
-    private SettingsReviewRecyclerAdapter SettingsReviewRecyclerAdapter;
-    ArrayList<Integer> reviewIds = new ArrayList<Integer>();
-    ArrayList<Restaurant> locations = new ArrayList<Restaurant>();
-    ArrayList<User> reviewers = new ArrayList<User>();
-    ArrayList<Double> ratings = new ArrayList<Double>();
-
-    int cerror=-1;
-    List<Review> reviewArrayList = new ArrayList<Review>();
-    //    String restStringArray[];
-//    int restIDArray[];
+    ArrayList<Review> allReviews = new ArrayList<Review>();
+    HomeReviewRecyclerAdapter HomeReviewRecyclerAdapter;
     private RecyclerView reviewRecyclerView;
-    private SettingsReviewRecyclerAdapter settingsReviewRecyclerAdapter;
-    private RequestQueue reqQueue;
 
-
-    public ReviewShowFragment()
+    public MyReviewsFragment()
     {
 
     }
+
 
     @Override
     public void onAttach(Context context)
@@ -75,19 +55,8 @@ public class ReviewShowFragment extends Fragment
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInsanceState)
     {
-        super.onCreateView(inflater, container, savedInstanceState);
-        final View view = inflater.inflate(R.layout.fragment_delete_review, container, false);
-        reviewRecyclerView = view.findViewById(R.id.settingsReviewRecycler);
-
-//        Bundle bundle = getArguments();
-//        reviewIds = (ArrayList<Integer>) bundle.getSerializable("ids");
-//        locations = (ArrayList<Restaurant>) bundle.getSerializable("rest");
-//        reviewers = (ArrayList<User>) bundle.getSerializable("user");
-//        ratings = (ArrayList<Double>) bundle.getSerializable("ratings");
-
         String pass = URLs.URL_AUTHORS_WORK + SharedPrefManager.getInstance(mCtx).getUser().getId();
         JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, pass, null,
                 new Response.Listener<JSONArray>() {
@@ -100,20 +69,47 @@ public class ReviewShowFragment extends Fragment
                             for(int i =0; i<response.length(); i++)
                             {
                                 JSONObject jresponse = response.getJSONObject(i);
-                                int id = jresponse.getInt("id");
                                 BigDecimal r = new BigDecimal(jresponse.getDouble("overallScore"));
                                 float overallScore = r.floatValue();
-                                String userName = jresponse.getString("authorName");
-                                String restName = jresponse.getString("restaurantName");
+                                BigDecimal r1 = new BigDecimal(jresponse.getDouble("foodQualityScore"));
+                                float FQScore = r1.floatValue();
+                                BigDecimal r2 = new BigDecimal(jresponse.getDouble("cleanlinessScore"));
+                                float cleanScore = r2.floatValue();
+                                BigDecimal r3 = new BigDecimal(jresponse.getDouble("serviceScore"));
+                                float sScore = r3.floatValue();
+                                String comments;
+                                if(jresponse.getString("comment") == null)
+                                {
+                                    comments = "";
+                                }
+                                else
+                                {
+                                    comments = jresponse.getString("comment");
+                                }
+                                ArrayList<Integer> agrees = new ArrayList<Integer>();
+                                for(int j = 0; j<jresponse.getJSONArray("likes").length(); j++)
+                                {
+                                    agrees.add(jresponse.getJSONArray("likes").getInt(j));
+                                }
+                                ArrayList<Integer> disagrees = new ArrayList<Integer>();
+                                for(int j = 0; j<jresponse.getJSONArray("dislikes").length(); j++)
+                                {
+                                    disagrees.add(jresponse.getJSONArray("dislikes").getInt(j));
+                                }
+                                ArrayList<Integer> helpfuls = new ArrayList<Integer>();
+                                for(int j = 0; j<jresponse.getJSONArray("helpfuls").length(); j++)
+                                {
+                                    helpfuls.add(jresponse.getJSONArray("helpfuls").getInt(j));
+                                }
 //                                Review newReview = new Review(jresponse.getInt("id"), overallScore, jresponse.getString("userName"), jresponse.getString("restName"), FQScore, cleanScore,sScore, jresponse.getString("comments"));
-                                Review newReview = new Review(id, overallScore, userName, restName);
+                                Review newReview = new Review(jresponse.getInt("id"), overallScore, jresponse.getString("authorName"), jresponse.getString("restaurantName"), FQScore, cleanScore, sScore, comments, agrees, disagrees, helpfuls);
 //                                restStringArray[i] = jresponse.getString("restaurantName") + ", " + jresponse.getString("address");
-                                reviewArrayList.add(newReview);
+                                allReviews.add(newReview);
                             }
-                            SettingsReviewRecyclerAdapter = new SettingsReviewRecyclerAdapter(reviewArrayList, mCtx);
+                            HomeReviewRecyclerAdapter = new HomeReviewRecyclerAdapter(allReviews, mCtx);
                             reviewRecyclerView.setLayoutManager(new LinearLayoutManager(mCtx));
 
-                            reviewRecyclerView.setAdapter(SettingsReviewRecyclerAdapter);
+                            reviewRecyclerView.setAdapter(HomeReviewRecyclerAdapter);
                             DividerItemDecoration reviewDivider = new DividerItemDecoration(mCtx, DividerItemDecoration.VERTICAL);
                             reviewRecyclerView.addItemDecoration(reviewDivider);
 
@@ -138,37 +134,12 @@ public class ReviewShowFragment extends Fragment
         );
 
         SingletonVolley.getInstance(mCtx).addToRequestQueue(getRequest);
-
-//        for(int i =0; i< reviewIds.size(); i++)
-//        {
-//            BigDecimal r = new BigDecimal(ratings.get(i));
-//            float rating = r.floatValue();
-//
-//            reviewArrayList.add(new Review(reviewIds.get(i), rating, locations.get(i), reviewers.get(i)));
-//        }
-
-//        SettingsReviewRecyclerAdapter = new SettingsReviewRecyclerAdapter(reviewArrayList, mCtx);
-//        reviewRecyclerView.setLayoutManager(new LinearLayoutManager(mCtx));
-//
-//        reviewRecyclerView.setAdapter(SettingsReviewRecyclerAdapter);
-//        DividerItemDecoration restaurantDivider = new DividerItemDecoration(mCtx, DividerItemDecoration.VERTICAL);
-//        reviewRecyclerView.addItemDecoration(restaurantDivider);
-//        this.view = view;
-
-        view.findViewById(R.id.backDRTS).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(ReviewShowFragment.this).navigate(R.id.action_ReviewShowFragment_to_SettingsMainFragment);
-            }
-        });
-        return view;
+        return inflater.inflate(R.layout.fragment_my_reviews, container, false);
     }
 
-    @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState)
     {
-
+        reviewRecyclerView = (RecyclerView) view.findViewById(R.id.myReviews);
     }
-
-
 }
+

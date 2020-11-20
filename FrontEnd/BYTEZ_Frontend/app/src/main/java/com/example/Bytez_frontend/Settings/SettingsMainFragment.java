@@ -17,6 +17,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.example.Bytez_frontend.Features.HomeActivity;
 import com.example.Bytez_frontend.R;
 import com.example.Bytez_frontend.SharedPrefManager;
 import com.example.Bytez_frontend.SingletonVolley;
@@ -53,47 +54,6 @@ public class SettingsMainFragment extends Fragment
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInsanceState)
     {
-        String pass = URLs.URL_AUTHORS_WORK + SharedPrefManager.getInstance(mCtx).getUser().getId();
-        JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, pass, null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        try{
-                            Log.d("TAG", response.toString());
-//                            restStringArray = new String[response.length()];
-//                            restIDArray = new int[response.length()];
-                            for(int i =0; i<response.length(); i++)
-                            {
-                                JSONObject jresponse = response.getJSONObject(i);
-//                                restStringArray[i] = jresponse.getString("restaurantName") + ", " + jresponse.getString("address");
-                                reviewIds.add(response.getJSONObject(i).getInt("id"));
-                                ratings.add(response.getJSONObject(i).getDouble("overallScore"));
-//                                String comments = response.getJSONObject(i).getString("comments");
-//                                reviewArrayList.add(new Review(reviewId, locations.get(i), reviewers.get(i)));
-//                                restIDArray[i] = jresponse.getInt("id");
-                            }
-
-//                            AutoCompleteTextView BusinessSearch = view.findViewById(R.id.businessBar);
-//                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(ctx, android.R.layout.simple_list_item_1, restStringArray);
-//                            BusinessSearch.setAdapter(adapter);
-                        }
-                        catch(JSONException e)
-                        {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
-                        error.printStackTrace();
-                    }
-                }
-        );
-
-        SingletonVolley.getInstance(mCtx).addToRequestQueue(getRequest);
         return inflater.inflate(R.layout.fragment_settingsmain, container, false);
     }
 
@@ -126,15 +86,8 @@ public class SettingsMainFragment extends Fragment
             @Override
             public void onClick(View view)
             {
-//                ArrayList<Integer> sendIds = reviewIds;
-//                ArrayList<Double> sendRatings = ratings;
-//                reviewIds.clear();
-//                ratings.clear();
-                Bundle bundle = new Bundle();
-                bundle.putIntegerArrayList("ids", reviewIds);
-                bundle.putSerializable("ratings", ratings);
                 NavHostFragment.findNavController(SettingsMainFragment.this)
-                        .navigate(R.id.action_SettingsMainFragment_to_DeleteReviewFragment, bundle);
+                        .navigate(R.id.action_SettingsMainFragment_to_ReviewShowFragment);
             }
         });
 
@@ -142,6 +95,13 @@ public class SettingsMainFragment extends Fragment
             @Override
             public void onClick(View view) {
                 NavHostFragment.findNavController(SettingsMainFragment.this).navigate(R.id.action_SettingsMainFragment_to_AdjustCriteriaFragment);
+            }
+        });
+
+        view.findViewById(R.id.backFSTH).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), HomeActivity.class));
             }
         });
 

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -16,10 +17,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.Bytez_frontend.Features.MapRecyclerAdapter;
 import com.example.Bytez_frontend.R;
 import com.example.Bytez_frontend.Restaurant;
 import com.example.Bytez_frontend.Review;
+import com.example.Bytez_frontend.SharedPrefManager;
+import com.example.Bytez_frontend.SingletonVolley;
+import com.example.Bytez_frontend.URLs;
+import com.example.Bytez_frontend.User;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -69,11 +81,11 @@ public class SettingsReviewRecyclerAdapter extends RecyclerView.Adapter<com.exam
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
-        holder.userInfo.setText(reviewList.get(position).getReviewer().getUsername() + " reviewed " + reviewList.get(position).getRest().getName());
-        holder.comments.setText(reviewList.get(position).getComments());
+        holder.userInfo.setText(reviewList.get(position).getReviewerString() + " reviewed " + reviewList.get(position).getRestString());
+//        holder.comments.setText(reviewList.get(position).getComments());
         holder.rating.setIsIndicator(true);
         holder.rating.setRating(reviewList.get(position).getOverallR());
-        holder.reviewId.setText(reviewList.get(position).getId());
+//        holder.reviewId.setText(reviewList.get(position).getId());
     }
 
 
@@ -85,6 +97,17 @@ public class SettingsReviewRecyclerAdapter extends RecyclerView.Adapter<com.exam
     @Override
     public int getItemCount() {
         return reviewList.size();
+    }
+
+    public void delete(int position)
+    {
+        reviewList.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public int getID(int position)
+    {
+        return reviewList.get(position).getId();
     }
 
     /**
@@ -145,6 +168,8 @@ public class SettingsReviewRecyclerAdapter extends RecyclerView.Adapter<com.exam
         ImageView profilePic;
         TextView userInfo, comments, reviewId;
         RatingBar rating;
+        Button deleteB;
+
 
         /**
          * Class for each viewholder, sets button functionality for each viewholder and has proper restaurant values set
@@ -152,15 +177,40 @@ public class SettingsReviewRecyclerAdapter extends RecyclerView.Adapter<com.exam
          */
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             profilePic = itemView.findViewById(R.id.profileImage);
             userInfo = itemView.findViewById(R.id.userInfo);
             comments = itemView.findViewById(R.id.comments);
             rating = itemView.findViewById(R.id.ratingBar);
             reviewId = itemView.findViewById(R.id.reviewId);
+            deleteB = itemView.findViewById(R.id.delete);
 
             // Allow for each viewholder to have button functionality
             itemView.setOnClickListener(this);
+
+            deleteB.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int id = getID(getLayoutPosition());
+                    String pass1 = URLs.URL_DELETE_REVIEW + id;
+                    JsonObjectRequest deleteReviewRequest = new JsonObjectRequest(Request.Method.DELETE, pass1, null,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    delete(getAdapterPosition());
+                                }
+                            },
+                            new Response.ErrorListener()
+                            {
+                                @Override
+                                public void onErrorResponse(VolleyError error)
+                                {
+                                    error.printStackTrace();
+                                }
+                            }
+                    );
+                    SingletonVolley.getInstance(context).addToRequestQueue(deleteReviewRequest);
+                }
+            });
 
         }
 

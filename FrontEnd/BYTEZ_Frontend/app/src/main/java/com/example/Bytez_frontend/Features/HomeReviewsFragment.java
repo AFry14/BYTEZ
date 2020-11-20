@@ -1,34 +1,34 @@
 package com.example.Bytez_frontend.Features;
 
-import android.app.Activity;
-import android.content.Context;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+        import android.app.Activity;
+        import android.content.Context;
+        import android.os.Bundle;
+        import android.util.Log;
+        import android.view.LayoutInflater;
+        import android.view.View;
+        import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+        import androidx.annotation.NonNull;
+        import androidx.fragment.app.Fragment;
+        import androidx.recyclerview.widget.DividerItemDecoration;
+        import androidx.recyclerview.widget.LinearLayoutManager;
+        import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.example.Bytez_frontend.R;
-import com.example.Bytez_frontend.Review;
-import com.example.Bytez_frontend.SingletonVolley;
-import com.example.Bytez_frontend.URLs;
+        import com.android.volley.Request;
+        import com.android.volley.Response;
+        import com.android.volley.VolleyError;
+        import com.android.volley.toolbox.JsonArrayRequest;
+        import com.example.Bytez_frontend.R;
+        import com.example.Bytez_frontend.Review;
+        import com.example.Bytez_frontend.SingletonVolley;
+        import com.example.Bytez_frontend.URLs;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+        import org.json.JSONArray;
+        import org.json.JSONException;
+        import org.json.JSONObject;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
+        import java.math.BigDecimal;
+        import java.util.ArrayList;
 
 public class HomeReviewsFragment extends Fragment
 {
@@ -36,6 +36,9 @@ public class HomeReviewsFragment extends Fragment
     ArrayList<Review> allReviews = new ArrayList<Review>();
     HomeReviewRecyclerAdapter HomeReviewRecyclerAdapter;
     private RecyclerView reviewRecyclerView;
+    ArrayList<Integer> helpfuls = new ArrayList<Integer>();
+    ArrayList<Integer> agrees = new ArrayList<Integer>();
+    ArrayList<Integer> disagrees = new ArrayList<Integer>();
 
     public HomeReviewsFragment()
     {
@@ -65,7 +68,7 @@ public class HomeReviewsFragment extends Fragment
                             Log.d("TAG", response.toString());
 //                            restStringArray = new String[response.length()];
 //                            restIDArray = new int[response.length()];
-                            for(int i =1; i<response.length(); i++)
+                            for(int i = response.length() - 1; i>0; i--)
                             {
                                 JSONObject jresponse = response.getJSONObject(i);
                                 BigDecimal r = new BigDecimal(jresponse.getDouble("overallScore"));
@@ -77,7 +80,7 @@ public class HomeReviewsFragment extends Fragment
                                 BigDecimal r3 = new BigDecimal(jresponse.getDouble("serviceScore"));
                                 float sScore = r3.floatValue();
                                 String comments;
-                                if(jresponse.getString("comment") == null)
+                                if(jresponse.getString("comment").equals(null))
                                 {
                                     comments = "";
                                 }
@@ -85,8 +88,18 @@ public class HomeReviewsFragment extends Fragment
                                 {
                                     comments = jresponse.getString("comment");
                                 }
+
+//                                for(int j = 0; j<jresponse.getJSONArray("likes").length(); j++)
+//                                {
+//                                    agrees.add(jresponse.getJSONArray("likes").getInt(j));
+//                                }
+
+//                                for(int j = 0; j<jresponse.getJSONArray("dislikes").length(); j++)
+//                                {
+//                                    disagrees.add(jresponse.getJSONArray("dislikes").getInt(j));
+//                                }
 //                                Review newReview = new Review(jresponse.getInt("id"), overallScore, jresponse.getString("userName"), jresponse.getString("restName"), FQScore, cleanScore,sScore, jresponse.getString("comments"));
-                                Review newReview = new Review(jresponse.getInt("id"), overallScore, FQScore, cleanScore,sScore, comments);
+                                Review newReview = new Review(jresponse.getInt("id"), overallScore, jresponse.getString("authorName"), jresponse.getString("restaurantName"), FQScore, cleanScore, sScore, comments, agrees, disagrees, helpfuls);
 //                                restStringArray[i] = jresponse.getString("restaurantName") + ", " + jresponse.getString("address");
                                 allReviews.add(newReview);
                             }

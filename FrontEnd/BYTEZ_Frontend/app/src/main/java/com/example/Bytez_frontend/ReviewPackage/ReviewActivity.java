@@ -178,6 +178,8 @@ public class ReviewActivity extends AppCompatActivity
                     jsonBody.put("serviceScore", serviceS);
                     jsonBody.put("cleanlinessScore", cleanS);
                     jsonBody.put("overallScore", Review.getFinalRating(foodS, serviceS, cleanS, foodCrit, serviceCrit, cleanCrit));
+                    jsonBody.put("authorName", SharedPrefManager.getInstance(ctx).getUser().getUsername());
+                    jsonBody.put("restaurantName", business.getText().toString());
                     jsonBody.put("comment", comments);
 
                 }

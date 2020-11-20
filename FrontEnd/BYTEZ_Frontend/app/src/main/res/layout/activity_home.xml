@@ -31,10 +31,11 @@
         android:layout_width="55dp"
         android:layout_height="55dp"
         android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginLeft="16dp" />
+        app:srcCompat="@android:drawable/ic_btn_speak_now" />
 
     <ImageButton
         android:id="@+id/imageButton"

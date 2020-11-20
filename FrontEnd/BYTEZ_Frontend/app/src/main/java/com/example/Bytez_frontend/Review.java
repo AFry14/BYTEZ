@@ -1,5 +1,7 @@
 package com.example.Bytez_frontend;
 
+import java.util.ArrayList;
+
 public class Review
 {
     private int id;
@@ -13,6 +15,9 @@ public class Review
     private float cleanlinessR;
     private float overallR;
     private String comments;
+    private ArrayList<Integer> agrees;
+    private ArrayList<Integer> disagrees;
+    private ArrayList<Integer> helpfuls;
 
     public Review(int id, Restaurant place, User reviewer)
     {
@@ -21,6 +26,14 @@ public class Review
         this.reviewer = reviewer;
         userName = reviewer.getUsername();
         restName = place.getName();
+    }
+
+    public Review(int id, float overallR, String userName, String restName)
+    {
+        this.id = id;
+        this.overallR = overallR;
+        this.userName = userName;
+        this.restName = restName;
     }
 
     public Review(int id, float rating, Restaurant place, User reviewer)
@@ -53,6 +66,21 @@ public class Review
         this.cleanlinessR = cleanlinessR;
         this.serviceR = serviceR;
         this.comments = comments;
+    }
+
+    public Review(int id, float rating, String userName, String rest, float foodQR, float cleanlinessR, float serviceR, String comments, ArrayList<Integer> agrees, ArrayList<Integer> disagrees, ArrayList<Integer> helpfuls)
+    {
+        this.id = id;
+        overallR = rating;
+        this.userName = userName;
+        restName = rest;
+        this.foodQR = foodQR;
+        this.cleanlinessR = cleanlinessR;
+        this.serviceR = serviceR;
+        this.comments = comments;
+        this.agrees = agrees;
+        this.disagrees = disagrees;
+        this.helpfuls =  helpfuls;
     }
 
     public Review(int id, float rating, float foodQR, float cleanlinessR, float serviceR, String comments)
@@ -142,12 +170,22 @@ public class Review
         return reviewer;
     }
 
+    public String getReviewerString() { return userName; }
+
+    public String getRestString() { return restName; }
+
     public Restaurant getRest()
     {
         return rest;
     }
 
     public int getId() { return id; }
+
+    public ArrayList<Integer> getHelpfuls() { return helpfuls; }
+
+    public ArrayList<Integer> getAgrees() { return agrees; }
+
+    public ArrayList<Integer> getDisagrees() { return disagrees; }
 
     public void setFoodQR(float score)
     {

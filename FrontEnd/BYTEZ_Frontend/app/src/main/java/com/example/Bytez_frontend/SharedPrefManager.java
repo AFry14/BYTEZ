@@ -22,6 +22,9 @@ public class SharedPrefManager
     private static final String KEY_CRIT_FOOD = "keycritfood";
     private static final String KEY_CRIT_SERVICE = "keycritservice";
     private static final String KEY_CRIT_CLEAN = "keycritclean";
+    private static final String KEY_HELPFULS = "keyhelpful";
+    private static final String KEY_AGREES = "keyagree";
+    private static final String KEY_DISAGREES = "keydisagree";
 
 
     private static SharedPrefManager spm;

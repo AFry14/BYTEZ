@@ -21,6 +21,8 @@ import com.example.Bytez_frontend.login.SuccessActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity
 {
     EditText textEmail;
@@ -89,11 +91,32 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onResponse(JSONObject response) {
                         try{
+//                            ArrayList<Integer> helpfuls = new ArrayList<Integer>();
+//                            for(int i =0; i<response.getJSONArray("helpfulReviews").length(); i++)
+//                            {
+//                                JSONObject something = (JSONObject) response.getJSONArray("helpfulReviews").get(i);
+//                                int id = something.getInt("id");
+//                                helpfuls.add(id);
+//                            }
+//                            ArrayList<Integer> agrees = new ArrayList<Integer>();
+//                            for(int i =0; i<response.getJSONArray("likedReviews").length(); i++)
+//                            {
+//                                JSONObject something = (JSONObject) response.getJSONArray("likedReviews").get(i);
+//                                int id = something.getInt("id");
+//                                agrees.add(id);
+//                            }
+//                            ArrayList<Integer> disagrees = new ArrayList<Integer>();
+//                            for(int i =0; i<response.getJSONArray("dislikedReviews").length(); i++)
+//                            {
+//                                JSONObject something = (JSONObject) response.getJSONArray("dislikedReviews").get(i);
+//                                int id = something.getInt("id");
+//                                disagrees.add(id);
+//                            }
                             //User JsonUser = new User(response.getInt("id"), response.getString("userName"), response.getString("email"));
                             User JsonUser = new User(response.getInt("id"), response.getString("userName"), response.getString("email"),
                                     response.getString("password"), response.getString("favoriteFood"), response.getString("favoriteDrink"),
                                     response.getString("favoriteRestaurant"), response.getString("firstName"), response.getString("lastName"),
-                                    response.getString("userType"));
+                                    response.getString("userType"), response.getInt("critFood"), response.getInt("critService"), response.getInt("critClean"));
 
 
                             //Testing purposes
@@ -108,6 +131,18 @@ public class MainActivity extends AppCompatActivity
                             }
                             if (JsonUser.getUserType().equals("")) {
                                 JsonUser.setUserType("General User");
+                            }
+                            if (JsonUser.getCritFood()==0)
+                            {
+                                JsonUser.setCritFood(1);
+                            }
+                            if (JsonUser.getCritService()==0)
+                            {
+                                JsonUser.setCritService(1);
+                            }
+                            if (JsonUser.getCritClean()==0)
+                            {
+                                JsonUser.setCritClean(1);
                             }
 
 

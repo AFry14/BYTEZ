@@ -1,7 +1,9 @@
 package com.example.Bytez_frontend.ReviewPackage;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -11,6 +13,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.Bytez_frontend.Features.HomeActivity;
 import com.example.Bytez_frontend.R;
 import com.example.Bytez_frontend.Restaurant;
 import com.example.Bytez_frontend.SingletonVolley;
@@ -45,9 +48,9 @@ public class ShowFullReviewActivity extends AppCompatActivity
         foodBar = (RatingBar) findViewById(R.id.fScore);
         serviceBar = (RatingBar) findViewById(R.id.sScore);
         cleanBar = (RatingBar) findViewById(R.id.cScore);
-        helpfuls = (TextView) findViewById(R.id.helpfuls);
-        agrees = (TextView) findViewById(R.id.agrees);
-        disagrees = (TextView) findViewById(R.id.disagrees);
+//        helpfuls = (TextView) findViewById(R.id.helpfuls);
+//        agrees = (TextView) findViewById(R.id.agrees);
+//        disagrees = (TextView) findViewById(R.id.disagrees);
         int id = getIntent().getExtras().getInt("id");
         String pass1 = URLs.URL_REVIEW_LIST + id;
         JsonObjectRequest getReviewRequest = new JsonObjectRequest(Request.Method.GET, pass1, null,
@@ -56,6 +59,7 @@ public class ShowFullReviewActivity extends AppCompatActivity
                     public void onResponse(JSONObject response) {
                         try{
 //                            title.setText(response.getString("userName") + "reviewed " + response.getString("restName"));
+                            title.setText(response.getString("authorName") + " reviewed " + response.getString("restaurantName"));
                             BigDecimal oScore = new BigDecimal(response.getDouble("overallScore"));
                             float oValue = oScore.floatValue();
                             overallBar.setRating(oValue);
@@ -97,7 +101,12 @@ public class ShowFullReviewActivity extends AppCompatActivity
 
         SingletonVolley.getInstance(ctx).addToRequestQueue(getReviewRequest);
 
-
+        findViewById(R.id.backFRevTH).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+            }
+        });
 
 
     }
