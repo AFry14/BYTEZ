@@ -3,6 +3,7 @@ package com.example.Bytez_frontend;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class User implements Parcelable
@@ -17,6 +18,12 @@ public class User implements Parcelable
     private String fName;
     private String lName;
     private String userType;
+    private int critFood = 1;
+    private int critService = 1;
+    private int critClean = 1;
+    ArrayList<Integer> agrees;
+    ArrayList<Integer> disagrees;
+    ArrayList<Integer> helpfuls;
 
     public User(int id, String username, String email)
     {
@@ -25,7 +32,7 @@ public class User implements Parcelable
         this.email = email;
     }
 
-    public User(int id, String username, String email, String favFood, String favDrink, String favRestaurant, String fName, String lName)
+    public User(int id, String username, String email)
     {
         this.id = id;
         this.username = username;
@@ -37,7 +44,6 @@ public class User implements Parcelable
         this.lName = lName;
     }
 
-    // Actual constructor
     public User(int id, String username, String email, String password, String favFood, String favDrink, String favRestaurant, String fName, String lName,
                 String userType)
     {
@@ -51,8 +57,50 @@ public class User implements Parcelable
         this.fName = fName;
         this.lName = lName;
         this.userType = userType;
+        this.critFood = 1;
+        this.critService = 1;
+        this.critClean = 1;
     }
 
+    // Actual constructor
+    public User(int id, String username, String email, String password, String favFood, String favDrink, String favRestaurant, String fName, String lName,
+                String userType, int critFood, int critService, int critClean)
+    {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.favFood = favFood;
+        this.favDrink = favDrink;
+        this.favRestaurant = favRestaurant;
+        this.fName = fName;
+        this.lName = lName;
+        this.userType = userType;
+        this.critFood = critFood;
+        this.critService = critService;
+        this.critClean = critClean;
+    }
+
+    public User(int id, String username, String email, String password, String favFood, String favDrink, String favRestaurant, String fName, String lName,
+                String userType, int critFood, int critService, int critClean, ArrayList<Integer> helpfuls, ArrayList<Integer> agrees, ArrayList<Integer> disagrees)
+    {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.favFood = favFood;
+        this.favDrink = favDrink;
+        this.favRestaurant = favRestaurant;
+        this.fName = fName;
+        this.lName = lName;
+        this.userType = userType;
+        this.critFood = critFood;
+        this.critService = critService;
+        this.critClean = critClean;
+        this.helpfuls = helpfuls;
+        this.agrees = agrees;
+        this.disagrees = disagrees;
+    }
 
     // Parcelable constructors
     protected User(Parcel in) {
@@ -118,6 +166,18 @@ public class User implements Parcelable
 
     public String getUserType() { return userType; }
 
+    public int getCritFood() { return critFood; }
+
+    public int getCritService() { return critService; }
+
+    public int getCritClean() { return critClean; }
+
+    public ArrayList<Integer> getHelpfuls() { return helpfuls; }
+
+    public ArrayList<Integer> getAgrees() { return agrees; }
+
+    public ArrayList<Integer> getDisagrees() { return disagrees; }
+
     // Setter methods
     public void setUsername(String userName) {
         username = userName;
@@ -153,6 +213,21 @@ public class User implements Parcelable
 
     public void setUserType(String usertype) {
         userType = usertype;
+    }
+
+    public void setCritFood(int score)
+    {
+        critFood = score;
+    }
+
+    public void setCritService(int score)
+    {
+        critService = score;
+    }
+
+    public void setCritClean(int score)
+    {
+        critClean = score;
     }
 
 

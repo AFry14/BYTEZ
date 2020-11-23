@@ -13,10 +13,10 @@
         android:text="Food Quality"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/businessRecycler"
-        app:layout_constraintVertical_bias="0.054" />
+        app:layout_constraintTop_toBottomOf="@+id/businessBar"
+        app:layout_constraintVertical_bias="0.013" />
 
     <RatingBar
         android:id="@+id/foodBar"
@@ -27,7 +27,7 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Food"
-        app:layout_constraintVertical_bias="0.019" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/Service"
@@ -39,7 +39,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/foodBar"
-        app:layout_constraintVertical_bias="0.036" />
+        app:layout_constraintVertical_bias="0.014" />
 
     <RatingBar
         android:id="@+id/serviceBar"
@@ -50,7 +50,7 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Service"
-        app:layout_constraintVertical_bias="0.032" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/Cleanliness"
@@ -62,7 +62,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/serviceBar"
-        app:layout_constraintVertical_bias="0.05" />
+        app:layout_constraintVertical_bias="0.029" />
 
     <RatingBar
         android:id="@+id/cleanlinessBar"
@@ -73,7 +73,7 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Cleanliness"
-        app:layout_constraintVertical_bias="0.049" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/commentSection"
@@ -88,7 +88,7 @@
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cleanlinessBar"
-        app:layout_constraintVertical_bias="0.117" />
+        app:layout_constraintVertical_bias="0.034" />
 
     <Button
         android:id="@+id/submitButton"
@@ -97,8 +97,10 @@
         android:text="Submit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/commentSection" />
+        app:layout_constraintTop_toBottomOf="@+id/commentSection"
+        app:layout_constraintVertical_bias="0.97" />
 
     <AutoCompleteTextView
         android:id="@+id/businessBar"
@@ -107,18 +109,18 @@
         android:hint="Select a restaurant"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.043" />
+        app:layout_constraintVertical_bias="0.023" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/businessRecycler"
-        android:layout_width="405dp"
-        android:layout_height="159dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <fragment
+        android:id="@+id/fragment3"
+        android:name="com.example.Bytez_frontend.ReviewPackage.AdjustCriteriaInReviewFragment"
+        android:layout_width="410dp"
+        android:layout_height="262dp"
+        app:layout_constraintBottom_toTopOf="@+id/submitButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/businessBar"
-        app:layout_constraintVertical_bias="0.014" />
+        app:layout_constraintTop_toBottomOf="@+id/commentSection" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

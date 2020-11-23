@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -94,6 +95,12 @@ public class bugReportFragment extends Fragment
 
                 SingletonVolley.getInstance(mCtx).addToRequestQueue(postRequest);
 
+            }
+        });
+        view.findViewById(R.id.backFRTS).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(bugReportFragment.this).navigate(R.id.action_bugReportFragment_to_SettingsMainFragment);
             }
         });
         return view;

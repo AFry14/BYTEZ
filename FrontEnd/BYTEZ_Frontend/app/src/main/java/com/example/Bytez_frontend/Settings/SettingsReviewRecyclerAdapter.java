@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -16,10 +17,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.Bytez_frontend.Features.MapRecyclerAdapter;
 import com.example.Bytez_frontend.R;
 import com.example.Bytez_frontend.Restaurant;
 import com.example.Bytez_frontend.Review;
+import com.example.Bytez_frontend.SharedPrefManager;
+import com.example.Bytez_frontend.SingletonVolley;
+import com.example.Bytez_frontend.URLs;
+import com.example.Bytez_frontend.User;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,13 +41,13 @@ public class SettingsReviewRecyclerAdapter extends RecyclerView.Adapter<com.exam
 
     private static final String TAG = "SettingReviewRecAdapter";
 
-    // Map context, viewable restaurant list, list of all restaurants
+    // settings context, viewable restaurant list, list of all restaurants
     private Context context;
     private List<Review> reviewList;
     private List<Review> allReviewsList;
 
     /**
-     * Map activity recycler adapter with a list of restaurants and the map context
+     * settings activity recycler adapter with a list of reviews
      * @param reviewList
      * @param context
      */
@@ -46,7 +58,7 @@ public class SettingsReviewRecyclerAdapter extends RecyclerView.Adapter<com.exam
     }
 
     /**
-     * ViewHolder for recycler view in MapActivity, Describes how each item in the recycler view should look and function
+     * ViewHolder for recycler view in ReviewShowFragment, Describes how each item in the recycler view should look and function
      * @param parent
      * @param viewType
      * @return
@@ -57,7 +69,7 @@ public class SettingsReviewRecyclerAdapter extends RecyclerView.Adapter<com.exam
 
         Log.i(TAG, "onCreateViewHolder: ");
 
-        // Each part of the recyclerView is one mapEntry
+        // Each part of the recyclerView is one ReviewEntry
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View reviewEntry = layoutInflater.inflate(R.layout.row_review_item, parent, false);
 
@@ -66,13 +78,19 @@ public class SettingsReviewRecyclerAdapter extends RecyclerView.Adapter<com.exam
         return reviewViewHolder;
     }
 
+    /**
+     * set all the values for each recycler position
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
-        holder.userInfo.setText(reviewList.get(position).getReviewer().getUsername() + " reviewed " + reviewList.get(position).getRest().getName());
-        holder.comments.setText(reviewList.get(position).getComments());
+        holder.userInfo.setText(reviewList.get(position).getReviewerString() + " reviewed " + reviewList.get(position).getRestString());
+//        holder.comments.setText(reviewList.get(position).getComments());
         holder.rating.setIsIndicator(true);
         holder.rating.setRating(reviewList.get(position).getOverallR());
+//        holder.reviewId.setText(reviewList.get(position).getId());
     }
 
 
@@ -84,6 +102,23 @@ public class SettingsReviewRecyclerAdapter extends RecyclerView.Adapter<com.exam
     @Override
     public int getItemCount() {
         return reviewList.size();
+    }
+
+    //delete the review from the arraylist
+    public void delete(int position)
+    {
+        reviewList.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    /**
+     * return the id of the review in the given position
+     * @param position
+     * @return
+     */
+    public int getID(int position)
+    {
+        return reviewList.get(position).getId();
     }
 
     /**
@@ -100,18 +135,18 @@ public class SettingsReviewRecyclerAdapter extends RecyclerView.Adapter<com.exam
      */
     Filter searchFilter = new Filter() {
 
-        // Filters through the restaurant list by an entered string
+        // Filters through the review list by an entered string
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
 
-            // Filtered list of restaurants
+            // Filtered list of reviews
             List<Review> filteredList = new ArrayList<>();
 
-            // If there is nothing typed in the search bar, return all restaurants
+            // If there is nothing typed in the search bar, return all review
             if (charSequence.toString().isEmpty()) {
                 filteredList.addAll(allReviewsList);
             } else {
-                // For all elements in restaurant list, check if charSequence is in the name, add to list if true; not case sensitive
+                // For all elements in review list, check if charSequence is in the name, add to list if true; not case sensitive
                 for (int i = 0; i < allReviewsList.size(); i++) {
                     if (allReviewsList.get(i).getReviewer().toString().toLowerCase().contains(charSequence.toString().toLowerCase())) {
                         filteredList.add(allReviewsList.get(i));
@@ -142,23 +177,52 @@ public class SettingsReviewRecyclerAdapter extends RecyclerView.Adapter<com.exam
 
         // Views within recycler adapter
         ImageView profilePic;
-        TextView userInfo, comments;
+        TextView userInfo, comments, reviewId;
         RatingBar rating;
+        Button deleteB;
+
 
         /**
-         * Class for each viewholder, sets button functionality for each viewholder and has proper restaurant values set
+         * Class for each viewholder, sets button functionality for each viewholder and has proper review values set
          * @param itemView
          */
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             profilePic = itemView.findViewById(R.id.profileImage);
             userInfo = itemView.findViewById(R.id.userInfo);
             comments = itemView.findViewById(R.id.comments);
             rating = itemView.findViewById(R.id.ratingBar);
+            reviewId = itemView.findViewById(R.id.reviewId);
+            deleteB = itemView.findViewById(R.id.delete);
 
             // Allow for each viewholder to have button functionality
             itemView.setOnClickListener(this);
+
+            //delete review from database if delete button is pressed
+            deleteB.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int id = getID(getLayoutPosition());
+                    String pass1 = URLs.URL_DELETE_REVIEW + id;
+                    JsonObjectRequest deleteReviewRequest = new JsonObjectRequest(Request.Method.DELETE, pass1, null,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    delete(getAdapterPosition());
+                                }
+                            },
+                            new Response.ErrorListener()
+                            {
+                                @Override
+                                public void onErrorResponse(VolleyError error)
+                                {
+                                    error.printStackTrace();
+                                }
+                            }
+                    );
+                    SingletonVolley.getInstance(context).addToRequestQueue(deleteReviewRequest);
+                }
+            });
 
         }
 

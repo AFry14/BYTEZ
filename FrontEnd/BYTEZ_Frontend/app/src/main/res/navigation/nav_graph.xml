@@ -14,25 +14,19 @@
             android:id="@+id/action_SettingsMainFragment_to_bugReportFragment"
             app:destination="@id/bugReportFragment" />
         <action
-            android:id="@+id/action_SettingsMainFragment_to_DeleteReviewFragment"
-            app:destination="@id/DeleteReviewFragment" />
+            android:id="@+id/action_SettingsMainFragment_to_AdjustCriteriaFragment"
+            app:destination="@id/AdjustCriteriaFragment" />
+        <action
+            android:id="@+id/action_SettingsMainFragment_to_ReviewShowFragment"
+            app:destination="@id/ReviewShowFragment" />
     </fragment>
     <fragment
         android:id="@+id/bugReportFragment"
         android:name="com.example.Bytez_frontend.Settings.bugReportFragment"
         android:label="Bug Report Fragment"
         tools:layout="@layout/fragment_bug_report">
-    </fragment>
-    <fragment
-        android:id="@+id/DeleteReviewFragment"
-        android:name="com.example.Bytez_frontend.Settings.DeleteReviewFragment"
-        android:label="Delete Review Fragment"
-        tools:layout="@layout/fragment_loading">
         <action
-            android:id="@+id/action_DeleteReviewFragment_to_ReviewShowFragment"
-            app:destination="@id/ReviewShowFragment" />
-        <action
-            android:id="@+id/action_DeleteReviewFragment_to_SettingsMainFragment"
+            android:id="@+id/action_bugReportFragment_to_SettingsMainFragment"
             app:destination="@id/SettingsMainFragment" />
     </fragment>
     <fragment
@@ -40,5 +34,16 @@
         android:name="com.example.Bytez_frontend.Settings.ReviewShowFragment"
         android:label="Review View Fragment"
         tools:layout="@layout/fragment_delete_review">
+        <action
+            android:id="@+id/action_ReviewShowFragment_to_SettingsMainFragment"
+            app:destination="@id/SettingsMainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/AdjustCriteriaFragment"
+        android:name="com.example.Bytez_frontend.Settings.AdjustCriteriaFragment"
+        android:label="Adjust Criteria Fragment">
+        <action
+            android:id="@+id/action_AdjustCriteriaFragment_to_SettingsMainFragment"
+            app:destination="@id/SettingsMainFragment" />
     </fragment>
 </navigation>

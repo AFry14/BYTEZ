@@ -188,8 +188,8 @@ public class DeleteReviewFragment extends Fragment
                 bundle.putSerializable("rest", locations);
                 bundle.putSerializable("user", reviewers);
                 bundle.putSerializable("ratings", ratings);
-                NavHostFragment.findNavController(DeleteReviewFragment.this)
-                        .navigate(R.id.action_DeleteReviewFragment_to_ReviewShowFragment, bundle);
+//                NavHostFragment.findNavController(DeleteReviewFragment.this)
+//                        .navigate(R.id.action_DeleteReviewFragment_to_ReviewShowFragment, bundle);
 
 
             }

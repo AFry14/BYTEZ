@@ -74,6 +74,11 @@ public class ProfileActivity extends AppCompatActivity {
         startActivity(friendsActivity);
     }
 
+    public void launchMyReviews(View view) {
+        Intent myReviewsActivity = new Intent(this, MyReviewsActivity.class);
+        startActivity(myReviewsActivity);
+    }
+
     /**
      * Launches the review activity
      * @param view

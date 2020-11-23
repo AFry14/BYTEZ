@@ -1,29 +1,45 @@
-package com.example.Bytez_frontend.Map;
+package com.example.Bytez_frontend.Features;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.Bytez_frontend.R;
 import com.example.Bytez_frontend.Review;
-import com.example.Bytez_frontend.Settings.SettingsReviewRecyclerAdapter;
+import com.example.Bytez_frontend.ReviewPackage.ShowFullReviewActivity;
+import com.example.Bytez_frontend.SharedPrefManager;
+import com.example.Bytez_frontend.SingletonVolley;
+import com.example.Bytez_frontend.URLs;
+import com.example.Bytez_frontend.User;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class HomeReviewRecyclerAdapter extends RecyclerView.Adapter<com.example.Bytez_frontend.Map.HomeReviewRecyclerAdapter.ViewHolder> implements Filterable
+public class HomeReviewRecyclerAdapter extends RecyclerView.Adapter<com.example.Bytez_frontend.Features.HomeReviewRecyclerAdapter.ViewHolder> implements Filterable
 {
     private static final String TAG = "HomeReviewRecAdapter";
 
@@ -31,10 +47,11 @@ public class HomeReviewRecyclerAdapter extends RecyclerView.Adapter<com.example.
     private Context context;
     private List<Review> reviewList;
     private List<Review> allReviewsList;
+    int position = 0;
 
 
     /**
-     * Map activity recycler adapter with a list of restaurants and the map context
+     * Home activity recycler adapter with a list of reviews and the home context
      * @param reviewList
      * @param context
      */
@@ -45,7 +62,7 @@ public class HomeReviewRecyclerAdapter extends RecyclerView.Adapter<com.example.
     }
 
     /**
-     * ViewHolder for recycler view in MapActivity, Describes how each item in the recycler view should look and function
+     * ViewHolder for recycler view in HomeActivity, Describes how each item in the recycler view should look and function
      * @param parent
      * @param viewType
      * @return
@@ -58,20 +75,32 @@ public class HomeReviewRecyclerAdapter extends RecyclerView.Adapter<com.example.
 
         // Each part of the recyclerView is one mapEntry
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View reviewEntry = layoutInflater.inflate(R.layout.row_review_item, parent, false);
+        View reviewEntry = layoutInflater.inflate(R.layout.row_reviewbuttons_item, parent, false);
 
         // ViewHolder that contains the views within each part of the recyclerView
         HomeReviewRecyclerAdapter.ViewHolder reviewViewHolder = new HomeReviewRecyclerAdapter.ViewHolder(reviewEntry);
         return reviewViewHolder;
     }
 
+    /**
+     * set all text views, rating bars, and buttons with information from review
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
-        holder.userInfo.setText(reviewList.get(position).getReviewer().getUsername() + " reviewed " + reviewList.get(position).getRest().getName());
+        holder.userInfo.setText(reviewList.get(position).getReviewerString() + " reviewed " + reviewList.get(position).getRestString());
         holder.comments.setText(reviewList.get(position).getComments());
-        holder.rating.setIsIndicator(true);
+//        holder.rating.setIsIndicator(true);
         holder.rating.setRating(reviewList.get(position).getOverallR());
+        holder.reviewId.setText(String.valueOf(reviewList.get(position).getId()));
+        holder.helpfulValue.setText(String.valueOf(reviewList.get(position).getHelpfuls().size()));
+        holder.agreeValue.setText(String.valueOf(reviewList.get(position).getAgrees().size()));
+        holder.disagreeValue.setText(String.valueOf(reviewList.get(position).getDisagrees().size()));
+        holder.helpful.setChecked(reviewList.get(position).getHelpfuls().contains(SharedPrefManager.getInstance(context).getUser().getId()));
+        holder.agree.setChecked(reviewList.get(position).getAgrees().contains(SharedPrefManager.getInstance(context).getUser().getId()));
+        holder.disagree.setChecked(reviewList.get(position).getDisagrees().contains(SharedPrefManager.getInstance(context).getUser().getId()));
 //        holder.helpfulValue.setText();
 //        holder.agreeValue.setText();
 //        holder.disagreeValue.setText();
@@ -90,13 +119,23 @@ public class HomeReviewRecyclerAdapter extends RecyclerView.Adapter<com.example.
 
 
     /**
-     * Returns the total number of restaurants in recycler view
+     * Returns the total number of reviews in recycler view
      * @return restaurantList.size
      */
     @Override
     public int getItemCount() {
         return reviewList.size();
     }
+
+    /**
+     * return the id of the review in the given position in the recycler view
+     * @param position
+     * @return
+     */
+    public int getID(int position)
+{
+    return reviewList.get(position).getId();
+}
 
     /**
      * Get searchFilter
@@ -154,44 +193,306 @@ public class HomeReviewRecyclerAdapter extends RecyclerView.Adapter<com.example.
 
         // Views within recycler adapter
         ImageView profilePic;
-        TextView userInfo, comments, helpfulValue, agreeValue, disagreeValue;
-        ImageButton helpful, agree, disagree;
+        TextView userInfo, comments, helpfulValue, agreeValue, disagreeValue, reviewId;
+        ToggleButton helpful, agree, disagree;
         RatingBar rating;
+        int helpfulIntValue, agreeIntValue, disagreeIntValue;
+        ArrayList<Integer> helpfuls = new ArrayList<Integer>();
+        ArrayList<Integer> agrees = new ArrayList<Integer>();
+        ArrayList<Integer> disagrees = new ArrayList<Integer>();
+
+        //these are set to true if the button is pressed due to past actions, so that a new click is sent to the database
+        boolean helpfulInitial = false;
+        boolean agreeInitial = false;
+        boolean disagreeInitial = false;
+
 
         /**
-         * Class for each viewholder, sets button functionality for each viewholder and has proper restaurant values set
+         * Class for each viewholder, sets button functionality for each viewholder and has proper review values set
          * @param itemView
          */
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            profilePic = itemView.findViewById(R.id.profileImage);
-            userInfo = itemView.findViewById(R.id.userInfo);
-            comments = itemView.findViewById(R.id.comments);
-            rating = itemView.findViewById(R.id.ratingBar);
-            helpful = itemView.findViewById(R.id.helpfulButton);
-            agree = itemView.findViewById(R.id.agreeButton);
-            disagree = itemView.findViewById(R.id.disagreeButton);
-            helpfulValue = itemView.findViewById(R.id.helpAmount);
-            agreeValue = itemView.findViewById(R.id.agreeAmount);
-            disagreeValue = itemView.findViewById(R.id.disagreeAmount);
 
+            profilePic = (ImageView) itemView.findViewById(R.id.profileImage);
+            userInfo = (TextView) itemView.findViewById(R.id.userInfo);
+            comments = (TextView) itemView.findViewById(R.id.comments);
+            rating = (RatingBar) itemView.findViewById(R.id.ratingBar);
+            helpful = (ToggleButton) itemView.findViewById(R.id.helpfulToggleButton);
+            agree = (ToggleButton) itemView.findViewById(R.id.agreeToggleButton);
+            disagree = (ToggleButton) itemView.findViewById(R.id.disagreeToggleButton);
+            helpfulValue = (TextView) itemView.findViewById(R.id.helpfulAmount);
+            agreeValue = (TextView) itemView.findViewById(R.id.agreeAmount);
+            disagreeValue = (TextView) itemView.findViewById(R.id.disagreeAmount);
+            reviewId = (TextView) itemView.findViewById(R.id.reviewId);
+
+
+
+
+//            if(SharedPrefManager.getInstance(context).getUser().getAgrees().contains(getID(position)))
+//            {
+//                agree.setChecked(true);
+//                agree.setClickable(false);
+//            }
+//
+//            if(SharedPrefManager.getInstance(context).getUser().getHelpfuls().contains(getID(position)))
+//            {
+//                disagree.setChecked(true);
+//                disagree.setClickable(false);
+//            }
+
+            String helpfulS = helpfulValue.getText().toString();
+            String agreeS = agreeValue.getText().toString();
+            String disagreeS = disagreeValue.getText().toString();
+
+            helpfulIntValue = Integer.parseInt(helpfulS);
+            agreeIntValue = Integer.parseInt(agreeS);
+            disagreeIntValue = Integer.parseInt(disagreeS);
+
+            //get users that clicked the helpful button of this review
+            String url = URLs.URL_GET_HELPFULS + getID(position);
+            JsonArrayRequest get0Request = new JsonArrayRequest(Request.Method.GET, url, null,
+                    new Response.Listener<JSONArray>() {
+                        @Override
+                        public void onResponse(JSONArray response)
+                        {
+                            helpfulValue.setText(String.valueOf(response.length()));
+                            for(int i =0; i<response.length(); i++)
+                            {
+                                try {
+                                    JSONObject something = (JSONObject) response.get(i);
+                                    int id = something.getInt("id");
+                                    helpfuls.add(id);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            if(helpfuls.contains(SharedPrefManager.getInstance(context).getUser().getId()))
+                            {
+                                helpfulInitial = true;
+                                helpful.setChecked(true);
+                                helpfulInitial = false;
+                                helpful.setClickable(false);
+                            }
+                        }
+                    },
+                    new Response.ErrorListener()
+                    {
+                        @Override
+                        public void onErrorResponse(VolleyError error)
+                        {
+                            error.printStackTrace();
+                        }
+                    });
+            SingletonVolley.getInstance(context).addToRequestQueue(get0Request);
+
+            //get users that clicked the agree button for this review
+            String url1 = URLs.URL_GET_AGREES + getID(position);
+            JsonArrayRequest get1Request = new JsonArrayRequest(Request.Method.GET, url1, null,
+                    new Response.Listener<JSONArray>() {
+                        @Override
+                        public void onResponse(JSONArray response)
+                        {
+                            agreeValue.setText(String.valueOf(response.length()));
+                            for(int i =0; i<response.length(); i++)
+                            {
+                                try {
+                                    JSONObject something = (JSONObject) response.get(i);
+                                    int id = something.getInt("id");
+                                    agrees.add(id);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            if(agrees.contains(SharedPrefManager.getInstance(context).getUser().getId()))
+                            {
+                                agreeInitial = true;
+                                agree.setChecked(true);
+                                agreeInitial = false;
+                                agree.setClickable(false);
+                            }
+                        }
+                    },
+                    new Response.ErrorListener()
+                    {
+                        @Override
+                        public void onErrorResponse(VolleyError error)
+                        {
+                            error.printStackTrace();
+                        }
+                    });
+            SingletonVolley.getInstance(context).addToRequestQueue(get1Request);
+
+            //get users that clicked the disagree button of this review
+            String url2 = URLs.URL_GET_DISAGREES + getID(position);
+            JsonArrayRequest get2Request = new JsonArrayRequest(Request.Method.GET, url2, null,
+                    new Response.Listener<JSONArray>() {
+                        @Override
+                        public void onResponse(JSONArray response)
+                        {
+                            disagreeValue.setText(String.valueOf(response.length()));
+                            for(int i =0; i<response.length(); i++)
+                            {
+                                try {
+                                    JSONObject something = (JSONObject) response.get(i);
+                                    int id = something.getInt("id");
+                                    disagrees.add(id);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            if(disagrees.contains(SharedPrefManager.getInstance(context).getUser().getId()))
+                            {
+                                disagreeInitial = true;
+                                disagree.setChecked(true);
+                                disagreeInitial = false;
+                                disagree.setClickable(false);
+                            }
+                        }
+                    },
+                    new Response.ErrorListener()
+                    {
+                        @Override
+                        public void onErrorResponse(VolleyError error)
+                        {
+                            error.printStackTrace();
+                        }
+                    });
+            SingletonVolley.getInstance(context).addToRequestQueue(get2Request);
+            position++;
 
             // Allow for each viewholder to have button functionality
             itemView.setOnClickListener(this);
+
+            //if the helpful button is pressed
+            helpful.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                    if(isChecked && !helpfulInitial)
+                    {
+                        //send that the user has helpfuled the review
+                        String url = URLs.URL_HELPFUL_PRESS + SharedPrefManager.getInstance(context).getUser().getId() + "/" + getID(getLayoutPosition());
+                        JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, null,
+                                new Response.Listener<JSONObject>()
+                                {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        String oldValue = helpfulValue.getText().toString();
+                                        int newValue = Integer.parseInt(oldValue) + 1;
+                                        helpfulValue.setText(String.valueOf(newValue));
+                                        helpful.setClickable(false);
+                                    }
+                                },
+                                new Response.ErrorListener()
+                                {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error)
+                                    {
+                                        int err =1;
+                                    }
+                                });
+
+                        SingletonVolley.getInstance(context).addToRequestQueue(postRequest);
+                    }
+                    else
+                    {
+
+                    }
+                }
+            });
+
+            //if the agree button is pressed
+            agree.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                    if(isChecked && !agreeInitial)
+                    {
+                        //send that the button has been pressed to backend
+                        String url = URLs.URL_AGREE_PRESS + SharedPrefManager.getInstance(context).getUser().getId() + "/" + getID(getLayoutPosition());
+                        JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, null,
+                                new Response.Listener<JSONObject>()
+                                {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        String oldValue = agreeValue.getText().toString();
+                                        int newValue = Integer.parseInt(oldValue) + 1;
+                                        agreeValue.setText(String.valueOf(newValue));
+                                        agree.setClickable(false);
+                                    }
+                                },
+                                new Response.ErrorListener()
+                                {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error)
+                                    {
+                                        int err =1;
+                                    }
+                                });
+
+                        SingletonVolley.getInstance(context).addToRequestQueue(postRequest);
+                    }
+                    else
+                    {
+
+                    }
+                }
+            });
+
+            //if the button is pressed
+            disagree.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                    if(isChecked && !disagreeInitial)
+                    {
+                        //send that the button is pressed to backend
+                        String url = URLs.URL_DISAGREE_PRESS + SharedPrefManager.getInstance(context).getUser().getId() + "/" + getID(getLayoutPosition());
+                        JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, null,
+                                new Response.Listener<JSONObject>()
+                                {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        String oldValue = disagreeValue.getText().toString();
+                                        int newValue = Integer.parseInt(oldValue) + 1;
+                                        disagreeValue.setText(String.valueOf(newValue));
+                                        disagree.setClickable(false);
+                                    }
+                                },
+                                new Response.ErrorListener()
+                                {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error)
+                                    {
+                                        int err =1;
+                                    }
+                                });
+
+                        SingletonVolley.getInstance(context).addToRequestQueue(postRequest);
+                    }
+                    else
+                    {
+
+                    }
+                }
+            });
 
         }
 
         /**
          * Function of clicking viewholder
-         * Opens google maps with address from whatever restaurant was clicked
+         * Opens the full review activity
          * @param view
          */
         @Override
         public void onClick(View view)
         {
+            TextView rId = (TextView) view.findViewById(R.id.reviewId);
+            String name = rId.getText().toString();
+            int id = Integer.parseInt(name);
 
-
+            Intent mIntent = new Intent(context, ShowFullReviewActivity.class);
+            mIntent.putExtra("id", id);
+            context.startActivity(mIntent);
         }
 
     }
