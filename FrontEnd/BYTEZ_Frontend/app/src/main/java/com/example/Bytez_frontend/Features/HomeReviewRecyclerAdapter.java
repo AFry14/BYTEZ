@@ -51,7 +51,7 @@ public class HomeReviewRecyclerAdapter extends RecyclerView.Adapter<com.example.
 
 
     /**
-     * Map activity recycler adapter with a list of restaurants and the map context
+     * Home activity recycler adapter with a list of reviews and the home context
      * @param reviewList
      * @param context
      */
@@ -62,7 +62,7 @@ public class HomeReviewRecyclerAdapter extends RecyclerView.Adapter<com.example.
     }
 
     /**
-     * ViewHolder for recycler view in MapActivity, Describes how each item in the recycler view should look and function
+     * ViewHolder for recycler view in HomeActivity, Describes how each item in the recycler view should look and function
      * @param parent
      * @param viewType
      * @return
@@ -82,6 +82,11 @@ public class HomeReviewRecyclerAdapter extends RecyclerView.Adapter<com.example.
         return reviewViewHolder;
     }
 
+    /**
+     * set all text views, rating bars, and buttons with information from review
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
@@ -114,7 +119,7 @@ public class HomeReviewRecyclerAdapter extends RecyclerView.Adapter<com.example.
 
 
     /**
-     * Returns the total number of restaurants in recycler view
+     * Returns the total number of reviews in recycler view
      * @return restaurantList.size
      */
     @Override
@@ -122,6 +127,11 @@ public class HomeReviewRecyclerAdapter extends RecyclerView.Adapter<com.example.
         return reviewList.size();
     }
 
+    /**
+     * return the id of the review in the given position in the recycler view
+     * @param position
+     * @return
+     */
     public int getID(int position)
 {
     return reviewList.get(position).getId();
@@ -190,13 +200,15 @@ public class HomeReviewRecyclerAdapter extends RecyclerView.Adapter<com.example.
         ArrayList<Integer> helpfuls = new ArrayList<Integer>();
         ArrayList<Integer> agrees = new ArrayList<Integer>();
         ArrayList<Integer> disagrees = new ArrayList<Integer>();
+
+        //these are set to true if the button is pressed due to past actions, so that a new click is sent to the database
         boolean helpfulInitial = false;
         boolean agreeInitial = false;
         boolean disagreeInitial = false;
 
 
         /**
-         * Class for each viewholder, sets button functionality for each viewholder and has proper restaurant values set
+         * Class for each viewholder, sets button functionality for each viewholder and has proper review values set
          * @param itemView
          */
         public ViewHolder(@NonNull View itemView) {
@@ -238,6 +250,7 @@ public class HomeReviewRecyclerAdapter extends RecyclerView.Adapter<com.example.
             agreeIntValue = Integer.parseInt(agreeS);
             disagreeIntValue = Integer.parseInt(disagreeS);
 
+            //get users that clicked the helpful button of this review
             String url = URLs.URL_GET_HELPFULS + getID(position);
             JsonArrayRequest get0Request = new JsonArrayRequest(Request.Method.GET, url, null,
                     new Response.Listener<JSONArray>() {
@@ -274,6 +287,7 @@ public class HomeReviewRecyclerAdapter extends RecyclerView.Adapter<com.example.
                     });
             SingletonVolley.getInstance(context).addToRequestQueue(get0Request);
 
+            //get users that clicked the agree button for this review
             String url1 = URLs.URL_GET_AGREES + getID(position);
             JsonArrayRequest get1Request = new JsonArrayRequest(Request.Method.GET, url1, null,
                     new Response.Listener<JSONArray>() {
@@ -310,6 +324,7 @@ public class HomeReviewRecyclerAdapter extends RecyclerView.Adapter<com.example.
                     });
             SingletonVolley.getInstance(context).addToRequestQueue(get1Request);
 
+            //get users that clicked the disagree button of this review
             String url2 = URLs.URL_GET_DISAGREES + getID(position);
             JsonArrayRequest get2Request = new JsonArrayRequest(Request.Method.GET, url2, null,
                     new Response.Listener<JSONArray>() {
@@ -350,11 +365,13 @@ public class HomeReviewRecyclerAdapter extends RecyclerView.Adapter<com.example.
             // Allow for each viewholder to have button functionality
             itemView.setOnClickListener(this);
 
+            //if the helpful button is pressed
             helpful.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                     if(isChecked && !helpfulInitial)
                     {
+                        //send that the user has helpfuled the review
                         String url = URLs.URL_HELPFUL_PRESS + SharedPrefManager.getInstance(context).getUser().getId() + "/" + getID(getLayoutPosition());
                         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, null,
                                 new Response.Listener<JSONObject>()
@@ -385,11 +402,13 @@ public class HomeReviewRecyclerAdapter extends RecyclerView.Adapter<com.example.
                 }
             });
 
+            //if the agree button is pressed
             agree.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                     if(isChecked && !agreeInitial)
                     {
+                        //send that the button has been pressed to backend
                         String url = URLs.URL_AGREE_PRESS + SharedPrefManager.getInstance(context).getUser().getId() + "/" + getID(getLayoutPosition());
                         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, null,
                                 new Response.Listener<JSONObject>()
@@ -420,11 +439,13 @@ public class HomeReviewRecyclerAdapter extends RecyclerView.Adapter<com.example.
                 }
             });
 
+            //if the button is pressed
             disagree.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                     if(isChecked && !disagreeInitial)
                     {
+                        //send that the button is pressed to backend
                         String url = URLs.URL_DISAGREE_PRESS + SharedPrefManager.getInstance(context).getUser().getId() + "/" + getID(getLayoutPosition());
                         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, null,
                                 new Response.Listener<JSONObject>()
@@ -459,7 +480,7 @@ public class HomeReviewRecyclerAdapter extends RecyclerView.Adapter<com.example.
 
         /**
          * Function of clicking viewholder
-         * Opens google maps with address from whatever restaurant was clicked
+         * Opens the full review activity
          * @param view
          */
         @Override

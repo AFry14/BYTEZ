@@ -43,6 +43,10 @@ public class AdjustCriteriaFragment extends Fragment
     boolean save = false;
     int clear;
 
+    /**
+     * get context from the review
+     * @param context
+     */
     @Override
     public void onAttach(Context context)
     {
@@ -69,9 +73,12 @@ public class AdjustCriteriaFragment extends Fragment
         SeekBar foodScale = view.findViewById(R.id.foodSeek);
         foodScale.setProgress(user.getCritFood());
         food =  foodScale.getProgress();
+
+        //if foodscale bar is changed
         foodScale.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                //update temporary food variable
                 if(b==true)
                 {
                     food = i;
@@ -89,12 +96,16 @@ public class AdjustCriteriaFragment extends Fragment
             }
         });
 
+
         SeekBar serviceScale = view.findViewById(R.id.serviceSeek);
         serviceScale.setProgress(user.getCritService());
         service =  serviceScale.getProgress();
+
+        //if service scale is changed
         serviceScale.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                //update temporary service variable
                 if(b==true)
                 {
                     service = i;
@@ -115,9 +126,12 @@ public class AdjustCriteriaFragment extends Fragment
         SeekBar cleanScale = view.findViewById(R.id.cleanSeek);
         cleanScale.setProgress(user.getCritClean());
         clean =  cleanScale.getProgress();
+
+        //if the clean bar scale is changed
         cleanScale.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                //update the temporary clean bar
                 if(b==true)
                 {
                     clean = i;
@@ -135,16 +149,18 @@ public class AdjustCriteriaFragment extends Fragment
             }
         });
 
+        //if the save button is pressed
         view.findViewById(R.id.saveButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                clear = 0;
+                //do not change all crit values to 0
                 if(food+service+clean == 0)
                 {
                     Toast.makeText(mCtx, "All weights cannot be 0", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                        String url = URLs.URL_CHANGE_ALL_CRITS + SharedPrefManager.getInstance(mCtx).getUser().getId() + "?critFood=" + food + "&critClean=" + clean + "&critService=" + service;
+                    //change all crit values in database to what the progress bars show(use temporary variables because onChnageListener can be buggy)
+                    String url = URLs.URL_CHANGE_ALL_CRITS + SharedPrefManager.getInstance(mCtx).getUser().getId() + "?critFood=" + food + "&critClean=" + clean + "&critService=" + service;
                     JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.PUT, url, null,
                             new Response.Listener<JSONObject>() {
                                 @Override
@@ -163,7 +179,6 @@ public class AdjustCriteriaFragment extends Fragment
                                 @Override
                                 public void onErrorResponse(VolleyError error)
                                 {
-                                    clear++;
                                     error.printStackTrace();
                                 }
                             }
@@ -254,6 +269,7 @@ public class AdjustCriteriaFragment extends Fragment
             }
         });
 
+        //back to main settings screen if button is pressed
         view.findViewById(R.id.backFCritTS).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

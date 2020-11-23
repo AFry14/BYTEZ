@@ -17,6 +17,9 @@ import com.example.Bytez_frontend.R;
 import com.example.Bytez_frontend.SharedPrefManager;
 import com.example.Bytez_frontend.User;
 
+/**
+ * Fragment that adjusts the criteria for the review in the review activity
+ */
 public class AdjustCriteriaInReviewFragment extends Fragment
 {
     Context mCtx;
@@ -24,6 +27,10 @@ public class AdjustCriteriaInReviewFragment extends Fragment
     private int food, service, clean;
     private SeekBar foodScale, serviceScale, cleanScale;
 
+    /**
+     * get the context form the activity
+     * @param context
+     */
     @Override
     public void onAttach(Context context)
     {
@@ -45,17 +52,22 @@ public class AdjustCriteriaInReviewFragment extends Fragment
     {
         super.onViewCreated(view, savedInstanceState);
 
+
         foodScale = view.findViewById(R.id.foodSeek);
         foodScale.setProgress(user.getCritFood());
+
         food =  user.getCritFood();
         service =  user.getCritService();
         clean =  user.getCritClean();
+
+        //if the bar is changed update the criteria so it can be used to calculate the overall score
         foodScale.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 User user = SharedPrefManager.getInstance(mCtx).getUser();
                 if(b==true)
                 {
+                    //make sure that all 3 bars cannot be set to 0, if not update the bar
                     if(service+clean!=0)
                     {
                         user.setCritFood(i);
@@ -63,6 +75,7 @@ public class AdjustCriteriaInReviewFragment extends Fragment
                     }
                     else
                     {
+                        //set the bar back to the crit value saved in user
                         if(seekBar.getProgress() == 0)
                         {
                             seekBar.setProgress(user.getCritFood());
@@ -86,11 +99,14 @@ public class AdjustCriteriaInReviewFragment extends Fragment
 
         serviceScale = view.findViewById(R.id.serviceSeek);
         serviceScale.setProgress(user.getCritService());
+
+        //if the bar is changed update the criteria so it can be used to calculate the overall score
         serviceScale.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 if(b==true)
                 {
+                    //make sure that all 3 bars cannot be set to 0, if not update the bar
                     if(food+clean!=0)
                     {
                         user.setCritService(i);
@@ -98,6 +114,7 @@ public class AdjustCriteriaInReviewFragment extends Fragment
                     }
                     else
                     {
+                        //set the bar back to the crit value saved in user
                         if(seekBar.getProgress() == 0)
                         {
                             seekBar.setProgress(user.getCritService());
@@ -120,11 +137,14 @@ public class AdjustCriteriaInReviewFragment extends Fragment
 
         cleanScale = view.findViewById(R.id.cleanSeek);
         cleanScale.setProgress(user.getCritClean());
+
+        //if the bar is changed update the criteria so it can be used to calculate the overall score
         cleanScale.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 if(b==true)
                 {
+                    //make sure that all 3 bars cannot be set to 0, if not update the bar
                     if(service+food!=0)
                     {
                         user.setCritClean(i);
@@ -132,6 +152,7 @@ public class AdjustCriteriaInReviewFragment extends Fragment
                     }
                     else
                     {
+                        //set the bar back to the crit value saved in user
                         if(seekBar.getProgress() == 0)
                         {
                             seekBar.setProgress(user.getCritClean());

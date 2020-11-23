@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.Bytez_frontend.Features.HomeActivity;
+import com.example.Bytez_frontend.MainActivity;
 import com.example.Bytez_frontend.R;
 import com.example.Bytez_frontend.SharedPrefManager;
 import com.example.Bytez_frontend.SingletonVolley;
@@ -30,6 +31,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * main view of the settings activity
+ */
 public class SettingsMainFragment extends Fragment
 {
     Context mCtx;
@@ -41,7 +45,11 @@ public class SettingsMainFragment extends Fragment
 
     }
 
-@Override
+    /**
+     * get the context from the activity
+     * @param context
+     */
+    @Override
     public void onAttach(Context context)
     {
         super.onAttach(context);
@@ -61,16 +69,18 @@ public class SettingsMainFragment extends Fragment
     {
         super.onViewCreated(view, savedInstanceState);
 
+        //go to login screen and logout user if logout button is pressed
         view.findViewById(R.id.logoutB).setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
                 SharedPrefManager.getInstance(getActivity().getApplicationContext()).logout();
-                startActivity(new Intent(getActivity().getApplicationContext(), LoginActivity.class));
+                startActivity(new Intent(getActivity().getApplicationContext(), MainActivity.class));
             }
         });
 
+        //navigate to bug report fragment if button is pressed
         view.findViewById(R.id.bugReportB).setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -81,6 +91,7 @@ public class SettingsMainFragment extends Fragment
             }
         });
 
+        //navigate to review show fragment if button is pressed
         view.findViewById(R.id.deleteReviewB).setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -91,6 +102,7 @@ public class SettingsMainFragment extends Fragment
             }
         });
 
+        //navigate to adjust criteria fragment if button is pressed
         view.findViewById(R.id.adjustCriteriaB).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,6 +110,7 @@ public class SettingsMainFragment extends Fragment
             }
         });
 
+        //start home activity if button is pressed
         view.findViewById(R.id.backFSTH).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

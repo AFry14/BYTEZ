@@ -39,6 +39,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Fragment that shows all the reviews the logged in user has written and can delete
+ */
 public class ReviewShowFragment extends Fragment
 {
     protected FragmentActivity mActivity;
@@ -64,6 +67,9 @@ public class ReviewShowFragment extends Fragment
 
     }
 
+    /**
+     * get the context of the activity
+     */
     @Override
     public void onAttach(Context context)
     {
@@ -88,6 +94,7 @@ public class ReviewShowFragment extends Fragment
 //        reviewers = (ArrayList<User>) bundle.getSerializable("user");
 //        ratings = (ArrayList<Double>) bundle.getSerializable("ratings");
 
+        //get all reviews written by the user and insert into an ArrayList
         String pass = URLs.URL_AUTHORS_WORK + SharedPrefManager.getInstance(mCtx).getUser().getId();
         JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, pass, null,
                 new Response.Listener<JSONArray>() {
@@ -110,6 +117,8 @@ public class ReviewShowFragment extends Fragment
 //                                restStringArray[i] = jresponse.getString("restaurantName") + ", " + jresponse.getString("address");
                                 reviewArrayList.add(newReview);
                             }
+
+                            //insert arraylist into review recycler view
                             SettingsReviewRecyclerAdapter = new SettingsReviewRecyclerAdapter(reviewArrayList, mCtx);
                             reviewRecyclerView.setLayoutManager(new LinearLayoutManager(mCtx));
 
@@ -155,6 +164,7 @@ public class ReviewShowFragment extends Fragment
 //        reviewRecyclerView.addItemDecoration(restaurantDivider);
 //        this.view = view;
 
+        //return to settings if back button hit
         view.findViewById(R.id.backDRTS).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

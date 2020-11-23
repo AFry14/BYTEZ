@@ -46,6 +46,10 @@ public class HomeReviewsFragment extends Fragment
     }
 
 
+    /**
+     * get the context of the activity
+     * @param context
+     */
     @Override
     public void onAttach(Context context)
     {
@@ -59,6 +63,7 @@ public class HomeReviewsFragment extends Fragment
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInsanceState)
     {
+        //request all the reviews in the database
         String pass = URLs.URL_REVIEW_LIST;
         JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, pass, null,
                 new Response.Listener<JSONArray>() {
@@ -103,6 +108,8 @@ public class HomeReviewsFragment extends Fragment
 //                                restStringArray[i] = jresponse.getString("restaurantName") + ", " + jresponse.getString("address");
                                 allReviews.add(newReview);
                             }
+
+                            //set the adapter with the araylist of the reviews
                             HomeReviewRecyclerAdapter = new HomeReviewRecyclerAdapter(allReviews, mCtx);
                             reviewRecyclerView.setLayoutManager(new LinearLayoutManager(mCtx));
 

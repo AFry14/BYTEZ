@@ -65,8 +65,9 @@ public class ReviewActivity extends AppCompatActivity
         ctx = this;
 //        reviewRecyclerView = findViewById(R.id.businessRecycler);
 //        reqQueue = Volley.newRequestQueue(this);
-        String pass = URLs.URL_REST_LIST;
 
+        //retrieve all the restaurants in the database
+        String pass = URLs.URL_REST_LIST;
         JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, pass, null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -86,6 +87,7 @@ public class ReviewActivity extends AppCompatActivity
                                 restIDArray[i] = jresponse.getInt("id");
                             }
 
+                            //set the autocomplete text box with all the restaurants
                             AutoCompleteTextView BusinessSearch = findViewById(R.id.businessBar);
                             ArrayAdapter<String> adapter = new ArrayAdapter<String>(ctx, android.R.layout.simple_list_item_1, restStringArray);
                             BusinessSearch.setAdapter(adapter);
@@ -121,6 +123,7 @@ public class ReviewActivity extends AppCompatActivity
         SingletonVolley.getInstance(this).addToRequestQueue(getRequest);
 
 
+        //when the submit button is pressed
         findViewById(R.id.submitButton).setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -137,30 +140,35 @@ public class ReviewActivity extends AppCompatActivity
                 float cleanS = cleanBar.getRating();
                 String comments = commentText.getText().toString();
 
+                //if the restaurant box is empty
                 if (TextUtils.isEmpty(rest)) {
                     business.setError("Please enter a restaurant");
                     business.requestFocus();
                     return;
                 }
 
+                //if the food rating is empty
                 if (foodS == 0) {
                     String str = "Please enter a rating for how the food tasted";
                     Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
+                //if the service rating is empty
                 if (serviceS == 0) {
                     String str = "Please enter a rating for how the service was";
                     Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
+                //if the clean rating is empty
                 if (cleanS == 0) {
                     String str = "Please enter a rating for how the restaurant's cleanliness was";
                     Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
+                //set ids for the restaurant
                 int restID = -1;
                 for (int i = 0; i < restStringArray.length; i++) {
                     if (rest.equals(restStringArray[i])) {
@@ -168,6 +176,7 @@ public class ReviewActivity extends AppCompatActivity
                     }
                 }
 
+                //body for review post request
                 JSONObject jsonBody = new JSONObject();
                 try {
                     AdjustCriteriaInReviewFragment criteriaFrag = (AdjustCriteriaInReviewFragment) getSupportFragmentManager().findFragmentById(R.id.fragment3);
@@ -187,6 +196,7 @@ public class ReviewActivity extends AppCompatActivity
                     e.printStackTrace();
                 }
 
+                //post request for the review
                 String pass = URLs.URL_REVIEW + SharedPrefManager.getInstance(ctx).getUser().getId() + "/" + restID;
                 JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, pass, jsonBody,
                         new Response.Listener<JSONObject>() {

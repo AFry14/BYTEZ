@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Controller
 @RequestMapping(path = "/review")
@@ -74,5 +75,45 @@ public class ReviewController
   String deleteReview(@PathVariable("id") Long id)
   {
     return reviewService.deleteReview(id);
+  }
+
+  @PostMapping(path = "/like/{userId}/{reviewId}")
+  public @ResponseBody
+  String likeReview(@PathVariable("userId") Long userId, @PathVariable("reviewId") Long reviewId)
+  {
+    return reviewService.likeReview(userId, reviewId);
+  }
+
+  @PostMapping(path = "/helpful/{userId}/{reviewId}")
+  public @ResponseBody
+  String helpfulReview(@PathVariable("userId") Long userId, @PathVariable("reviewId") Long reviewId)
+  {
+    return reviewService.helpfulReview(userId, reviewId);
+  }
+
+  @PostMapping(path = "/dislike/{userId}/{reviewId}")
+  public @ResponseBody
+  String dislikeReview(@PathVariable("userId") Long userId, @PathVariable("reviewId") Long reviewId)
+  {
+    return reviewService.dislikeReview(userId, reviewId);
+  }
+
+  @GetMapping(path = "/getLikes/{reviewId}")
+  public @ResponseBody
+  Set<User> getLikes(@PathVariable("reviewId") Long reviewId)
+  {
+    return reviewService.getLikes(reviewId);
+  }
+
+  @GetMapping(path = "/getHelpfuls/{reviewId}")
+  public @ResponseBody
+  Set<User> getHelpfuls(@PathVariable("reviewId") Long reviewId){
+    return reviewService.getHelpfuls(reviewId);
+  }
+
+  @GetMapping(path = "/getDislikes/{reviewId}")
+  public @ResponseBody
+  Set<User> getDislikes(@PathVariable("reviewId") Long reviewId){
+    return reviewService.getDislikes(reviewId);
   }
 }

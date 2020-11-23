@@ -48,6 +48,10 @@ public class HomeActivity extends AppCompatActivity {
 
         currentUser = SharedPrefManager.getInstance(this).getUser();
 
+        /**
+         * Launch settings activity
+         * @param v
+         */
         findViewById(R.id.settingsB).setOnClickListener(new View.OnClickListener()
         {
             @Override

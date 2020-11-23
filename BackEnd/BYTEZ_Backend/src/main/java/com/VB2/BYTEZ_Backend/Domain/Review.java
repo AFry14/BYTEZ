@@ -5,6 +5,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.util.Set;
 
 // Review Entity
 @Entity
@@ -30,6 +31,60 @@ public class Review {
     private Double cleanlinessScore;
     private Double overallValueScore;
     private String comment;
+    private String restaurantName;
+    private String authorName;
+
+    @ManyToMany(mappedBy = "likedReviews")
+    @JsonIgnore
+    private Set<User> likes;
+
+    @ManyToMany(mappedBy = "helpfulReviews")
+    @JsonIgnore
+    private Set<User> helpfuls;
+
+    @ManyToMany(mappedBy = "dislikedReviews")
+    @JsonIgnore
+    private Set<User> dislikes;
+
+    public Set<User> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Set<User> likes) {
+        this.likes = likes;
+    }
+
+    public Set<User> getHelpfuls() {
+        return helpfuls;
+    }
+
+    public void setHelpfuls(Set<User> helpfuls) {
+        this.helpfuls = helpfuls;
+    }
+
+    public Set<User> getDislikes() {
+        return dislikes;
+    }
+
+    public void setDislikes(Set<User> dislikes) {
+        this.dislikes = dislikes;
+    }
+
+    public String getRestaurantName() {
+        return restaurantName;
+    }
+
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
+    }
+
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
+    }
 
     public Long getId() {
         return id;

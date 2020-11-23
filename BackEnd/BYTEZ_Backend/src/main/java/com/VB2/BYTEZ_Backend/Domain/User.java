@@ -34,6 +34,80 @@ public class User {
 
     private String favoriteDrink;
 
+    @ManyToMany
+    @JoinTable(
+            name = "review_like",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "review_id"))
+    private Set<Review> likedReviews;
+
+    @ManyToMany
+    @JoinTable(
+            name = "review_helpful",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "review_id"))
+    private Set<Review> helpfulReviews;
+
+    @ManyToMany
+    @JoinTable(
+            name = "review_dislike",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "review_id"))
+    private Set<Review> dislikedReviews;
+
+    private int critFood;
+
+    private int critService;
+
+    private int critClean;
+
+    public int getCritFood() {
+        return critFood;
+    }
+
+    public void setCritFood(int critFood) {
+        this.critFood = critFood;
+    }
+
+    public int getCritService() {
+        return critService;
+    }
+
+    public void setCritService(int critService) {
+        this.critService = critService;
+    }
+
+    public int getCritClean() {
+        return critClean;
+    }
+
+    public void setCritClean(int critClean) {
+        this.critClean = critClean;
+    }
+
+    public Set<Review> getHelpfulReviews() {
+        return helpfulReviews;
+    }
+
+    public void setHelpfulReviews(Set<Review> helpfulReviews) {
+        this.helpfulReviews = helpfulReviews;
+    }
+
+    public Set<Review> getLikedReviews(){
+        return likedReviews;
+    }
+
+    public void setLikedReviews(Set<Review> likedReviews){
+        this.likedReviews = likedReviews;
+    }
+
+    public Set<Review> getDislikedReviews() {
+        return dislikedReviews;
+    }
+
+    public void setDislikedReviews(Set<Review> dislikedReviews) {
+        this.dislikedReviews = dislikedReviews;
+    }
 // Getters and Setters
 
     /**

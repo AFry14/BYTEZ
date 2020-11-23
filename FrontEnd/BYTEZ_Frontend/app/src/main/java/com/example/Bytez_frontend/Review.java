@@ -131,8 +131,19 @@ public class Review
 //        return result;
 //    }
 
+    /**
+     * determines the overallscore taking into account of the criteria values
+     * @param foodScore
+     * @param serviceScore
+     * @param cleanScore
+     * @param foodCrit
+     * @param serviceCrit
+     * @param cleanCrit
+     * @return
+     */
     public static float getFinalRating(float foodScore, float serviceScore, float cleanScore, int foodCrit, int serviceCrit, int cleanCrit)
     {
+        //takes the average of the criterias and then sets the individul weights of each field by taking the crit valu/ crit average
         float critAvg = (float) (foodCrit + serviceCrit + cleanCrit)/3;
         float foodWeight = foodCrit/critAvg;
         float serviceWeight = serviceCrit/critAvg;
@@ -141,6 +152,8 @@ public class Review
         weights[0] = foodWeight;
         weights[1] = serviceWeight;
         weights[2] = cleanWeight;
+
+        //multiply weights by raw score
         float foodAS = weights[0]*foodScore;
         float serviceAS = weights[1]*serviceScore;
         float cleanAS = weights[2]*cleanScore;

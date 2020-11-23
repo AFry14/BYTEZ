@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity
         textEmail = (EditText) findViewById(R.id.editEmail);
         textPassword = (EditText) findViewById(R.id.editPassword);
 
+        //attempt to login if button is pressed
         findViewById(R.id.LoginButton).setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        //start sign up activity if restaurant is pressed
         findViewById(R.id.SignupB).setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -65,11 +67,13 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
+    //attempts to login the user
     private void login()
     {
         final String userEmail = textEmail.getText().toString();
         final String userPassword = textPassword.getText().toString();
 
+        //warn if email box is empty
         if(TextUtils.isEmpty(userEmail))
         {
             textEmail.setError("Please enter an email");
@@ -77,6 +81,7 @@ public class MainActivity extends AppCompatActivity
             return;
         }
 
+        //warn if password box is empty
         if(TextUtils.isEmpty(userPassword))
         {
             textPassword.setError("Please enter your password");
@@ -84,6 +89,7 @@ public class MainActivity extends AppCompatActivity
             return;
         }
 
+        //return the user if the email and password match an entry in the database
         String pass = URLs.URL_LOGIN;
         pass = pass+"?email="+userEmail+"&password="+userPassword;
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, pass, null,
@@ -132,6 +138,8 @@ public class MainActivity extends AppCompatActivity
                             if (JsonUser.getUserType().equals("")) {
                                 JsonUser.setUserType("General User");
                             }
+
+                            //make sure criterias arent all 0
                             if (JsonUser.getCritFood()==0)
                             {
                                 JsonUser.setCritFood(1);
@@ -146,6 +154,7 @@ public class MainActivity extends AppCompatActivity
                             }
 
 
+                            //save in sharedprefmanager
                             SharedPrefManager.getInstance(getApplicationContext()).loginInfo(JsonUser);
 
                             // Start home activity

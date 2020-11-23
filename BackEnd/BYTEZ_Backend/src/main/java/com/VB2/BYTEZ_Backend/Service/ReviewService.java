@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ReviewService {
@@ -58,6 +59,8 @@ public class ReviewService {
                 .map(user -> {
                     review.setAuthor(user);
                     review.setRestaurant(restaurant);
+                    review.setAuthorName(user.getUserName());
+                    review.setRestaurantName(restaurant.getRestaurantName());
                     return reviewRepository.save(review);
                 })
                 .orElse(null);
@@ -81,5 +84,76 @@ public class ReviewService {
     {
         reviewRepository.deleteById(id);
         return "{\"status\":\"Success\"}";
+    }
+
+    public String likeReview(Long userId, Long reviewId)
+    {
+        Set<Review> likedReviews = userRepository.findById(userId).get().getLikedReviews();
+        Set<User> likes = reviewRepository.findById(reviewId).get().getLikes();
+        likedReviews.add(reviewRepository.findById(reviewId).get());
+        likes.add(userRepository.findById(userId).get());
+        reviewRepository.findById(reviewId)
+                .map(review -> {
+                    review.setLikes(likes);
+                    return reviewRepository.save(review);
+                });
+        userRepository.findById(userId)
+                .map(user -> {
+                    user.setLikedReviews(likedReviews);
+                    return userRepository.save(user);
+                });
+
+        return "{\"status\":\"Success\"}";
+    }
+
+    public String helpfulReview(Long userId, Long reviewId)
+    {
+        Set<Review> helpfulReviews = userRepository.findById(userId).get().getHelpfulReviews();
+        Set<User> helpfuls = reviewRepository.findById(reviewId).get().getHelpfuls();
+        helpfulReviews.add(reviewRepository.findById(reviewId).get());
+        helpfuls.add(userRepository.findById(userId).get());
+        reviewRepository.findById(reviewId)
+                .map(review -> {
+                    review.setHelpfuls(helpfuls);
+                    return reviewRepository.save(review);
+                });
+        userRepository.findById(userId)
+                .map(user -> {
+                    user.setHelpfulReviews(helpfulReviews);
+                    return userRepository.save(user);
+                });
+        return "{\"status\":\"Success\"}";
+    }
+
+    public String dislikeReview(Long userId, Long reviewId)
+    {
+        Set<Review> dislikedReviews = userRepository.findById(userId).get().getDislikedReviews();
+        Set<User> dislikes = reviewRepository.findById(reviewId).get().getDislikes();
+        dislikedReviews.add(reviewRepository.findById(reviewId).get());
+        dislikes.add(userRepository.findById(userId).get());
+        reviewRepository.findById(reviewId)
+                .map(review -> {
+                    review.setDislikes(dislikes);
+                    return reviewRepository.save(review);
+                });
+        userRepository.findById(userId)
+                .map(user -> {
+                    user.setDislikedReviews(dislikedReviews);
+                    return userRepository.save(user);
+                });
+        return "{\"status\":\"Success\"}";
+    }
+
+    public Set<User> getLikes(Long reviewId)
+    {
+       return reviewRepository.findById(reviewId).get().getLikes();
+    }
+
+    public Set<User> getHelpfuls(Long reviewId){
+        return reviewRepository.findById(reviewId).get().getHelpfuls();
+    }
+
+    public Set<User> getDislikes(Long reviewId){
+        return reviewRepository.findById(reviewId).get().getDislikes();
     }
 }

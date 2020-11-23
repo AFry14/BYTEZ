@@ -29,13 +29,13 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
 
     private static final String TAG = "ReviewRecyclerAdapter";
 
-    // Map context, viewable restaurant list, list of all restaurants
+    // Review context, viewable restaurant list, list of all restaurants
     private Context ctx;
     private List<Restaurant> restaurantList;
     private List<Restaurant> allRestaurantList;
 
     /**
-     * Map activity recycler adapter with a list of restaurants and the map context
+     * Review activity recycler adapter with a list of restaurants
      * @param restaurantList
      * @param context
      */
@@ -47,7 +47,7 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
     }
 
     /**
-     * ViewHolder for recycler view in MapActivity, Describes how each item in the recycler view should look and function
+     * ViewHolder for recycler view in ReviewActivity, Describes how each item in the recycler view should look and function
      * @param parent
      * @param viewType
      * @return
@@ -68,6 +68,7 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
         return mapViewHolder;
     }
 
+    //set the information in the view position
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {

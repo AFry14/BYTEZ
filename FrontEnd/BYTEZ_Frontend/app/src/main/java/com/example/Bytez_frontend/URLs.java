@@ -1,5 +1,8 @@
 package com.example.Bytez_frontend;
 
+/**
+ * class that saves all the urls used throughout the app
+ */
 public class URLs
 {
     private static final String ROOT_URL = "http://coms-309-vb-02.cs.iastate.edu:8080/";

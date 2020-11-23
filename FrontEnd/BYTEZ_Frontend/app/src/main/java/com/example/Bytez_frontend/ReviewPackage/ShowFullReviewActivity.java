@@ -51,13 +51,19 @@ public class ShowFullReviewActivity extends AppCompatActivity
 //        helpfuls = (TextView) findViewById(R.id.helpfuls);
 //        agrees = (TextView) findViewById(R.id.agrees);
 //        disagrees = (TextView) findViewById(R.id.disagrees);
+
+        //get the review id from a bundle passed by the last activity
         int id = getIntent().getExtras().getInt("id");
+
+        //get the review from the database
         String pass1 = URLs.URL_REVIEW_LIST + id;
         JsonObjectRequest getReviewRequest = new JsonObjectRequest(Request.Method.GET, pass1, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try{
+
+                            //set all elements in the view with the information from the get request
 //                            title.setText(response.getString("userName") + "reviewed " + response.getString("restName"));
                             title.setText(response.getString("authorName") + " reviewed " + response.getString("restaurantName"));
                             BigDecimal oScore = new BigDecimal(response.getDouble("overallScore"));
@@ -101,6 +107,7 @@ public class ShowFullReviewActivity extends AppCompatActivity
 
         SingletonVolley.getInstance(ctx).addToRequestQueue(getReviewRequest);
 
+        //return to home from this activity if button is pressed
         findViewById(R.id.backFRevTH).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
