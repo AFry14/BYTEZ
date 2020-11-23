@@ -12,7 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Features.FriendRequestActivity"></activity>
+        <activity android:name=".Features.ChatActivity"></activity>
+        <activity android:name=".Features.MessageFriendsActivity" />
+        <activity android:name=".Features.FriendRequestActivity" />
         <activity android:name=".Features.FriendsActivity" />
         <activity android:name=".Features.EditProfileActivity" />
         <activity android:name=".Features.ProfileActivity" />
@@ -21,6 +23,7 @@
         <activity android:name=".login.LoginActivity" />
         <activity android:name=".Features.HomeActivity" />
         <activity android:name=".Features.MapActivity" />
+        <activity android:name=".ReviewPackage.ReviewActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,6 +31,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Settings.SettingsActivity" />
     </application>
 
 </manifest>

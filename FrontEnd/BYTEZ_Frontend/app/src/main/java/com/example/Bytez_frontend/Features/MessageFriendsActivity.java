@@ -5,16 +5,11 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -22,65 +17,61 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.Bytez_frontend.R;
-import com.example.Bytez_frontend.SharedPrefManager;
 import com.example.Bytez_frontend.URLs;
 import com.example.Bytez_frontend.User;
-
 import org.json.JSONArray;
 import org.json.JSONException;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class FriendsActivity extends AppCompatActivity {
+public class MessageFriendsActivity extends AppCompatActivity {
     // Volley request queue
     private RequestQueue requestQueue;
 
-    private RecyclerView usersRecyclerView;
-    private FriendsRecyclerAdapter friendsRecyclerAdapter;
+    // Recycler view and adapter used to list friends of the logged in user for the chat activity
+    private RecyclerView messageFriendsRecycler;
+    private MessageFriendsAdapter messageFriendsAdapter;
 
-    // List of restaurant accounts
+    // List of friends of the current logged in user
     private List<User> friendsList = new ArrayList<User>();
 
-    // Current friends context
-    private Context friendsContext;
+    // Current context
+    private Context messageListContext;
 
     // Current user logged in
-    private User user;
+    private User currentUser;
 
+    /**
+     * MessageFriendsActivity used for allowing the current logged in user to select a friend to chat with
+     * The activity lists the friends of the current logged in user and allows them to click on a friend
+     * to chat with
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_friends);
-        Log.i("Friends Activity", "onCreate: ");
+        setContentView(R.layout.activity_message_friends);
 
+        // Receive user information from previous activity
         Intent i = getIntent();
-        user = i.getParcelableExtra("user");
+        currentUser = i.getParcelableExtra("user");
+        setTitle("Message");
 
-
-        // If there is no user data, or the user is the logged in user, use the current logged in user
-        if (user == null || user.getId() == (SharedPrefManager.getInstance(this).getUser().getId())) {
-            user = SharedPrefManager.getInstance(this).getUser();
-        } else {
-            // If the user is not the current user, disable the friend request button
-            Button friendRequestButton = findViewById(R.id.friendRequestButton);
-            friendRequestButton.setEnabled(false);
-        }
-        setTitle(user.getUsername() + "'s Friends");
-
-        // Find recycler view, copy current friends context, and set Volley request queue
-        usersRecyclerView = findViewById(R.id.friendsRecyclerView);
-        friendsContext = this;
+        // Find recycler view, copy current context, and set Volley request queue
+        messageFriendsRecycler = findViewById(R.id.messageFriendsRecycler);
+        messageListContext = this;
         requestQueue = Volley.newRequestQueue(this);
 
-        final String url = URLs.URL_GET_USER_FRIENDS + user.getId();
+        // URL for receiving list of users that are friends with the current user
+        final String url = URLs.URL_GET_USER_FRIENDS + currentUser.getId();
+
         //Request for friends of current user
         JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             // Called if successful
             @Override
             public void onResponse(JSONArray response) {
                 try {
-
+                    // Add all friends of the current user to the list
                     for(int i = 0; i < response.length(); i++) {
                         int id = response.getJSONObject(i).getInt("id");
                         String username = response.getJSONObject(i).getString("userName");
@@ -94,17 +85,14 @@ public class FriendsActivity extends AppCompatActivity {
                         friendsList.add(new User(id, username, email, favFood, favDrink, favRest, firstName, lastName));
                     }
 
-                    // Set restaurant list in recycler view with each item as a restaurant in the restaurant list
-                    friendsRecyclerAdapter = new FriendsRecyclerAdapter(friendsList, friendsContext, user);
-                    usersRecyclerView.setLayoutManager(new LinearLayoutManager(friendsContext));
+                    // Set the friends list with each friend as an item in the recycler view
+                    messageFriendsAdapter = new MessageFriendsAdapter(friendsList, messageListContext, currentUser);
+                    messageFriendsRecycler.setLayoutManager(new LinearLayoutManager(messageListContext));
 
                     // Attach friendsRecyclerAdapter to friendsRecyclerView
-                    usersRecyclerView.setAdapter(friendsRecyclerAdapter);
-                    DividerItemDecoration usersDivider = new DividerItemDecoration(friendsContext, DividerItemDecoration.VERTICAL);
-                    usersRecyclerView.addItemDecoration(usersDivider);
-
-
-
+                    messageFriendsRecycler.setAdapter(messageFriendsAdapter);
+                    DividerItemDecoration usersDivider = new DividerItemDecoration(messageListContext, DividerItemDecoration.VERTICAL);
+                    messageFriendsRecycler.addItemDecoration(usersDivider);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -119,19 +107,12 @@ public class FriendsActivity extends AppCompatActivity {
             }
         });
 
+        // Add the JSON request to the request queue
         requestQueue.add(getRequest);
-
     }
-
-    public void launchFriendRequests(View view) {
-        Intent friendRequestActivity = new Intent(this, FriendRequestActivity.class);
-        friendRequestActivity.putExtra("user", user);
-        startActivity(friendRequestActivity);
-    }
-
 
     /**
-     * When search menu item is clicked
+     * When search menu item is clicked, allow sorting of list through typing strings
      * @param menu
      * @return
      */
@@ -148,13 +129,10 @@ public class FriendsActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                friendsRecyclerAdapter.getFilter().filter(newText);
+                messageFriendsAdapter.getFilter().filter(newText);
                 return false;
             }
         });
-
         return super.onCreateOptionsMenu(menu);
     }
-
 }
-
