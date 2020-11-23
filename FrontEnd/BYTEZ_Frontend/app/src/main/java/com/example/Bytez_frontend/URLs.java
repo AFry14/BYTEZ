@@ -36,5 +36,6 @@ public class URLs
     public static final String URL_GET_HELPFULS = ROOT_URL +  "review/getHelpfuls/";
     public static final String URL_GET_AGREES = ROOT_URL +  "review/getLikes/";
     public static final String URL_GET_DISAGREES = ROOT_URL +  "review/getDislikes/";
-
+    public static final String URL_WEBSOCKET = "ws://coms-309-vb-02.cs.iastate.edu:8080/chat/";
+    public static final String URL_DELETE_CHAT_HISTORY = ROOT_URL + "messages/delete/";
 }

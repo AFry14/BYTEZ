@@ -100,10 +100,19 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(friendsActivity);
     }
 
+    /**
+     * Launch review activity
+     * @param v
+     */
     public void launchReviewSubmit(View v) {
         Intent ReviewActivity = new Intent(this, ReviewActivity.class);
-//        friendsActivity.putExtra("user", currentUser);
         startActivity(ReviewActivity);
+    }
+
+    public void launchMessageFriends(View v) {
+        Intent messageFriendsActivity = new Intent(this, MessageFriendsActivity.class);
+        messageFriendsActivity.putExtra("user", currentUser);
+        startActivity(messageFriendsActivity);
     }
 
 }
