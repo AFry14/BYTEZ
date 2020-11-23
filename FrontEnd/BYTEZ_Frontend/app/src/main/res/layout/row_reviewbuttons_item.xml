@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:clickable="false">
 
     <ImageView
         android:id="@+id/profileImage"
@@ -21,7 +22,7 @@
         android:layout_height="48dp"
         android:layout_marginStart="48dp"
         android:layout_marginLeft="48dp"
-        android:clickable="false"
+        android:isIndicator="true"
         android:numStars="5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/profileImage"
@@ -40,39 +41,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.009" />
 
-    <ImageButton
-        android:id="@+id/helpfulButton"
-        android:layout_width="48dp"
-        android:layout_height="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/agreeButton"
-        app:layout_constraintHorizontal_bias="0.326"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/comments"
-        app:layout_constraintVertical_bias="0.25"
-        app:srcCompat="@drawable/helpful_button" />
-
-    <ImageButton
-        android:id="@+id/agreeButton"
-        android:layout_width="33dp"
-        android:layout_height="52dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/comments"
-        app:srcCompat="@drawable/agree_button" />
-
-    <ImageButton
-        android:id="@+id/disagreeButton"
-        android:layout_width="33dp"
-        android:layout_height="49dp"
-        android:layout_marginTop="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/agreeButton"
-        app:layout_constraintTop_toBottomOf="@+id/comments"
-        app:srcCompat="@drawable/disagree_button" />
-
     <TextView
         android:id="@+id/comments"
         android:layout_width="411dp"
@@ -86,34 +54,90 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/helpAmount"
+        android:id="@+id/helpfulAmount"
         android:layout_width="37dp"
         android:layout_height="34dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginLeft="100dp"
         android:text="0"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/helpfulButton"
-        app:layout_constraintTop_toBottomOf="@+id/comments" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/comments"
+        app:layout_constraintVertical_bias="0.545" />
 
     <TextView
         android:id="@+id/agreeAmount"
         android:layout_width="36dp"
         android:layout_height="34dp"
+        android:layout_marginEnd="150dp"
+        android:layout_marginRight="150dp"
         android:text="0"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/agreeButton"
-        app:layout_constraintTop_toBottomOf="@+id/comments" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/comments"
+        app:layout_constraintVertical_bias="0.454" />
 
     <TextView
         android:id="@+id/disagreeAmount"
         android:layout_width="36dp"
         android:layout_height="35dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
         android:text="0"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/disagreeButton"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/comments" />
 
+    <TextView
+        android:id="@+id/reviewId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/userInfo"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ToggleButton
+        android:id="@+id/helpfulToggleButton"
+        android:layout_width="35dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:background="@drawable/helpful_toggle_selector"
+        android:textOff=""
+        android:textOn=""
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/helpfulAmount"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/comments"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ToggleButton
+        android:id="@+id/agreeToggleButton"
+        android:layout_width="37dp"
+        android:layout_height="45dp"
+        android:background="@drawable/agree_toggle_selector"
+        android:textOff=""
+        android:textOn=""
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/agreeAmount"
+        app:layout_constraintTop_toBottomOf="@+id/comments"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ToggleButton
+        android:id="@+id/disagreeToggleButton"
+        android:layout_width="33dp"
+        android:layout_height="45dp"
+        android:background="@drawable/disagree_toggle_selector"
+        android:textOff=""
+        android:textOn=""
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/disagreeAmount"
+        app:layout_constraintTop_toBottomOf="@+id/comments"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
