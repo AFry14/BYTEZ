@@ -123,7 +123,6 @@ public class MessageController
                 String prettyDate = format.format(m.getSent());
                 sb.append(prettyDate + " - " + m.getUserNameSelf() + " : " + m.getContent() + "\n");
             }
-
             sb.append("Now \n");
         return sb.toString();
     }
