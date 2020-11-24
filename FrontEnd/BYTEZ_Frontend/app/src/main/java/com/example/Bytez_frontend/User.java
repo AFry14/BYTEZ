@@ -32,7 +32,7 @@ public class User implements Parcelable
         this.email = email;
     }
 
-    public User(int id, String username, String email)
+    public User(int id, String username, String email, String favFood, String favDrink, String favRestaurant, String fName, String lName)
     {
         this.id = id;
         this.username = username;
